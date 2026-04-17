@@ -1,0 +1,9 @@
+{
+    "greetings": {
+        "welcome": "Welcome back!",
+        "hero": "Sign in to your account to continue managing your projects and teams."
+    },
+    "action": {
+        "signIn": "Sign In"
+    }
+}

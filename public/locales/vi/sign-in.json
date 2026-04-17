@@ -1,0 +1,9 @@
+{
+    "greetings": {
+        "welcome": "Chào mừng bạn trở lại!",
+        "hero": "Đăng nhập vào tài khoản của bạn để tiếp tục quản lý các dự án và nhóm của bạn."
+    },
+    "action": {
+        "signIn": "Đăng Nhập"
+    }
+}
