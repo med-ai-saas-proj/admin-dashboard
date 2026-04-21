@@ -1,6 +1,6 @@
 "use client";
 
-import { GalleryVerticalEnd } from "lucide-react";
+import { CreditCard, GalleryVerticalEnd } from "lucide-react";
 import type * as React from "react";
 import {
 	Sidebar,
@@ -14,8 +14,11 @@ import { NavProjects } from "@/components/sidebar/nav-projects";
 import { NavUser } from "@/components/sidebar/nav-user";
 import { TeamSwitcher } from "@/components/sidebar/team-switcher";
 import { useAuthStore } from "@/features/auth/store/auth-store";
+import { useTranslation } from "react-i18next";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+	const { t } = useTranslation("sidebar");
+
 	const { userInfo } = useAuthStore();
 
 	const data = {
@@ -27,7 +30,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 			},
 		],
 		user: userInfo,
-		management: [],
+		management: [
+			{
+				name: t("management.billing.title"),
+				url: "/management/billing",
+				icon: CreditCard,
+			},
+		],
 	};
 
 	return (
@@ -36,7 +45,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 				<TeamSwitcher teams={data.teams} />
 			</SidebarHeader>
 			<SidebarContent>
-				<NavProjects projects={data.management} label={""} />
+				<NavProjects projects={data.management} label={t("management.label")} />
 			</SidebarContent>
 
 			<SidebarFooter>

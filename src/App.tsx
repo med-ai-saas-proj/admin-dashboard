@@ -11,6 +11,7 @@ import { Toaster } from "sonner";
 
 import { AppLayout } from "@/layouts/app-layout";
 import { PublicRoute } from "./routes/public-route";
+import BillingDashboard from "./routes/billing";
 
 function App() {
 	return (
@@ -28,7 +29,7 @@ function App() {
 							}
 						/>
 						{/* TODO: Replace with main home page later, temporarily redirecting to /chat for now */}
-						<Route path="/" element={<Navigate to="/chat" replace />} />
+						<Route path="/" element={<Navigate to="/management" replace />} />
 
 						{/* App layout wraps all protected routes and provides persistent sidebar */}
 						<Route
@@ -38,7 +39,13 @@ function App() {
 								</ProtectedRoute>
 							}
 						>
-							{/* Protected routes go here */}
+							<Route path="management">
+								<Route
+									index={true}
+									element={<Navigate to="billing" replace />}
+								/>
+								<Route path="billing" element={<BillingDashboard />} />
+							</Route>
 						</Route>
 
 						<Route path="*" element={<Navigate to="/" replace />} />
