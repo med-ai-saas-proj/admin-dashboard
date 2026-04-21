@@ -1,6 +1,6 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/shadcn/tabs";
 import DashboardLayout from "@/layouts/dashboard-layout";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const BillingDashboard = () => {
 	const location = useLocation();
@@ -19,6 +19,7 @@ const BillingDashboard = () => {
 					</TabsList>
 				</div>
 			</Tabs>
+			<Outlet />
 		</DashboardLayout>
 	);
 };
