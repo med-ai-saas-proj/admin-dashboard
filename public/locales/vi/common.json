@@ -1,0 +1,10 @@
+{
+    "error": "Có lỗi xảy ra. Vui lòng thử lại sau.",
+    "requestDone": "Yêu cầu đã hoàn tất!",
+    "action": {
+        "close": "Đóng",
+        "cancel": "Hủy",
+        "done": "Hoàn tất",
+        "save": "Lưu"
+    }
+}

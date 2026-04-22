@@ -1,0 +1,28 @@
+{
+    "validation": {
+        "amount": {
+            "min": "Amount must be at least 0"
+        },
+        "description": {
+            "max": "Description must be at most 255 characters"
+        }
+    },
+    "common": {
+        "description": "Description"
+    },
+    "dialogs": {
+        "addCredit": {
+            "title": "Add Credits",
+            "description": "Enter credit amount and description to add credits.",
+            "fields": {
+                "amount": "Amount",
+                "amountPlaceholder": "Enter amount",
+                "scale": "Scale",
+                "finalScaledValue": "Final scaled value"
+            },
+            "actions": {
+                "submit": "Add Credits"
+            }
+        }
+    }
+}

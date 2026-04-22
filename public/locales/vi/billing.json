@@ -1,0 +1,28 @@
+{
+    "validation": {
+        "amount": {
+            "min": "Số tiền phải lớn hơn hoặc bằng 0"
+        },
+        "description": {
+            "max": "Mô tả tối đa 255 ký tự"
+        }
+    },
+    "common": {
+        "description": "Mô tả"
+    },
+    "dialogs": {
+        "addCredit": {
+            "title": "Thêm tín dụng",
+            "description": "Nhập số tiền và mô tả để thêm tín dụng.",
+            "fields": {
+                "amount": "Số tiền",
+                "amountPlaceholder": "Nhập số tiền",
+                "scale": "Tỷ lệ",
+                "finalScaledValue": "Giá trị sau khi quy đổi"
+            },
+            "actions": {
+                "submit": "Thêm tín dụng"
+            }
+        }
+    }
+}
