@@ -12,7 +12,7 @@ export type AddCreditsCredentials = {
 
 export const addCredits = async (credentials: AddCreditsCredentials) => {
 	const response = await apiClient.post<AddCreditsResponse>(
-		`${API_ROUTES}/credits`,
+		`${API_ROUTES.MANAGEMENT.BILLING}/credits`,
 		{
 			amount: credentials.amount,
 			description: credentials.description,

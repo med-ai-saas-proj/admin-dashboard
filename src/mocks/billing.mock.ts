@@ -1,12 +1,21 @@
 import Mock from "mockjs";
 
 import { API_ROUTES } from "@/config/api-routes";
+import type { CreditTransaction } from "@/features/billing/billing.type";
 
 const escapeRegExp = (value: string) =>
 	value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const billingInvoicesUrl = new RegExp(
 	`^${escapeRegExp(API_ROUTES.MANAGEMENT.BILLING)}/invoices(?:\\?.*)?$`
+);
+
+const billingCreditTransactionsUrl = new RegExp(
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.BILLING)}/credits/transactions(?:\\?.*)?$`
+);
+
+const billingCreditsUrl = new RegExp(
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.BILLING)}/credits(?:\\?.*)?$`
 );
 
 type InvoiceRecord = {
@@ -36,6 +45,25 @@ const generateInvoice = (index: number): InvoiceRecord => {
 	};
 };
 
+const generateCreditTransaction = (): CreditTransaction => {
+	const amount = Mock.Random.float(10, 1000, 2, 2);
+	const createdAt = Mock.Random.datetime("yyyy-MM-dd HH:mm:ss");
+
+	return {
+		amount: amount.toFixed(2),
+		description: Mock.Random.pick([
+			"Manual credit top-up",
+			"Promotional credit",
+			"Billing adjustment",
+		]),
+		created_at: createdAt,
+	};
+};
+
+const creditTransactions = Array.from({ length: 20 }, () =>
+	generateCreditTransaction()
+).sort((left, right) => right.created_at.localeCompare(left.created_at));
+
 Mock.mock(billingInvoicesUrl, "get", (options: { url: string }) => {
 	const requestUrl = new URL(options.url);
 	const limit = Number(requestUrl.searchParams.get("limit") ?? 10);
@@ -60,5 +88,43 @@ Mock.mock(billingInvoicesUrl, "get", (options: { url: string }) => {
 		total: filteredInvoices.length,
 		offset,
 		limit,
+	};
+});
+
+Mock.mock(billingCreditTransactionsUrl, "get", (options: { url: string }) => {
+	const requestUrl = new URL(options.url);
+	const limit = Number(requestUrl.searchParams.get("limit") ?? 10);
+	const offset = Number(requestUrl.searchParams.get("offset") ?? 0);
+	const pagedTransactions = creditTransactions.slice(offset, offset + limit);
+
+	return {
+		success: true,
+		data: pagedTransactions,
+		total: creditTransactions.length,
+		offset,
+		limit,
+	};
+});
+
+Mock.mock(billingCreditsUrl, "post", (options: { body?: string }) => {
+	const body = options.body ? JSON.parse(options.body) : {};
+	const amountValue = Number(body?.amount?.value ?? 0);
+	const amountScale = Number(body?.amount?.scale ?? 0);
+	const normalizedAmount =
+		amountScale > 0 ? amountValue / 10 ** amountScale : amountValue;
+
+	const newTransaction: CreditTransaction = {
+		amount: normalizedAmount.toFixed(amountScale),
+		description: body?.description ?? "",
+		created_at: Mock.Random.datetime("yyyy-MM-dd HH:mm:ss"),
+	};
+
+	creditTransactions.unshift(newTransaction);
+
+	return {
+		success: true,
+		data: {
+			amount: newTransaction.amount,
+		},
 	};
 });

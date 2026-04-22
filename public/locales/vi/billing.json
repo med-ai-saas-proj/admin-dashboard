@@ -21,8 +21,21 @@
                 "finalScaledValue": "Giá trị sau khi quy đổi"
             },
             "actions": {
+                "trigger": "Thêm tín dụng",
                 "submit": "Thêm tín dụng"
             }
         }
+    },
+    "creditTransactions": {
+        "columns": {
+            "amount": "Số tiền",
+            "description": "Mô tả",
+            "createdAt": "Thời gian tạo"
+        },
+        "empty": "Không tìm thấy giao dịch tín dụng nào.",
+        "actions": {
+            "loadMore": "Tải thêm"
+        },
+        "endOfTable": "Bạn đã xem hết dữ liệu trong bảng."
     }
 }

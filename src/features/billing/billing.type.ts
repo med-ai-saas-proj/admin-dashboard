@@ -15,5 +15,12 @@ export type AddCredits = {
 	amount: string;
 };
 
+export type CreditTransaction = {
+	amount: string;
+	description: string;
+	created_at: string;
+};
+
 export type Invoices = PaginatedResponse<Invoice[]>;
 export type AddCreditsResponse = PaginatedResponse<AddCredits>;
+export type CreditTransactions = PaginatedResponse<CreditTransaction[]>;

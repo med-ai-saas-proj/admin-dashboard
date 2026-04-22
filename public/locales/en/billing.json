@@ -21,8 +21,21 @@
                 "finalScaledValue": "Final scaled value"
             },
             "actions": {
+                "trigger": "Add Credits",
                 "submit": "Add Credits"
             }
         }
+    },
+    "creditTransactions": {
+        "columns": {
+            "amount": "Amount",
+            "description": "Description",
+            "createdAt": "Created At"
+        },
+        "empty": "No credit transactions found.",
+        "actions": {
+            "loadMore": "Load More"
+        },
+        "endOfTable": "You have reached the end of the table."
     }
 }
