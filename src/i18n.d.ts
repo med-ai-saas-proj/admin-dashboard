@@ -5,6 +5,7 @@ import type sidebarEN from "../public.locales/en/sidebar.json";
 import type commonEN from "../public.locales/en/common.json";
 import type billingEN from "../public.locales/en/billing.json";
 import type menuEN from "../public.locales/en/menu.json";
+import type dashboardEN from "../public.locales/en/dashboard.json";
 
 declare module "i18next" {
 	interface CustomTypeOptions {
@@ -16,6 +17,7 @@ declare module "i18next" {
 			common: typeof commonEN;
 			billing: typeof billingEN;
 			menu: typeof menuEN;
+			dashboard: typeof dashboardEN;
 		};
 	}
 }
