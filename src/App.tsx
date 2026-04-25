@@ -12,6 +12,7 @@ import { Toaster } from "sonner";
 import { AppLayout } from "@/layouts/app-layout";
 import { PublicRoute } from "./routes/public-route";
 import BillingDashboard from "./routes/billing";
+import BillingOverview from "./features/billing/components/billing-overview";
 import BillingCredit from "./features/billing/components/billing-credit";
 import BillingInvoice from "./features/billing/components/billing-invoice";
 
@@ -49,8 +50,9 @@ function App() {
 								<Route path="billing" element={<BillingDashboard />}>
 									<Route
 										index={true}
-										element={<Navigate to="invoices" replace />}
+										element={<Navigate to="overview" replace />}
 									/>
+									<Route path="overview" element={<BillingOverview />} />
 									<Route path="invoices" element={<BillingInvoice />} />
 									<Route path="credits" element={<BillingCredit />} />
 								</Route>
