@@ -1,0 +1,211 @@
+import { Button } from "@/components/shadcn/button";
+import { Spinner } from "@/components/shadcn/spinner";
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/shadcn/table";
+import type { Transactions } from "@/features/billing/billing.type";
+import { CopyIcon, EyeIcon } from "lucide-react";
+import type React from "react";
+import { useTranslation } from "react-i18next";
+import TransactionReceiptDialog from "./transaction-receipt-dialog";
+
+type TransactionsTableProps = {
+	rows: Transactions[];
+	isLoading: boolean;
+	isError: boolean;
+	onCopyTransactionId: (transactionId: string) => void;
+};
+
+const badgeBaseClass =
+	"inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium";
+
+const TransactionsTable = ({
+	rows,
+	isLoading,
+	isError,
+	onCopyTransactionId,
+}: TransactionsTableProps): React.JSX.Element => {
+	const { t, i18n } = useTranslation("billing");
+	const currentLocale = i18n.language === "vi" ? "vi-VN" : "en-US";
+
+	const renderStatus = (status: Transactions["status"]) => {
+		switch (status) {
+			case "SUCCESS":
+				return (
+					<span
+						className={`${badgeBaseClass} border-emerald-500 text-emerald-700 bg-white`}
+					>
+						{t("overview.statusOptions.SUCCESS")}
+					</span>
+				);
+			case "FAILED":
+				return (
+					<span
+						className={`${badgeBaseClass} border-red-500 text-red-600 bg-white`}
+					>
+						{t("overview.statusOptions.FAILED")}
+					</span>
+				);
+			case "PENDING":
+				return (
+					<span
+						className={`${badgeBaseClass} border-amber-500 text-amber-700 bg-white`}
+					>
+						{t("overview.statusOptions.PENDING")}
+					</span>
+				);
+			default:
+				return (
+					<span
+						className={`${badgeBaseClass} border-slate-400 text-slate-700 bg-white`}
+					>
+						{status}
+					</span>
+				);
+		}
+	};
+
+	const renderType = (type: Transactions["type"]) => {
+		const labelMap: Record<string, string> = {
+			TOPUP: t("overview.typeOptions.TOPUP"),
+			SUBSCRIPTION: t("overview.typeOptions.SUBSCRIPTION"),
+			SUBSCRIPTION_FEE: t("overview.typeOptions.SUBSCRIPTION"),
+			OVERAGE_FEE: t("overview.typeOptions.OVERAGE"),
+			REFUND: t("overview.typeOptions.REFUND"),
+		};
+
+		return (
+			<span
+				className={`${badgeBaseClass} border-slate-300 text-slate-700 bg-slate-50`}
+			>
+				{labelMap[type] || type}
+			</span>
+		);
+	};
+
+	return (
+		<div className="rounded-lg border">
+			<Table>
+				<TableHeader>
+					<TableRow>
+						<TableHead>{t("overview.table.columns.date")}</TableHead>
+						<TableHead>{t("overview.table.columns.transactionId")}</TableHead>
+						<TableHead>{t("overview.table.columns.type")}</TableHead>
+						<TableHead className="text-right">
+							{t("overview.table.columns.amount")}
+						</TableHead>
+						<TableHead className="text-right">
+							{t("overview.table.columns.credits")}
+						</TableHead>
+						<TableHead>{t("overview.table.columns.status")}</TableHead>
+						<TableHead>{t("overview.table.columns.reason")}</TableHead>
+						<TableHead className="text-right">
+							{t("overview.table.columns.action")}
+						</TableHead>
+					</TableRow>
+				</TableHeader>
+				<TableBody>
+					{isLoading ? (
+						<TableRow>
+							<TableCell colSpan={8} className="py-8">
+								<div className="flex items-center justify-center gap-2 text-muted-foreground">
+									<Spinner />
+									<span>{t("overview.table.loading")}</span>
+								</div>
+							</TableCell>
+						</TableRow>
+					) : isError ? (
+						<TableRow>
+							<TableCell
+								colSpan={8}
+								className="py-6 text-center text-destructive"
+							>
+								{t("overview.table.error")}
+							</TableCell>
+						</TableRow>
+					) : rows.length === 0 ? (
+						<TableRow>
+							<TableCell
+								colSpan={8}
+								className="py-6 text-center text-muted-foreground"
+							>
+								{t("overview.table.empty")}
+							</TableCell>
+						</TableRow>
+					) : (
+						rows.map((transaction) => {
+							const createdAt = new Date(transaction.createdAt);
+							const failureReason = (
+								transaction as {
+									errorMessage?: string | null;
+									description?: string;
+								}
+							).errorMessage;
+
+							return (
+								<TableRow key={transaction.transactionId}>
+									<TableCell>
+										{Number.isNaN(createdAt.getTime())
+											? "-"
+											: createdAt.toLocaleString(currentLocale)}
+									</TableCell>
+									<TableCell className="text-muted-foreground text-xs font-medium">
+										{transaction.transactionId}
+									</TableCell>
+									<TableCell>{renderType(transaction.type)}</TableCell>
+									<TableCell className="text-right font-medium">
+										{new Intl.NumberFormat(currentLocale, {
+											style: "currency",
+											currency: "USD",
+										}).format(Number(transaction.amount ?? 0))}
+									</TableCell>
+									<TableCell className="text-right font-medium text-emerald-600">
+										+
+										{Number(transaction.creditsAdded ?? 0).toLocaleString(
+											currentLocale
+										)}
+									</TableCell>
+									<TableCell>{renderStatus(transaction.status)}</TableCell>
+									<TableCell className="max-w-56 truncate text-destructive">
+										{transaction.status === "FAILED"
+											? failureReason || transaction.description || "-"
+											: "-"}
+									</TableCell>
+									<TableCell>
+										<div className="flex items-center justify-end gap-1">
+											<TransactionReceiptDialog
+												transaction={transaction}
+												triggerElement={
+													<Button type="button" variant="ghost" size="icon-sm">
+														<EyeIcon className="size-4" />
+													</Button>
+												}
+											/>
+											<Button
+												type="button"
+												variant="ghost"
+												size="icon-sm"
+												onClick={() =>
+													onCopyTransactionId(transaction.transactionId)
+												}
+											>
+												<CopyIcon className="size-4" />
+											</Button>
+										</div>
+									</TableCell>
+								</TableRow>
+							);
+						})
+					)}
+				</TableBody>
+			</Table>
+		</div>
+	);
+};
+
+export default TransactionsTable;

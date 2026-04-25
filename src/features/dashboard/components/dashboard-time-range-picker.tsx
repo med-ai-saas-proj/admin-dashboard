@@ -5,10 +5,14 @@ import type { DateRange } from "react-day-picker";
 
 interface DashboardTimeRangePickerProps {
 	defaultDate?: DateRange;
+	date?: DateRange;
+	onDateRangeChange?: (selectedDate: DateRange | undefined) => void;
 }
 
 const DashboardTimeRangePicker: React.FC<DashboardTimeRangePickerProps> = ({
 	defaultDate,
+	date,
+	onDateRangeChange,
 }) => {
 	const { t, i18n } = useTranslation("dashboard");
 	const currentLocale = i18n.language || "en-US";
@@ -18,6 +22,8 @@ const DashboardTimeRangePicker: React.FC<DashboardTimeRangePickerProps> = ({
 	);
 
 	const handleDateSelect = (selectedDate: DateRange | undefined) => {
+		onDateRangeChange?.(selectedDate);
+
 		if (selectedDate?.from && selectedDate?.to) {
 			updateDateRange(selectedDate.from, selectedDate.to);
 		} else if (selectedDate?.from) {
@@ -33,6 +39,7 @@ const DashboardTimeRangePicker: React.FC<DashboardTimeRangePickerProps> = ({
 			onDateChange={handleDateSelect}
 			locale={currentLocale === "vi" ? "vi" : "en-US"}
 			defaultDate={defaultDate}
+			date={date}
 		/>
 	);
 };
