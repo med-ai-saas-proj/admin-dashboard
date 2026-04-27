@@ -33,6 +33,7 @@ export type Series = {
 	dataKey: string;
 	name?: string;
 	yAxisId: "left" | "right";
+	stackId?: string;
 	stroke?: string;
 	dot?: boolean;
 	strokeWidth?: number;

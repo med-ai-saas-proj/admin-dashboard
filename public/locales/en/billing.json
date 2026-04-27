@@ -57,6 +57,7 @@
             "ALL": "All types",
             "TOPUP": "Top-up",
             "SUBSCRIPTION": "Subscription",
+            "SUBSCRIPTION_FEE": "Subscription fee",
             "OVERAGE": "Overage fee",
             "REFUND": "Refund"
         },

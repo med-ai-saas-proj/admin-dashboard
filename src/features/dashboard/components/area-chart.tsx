@@ -135,7 +135,7 @@ const AreaChartDashboard = ({
 				<ChartTooltip
 					content={
 						<ChartTooltipContent
-							className="w-[150px]"
+							className="w-fit"
 							labelFormatter={formatXAxisValue}
 							indicator="dot"
 						/>
