@@ -96,7 +96,7 @@ const BillingOverview = (): React.JSX.Element => {
 
 	return (
 		<div className="space-y-4">
-			<h3 className="text-lg font-semibold">{t("overview.title")}</h3>
+			{/* <h3 className="text-lg font-semibold">{t("overview.title")}</h3> */}
 
 			<TransactionsToolbar
 				searchValue={search}
