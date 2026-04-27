@@ -9,6 +9,10 @@
         "totalCost": "Tổng chi phí",
         "totalSpent": "Tổng chi tiêu",
         "totalTransactions": "Tổng giao dịch",
+        "lifetimeRevenue": "Doanh thu trọn đời",
+        "totalSuccessfulTransactions": "Tổng giao dịch thành công",
+        "totalRefundedAmount": "Tổng số tiền hoàn lại",
+        "currentOutstandingBalance": "Số dư còn nợ hiện tại",
         "change": {
             "compare": "{{value}}% {{compareLabel}}",
             "vsLastMonth": "so với tháng trước",

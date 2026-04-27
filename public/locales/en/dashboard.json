@@ -9,6 +9,10 @@
         "totalCost": "Total Cost",
         "totalSpent": "Total Spent",
         "totalTransactions": "Total Transactions",
+        "lifetimeRevenue": "Lifetime Revenue",
+        "totalSuccessfulTransactions": "Total Successful Transactions",
+        "totalRefundedAmount": "Total Refunded Amount",
+        "currentOutstandingBalance": "Current Outstanding Balance",
         "change": {
             "compare": "{{value}}% {{compareLabel}}",
             "vsLastMonth": "vs last month",

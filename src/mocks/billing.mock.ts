@@ -3,6 +3,7 @@ import Mock from "mockjs";
 import { API_ROUTES } from "@/config/api-routes";
 import type {
 	CreditTransaction,
+	LifetimeValue,
 	Transactions,
 } from "@/features/billing/billing.type";
 
@@ -23,6 +24,10 @@ const billingTransactionsUrl = new RegExp(
 
 const billingCreditsUrl = new RegExp(
 	`^${escapeRegExp(API_ROUTES.MANAGEMENT.BILLING)}/credits(?:\\?.*)?$`
+);
+
+const billingLifetimeValueUrl = new RegExp(
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.BILLING)}/lifetime-value(?:\\?.*)?$`
 );
 
 type InvoiceRecord = {
@@ -150,6 +155,21 @@ const creditTransactions = Array.from({ length: 20 }, () =>
 	generateCreditTransaction()
 ).sort((left, right) => right.created_at.localeCompare(left.created_at));
 
+const firstPaymentDate = new Date();
+firstPaymentDate.setMonth(firstPaymentDate.getMonth() - 14);
+
+const lastPaymentDate = new Date();
+lastPaymentDate.setDate(lastPaymentDate.getDate() - 2);
+
+const lifetimeValueData: LifetimeValue = {
+	lifetimeRevenue: 128450.75,
+	totalSuccessfulTransactions: 321,
+	totalRefundedAmount: 2480.2,
+	currentOutstandingBalance: 920.5,
+	firstPaymentDate,
+	lastPaymentDate,
+};
+
 Mock.mock(billingInvoicesUrl, "get", (options: { url: string }) => {
 	const requestUrl = new URL(options.url);
 	const limit = Number(requestUrl.searchParams.get("limit") ?? 10);
@@ -264,5 +284,12 @@ Mock.mock(billingCreditsUrl, "post", (options: { body?: string }) => {
 		data: {
 			amount: newTransaction.amount,
 		},
+	};
+});
+
+Mock.mock(billingLifetimeValueUrl, "get", () => {
+	return {
+		success: true,
+		data: lifetimeValueData,
 	};
 });

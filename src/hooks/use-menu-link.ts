@@ -9,6 +9,14 @@ type MenuLink = {
 export const useMenuLink = () => {
 	const { t } = useTranslation("menu");
 
+	const dashboardLinks: MenuLink[] = [
+		{
+			key: "billing",
+			title: t("dashboard.billing"),
+			value: "billing",
+		},
+	];
+
 	const billingLinks: MenuLink[] = [
 		{
 			key: "overview",
@@ -27,5 +35,5 @@ export const useMenuLink = () => {
 		},
 	];
 
-	return { billingLinks };
+	return { dashboardLinks, billingLinks };
 };

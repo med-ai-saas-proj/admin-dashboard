@@ -123,24 +123,20 @@ const DashboardAggregateOrganization = () => {
 					{/* KPI Cards */}
 					<div className="flex gap-4 flex-col md:flex-row w-full md:w-auto">
 						<KPICard
-							data={[
-								{
-									id: "totalSpent",
-									title: "totalSpent",
-									value: totalSpentKPIData,
-									format: "currency",
-								},
-							]}
+							data={{
+								id: "totalSpent",
+								title: "totalSpent",
+								value: totalSpentKPIData,
+								format: "currency",
+							}}
 						/>
 						<KPICard
-							data={[
-								{
-									id: "totalTransactions",
-									title: "totalTransactions",
-									value: totalTransactionCountKPIData,
-									format: "compact",
-								},
-							]}
+							data={{
+								id: "totalTransactions",
+								title: "totalTransactions",
+								value: totalTransactionCountKPIData,
+								format: "compact",
+							}}
 						/>
 					</div>
 				</div>

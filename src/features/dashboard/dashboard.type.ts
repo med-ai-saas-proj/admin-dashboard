@@ -4,7 +4,11 @@ export type KPIKey =
 	| "totalRequest"
 	| "totalCost"
 	| "totalSpent"
-	| "totalTransactions";
+	| "totalTransactions"
+	| "lifetimeRevenue"
+	| "totalSuccessfulTransactions"
+	| "totalRefundedAmount"
+	| "currentOutstandingBalance";
 
 export type CompareLabelKey = "vsLastWeek" | "vsLastMonth" | "vsLastYear";
 
