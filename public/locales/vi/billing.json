@@ -43,6 +43,7 @@
         "toolbar": {
             "searchPlaceholder": "Tìm theo mã giao dịch",
             "filterByStatus": "Lọc trạng thái",
+            "filterByType": "Lọc loại",
             "resetFilters": "Đặt lại bộ lọc"
         },
         "statusOptions": {
@@ -53,6 +54,7 @@
             "REFUNDED": "REFUNDED"
         },
         "typeOptions": {
+            "ALL": "Tất cả loại",
             "TOPUP": "Nạp tiền",
             "SUBSCRIPTION": "Thuê bao",
             "OVERAGE": "Phí vượt mức",

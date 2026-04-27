@@ -20,12 +20,21 @@ export type TransactionStatusFilter =
 	| "PENDING"
 	| "REFUNDED";
 
+export type TransactionTypeFilter =
+	| "ALL"
+	| "TOPUP"
+	| "SUBSCRIPTION"
+	| "SUBSCRIPTION_FEE"
+	| "OVERAGE_FEE";
+
 type TransactionsToolbarProps = {
 	searchValue: string;
 	statusValue: TransactionStatusFilter;
+	typeValue: TransactionTypeFilter;
 	dateRange?: DateRange;
 	onSearchChange: (value: string) => void;
 	onStatusChange: (value: TransactionStatusFilter) => void;
+	onTypeChange: (value: TransactionTypeFilter) => void;
 	onDateRangeChange: (value: DateRange | undefined) => void;
 	onResetFilters: () => void;
 };
@@ -33,9 +42,11 @@ type TransactionsToolbarProps = {
 const TransactionsToolbar = ({
 	searchValue,
 	statusValue,
+	typeValue,
 	dateRange,
 	onSearchChange,
 	onStatusChange,
+	onTypeChange,
 	onDateRangeChange,
 	onResetFilters,
 }: TransactionsToolbarProps): React.JSX.Element => {
@@ -86,6 +97,43 @@ const TransactionsToolbar = ({
 							</DropdownMenuRadioItem>
 							<DropdownMenuRadioItem value="REFUNDED">
 								{t("overview.statusOptions.REFUNDED")}
+							</DropdownMenuRadioItem>
+						</DropdownMenuRadioGroup>
+					</DropdownMenuContent>
+				</DropdownMenu>
+
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Button
+							type="button"
+							variant="outline"
+							className="w-full sm:w-auto"
+						>
+							<FilterIcon className="size-4" />
+							{t("overview.toolbar.filterByType")}
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent align="start" className="min-w-44">
+						<DropdownMenuRadioGroup
+							value={typeValue}
+							onValueChange={(value) =>
+								onTypeChange(value as TransactionTypeFilter)
+							}
+						>
+							<DropdownMenuRadioItem value="ALL">
+								{t("overview.typeOptions.ALL")}
+							</DropdownMenuRadioItem>
+							<DropdownMenuRadioItem value="TOPUP">
+								{t("overview.typeOptions.TOPUP")}
+							</DropdownMenuRadioItem>
+							<DropdownMenuRadioItem value="SUBSCRIPTION">
+								{t("overview.typeOptions.SUBSCRIPTION")}
+							</DropdownMenuRadioItem>
+							<DropdownMenuRadioItem value="SUBSCRIPTION_FEE">
+								{t("overview.typeOptions.SUBSCRIPTION")}
+							</DropdownMenuRadioItem>
+							<DropdownMenuRadioItem value="OVERAGE_FEE">
+								{t("overview.typeOptions.OVERAGE")}
 							</DropdownMenuRadioItem>
 						</DropdownMenuRadioGroup>
 					</DropdownMenuContent>

@@ -43,6 +43,7 @@
         "toolbar": {
             "searchPlaceholder": "Search by Transaction ID",
             "filterByStatus": "Filter status",
+            "filterByType": "Filter type",
             "resetFilters": "Reset filters"
         },
         "statusOptions": {
@@ -53,6 +54,7 @@
             "REFUNDED": "REFUNDED"
         },
         "typeOptions": {
+            "ALL": "All types",
             "TOPUP": "Top-up",
             "SUBSCRIPTION": "Subscription",
             "OVERAGE": "Overage fee",
