@@ -31,7 +31,7 @@ const TransactionsTable = ({
 	onCopyTransactionId,
 }: TransactionsTableProps): React.JSX.Element => {
 	const { t, i18n } = useTranslation("billing");
-	const currentLocale = i18n.language === "vi" ? "vi-VN" : "en-US";
+	const currentLocale = i18n.language;
 
 	const renderStatus = (status: Transactions["status"]) => {
 		switch (status) {

@@ -39,8 +39,8 @@ export type Transactions = {
 		| "SUBSCRIPTION"
 		| "SUBSCRIPTION_FEE"
 		| "OVERAGE_FEE"
-		| "REFUND"; // TOPUP, SUBSCRIPTION, SUBSCRIPTION_FEE, OVERAGE_FEE, REFUND
-	status: "SUCCESS" | "FAILED" | "PENDING" | "REFUNDED"; // SUCCESS, FAILED, PENDING, REFUNDED
+		| "REFUND";
+	status: "SUCCESS" | "FAILED" | "PENDING" | "REFUNDED";
 	paymentMethod: string;
 	description: string;
 	errorMessage: string | null; // Sẽ có text nếu status là FAILED (VD: "Insufficient funds")

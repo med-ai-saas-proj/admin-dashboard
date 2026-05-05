@@ -26,7 +26,7 @@ const DashboardYearPicker: React.FC<DashboardYearPickerProps> = ({
 		<YearPickerCustom
 			placeholder={t("yearPicker.placeholder")}
 			onYearChange={handleYearSelect}
-			locale={currentLocale === "vi" ? "vi" : "en-US"}
+			locale={currentLocale}
 			defaultYear={defaultDate}
 		/>
 	);

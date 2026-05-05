@@ -31,7 +31,7 @@ type YearPickerCustomProps = {
 	year?: Date;
 	defaultYear?: Date;
 	onYearChange?: (year: Date) => void;
-	locale?: "vi" | "en-US";
+	locale?: string;
 	className?: string;
 };
 
