@@ -10,6 +10,8 @@ import { useAuthStore } from "@/features/auth/store/auth-store";
 export async function getAuthHeaders(
 	url: string
 ): Promise<Record<string, string>> {
+	console.log(url);
+
 	const headers: Record<string, string> = {
 		"Content-Type": "application/json",
 	};
