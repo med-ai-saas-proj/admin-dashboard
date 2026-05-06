@@ -1,0 +1,92 @@
+{
+    "validation": {
+        "amount": {
+            "min": "Số tiền phải lớn hơn hoặc bằng 0"
+        },
+        "description": {
+            "max": "Mô tả tối đa 255 ký tự"
+        }
+    },
+    "common": {
+        "description": "Mô tả"
+    },
+    "dialogs": {
+        "addCredit": {
+            "title": "Thêm tín dụng",
+            "description": "Nhập số tiền và mô tả để thêm tín dụng.",
+            "fields": {
+                "amount": "Số tiền",
+                "amountPlaceholder": "Nhập số tiền",
+                "scale": "Tỷ lệ",
+                "finalScaledValue": "Giá trị sau khi quy đổi"
+            },
+            "actions": {
+                "trigger": "Thêm tín dụng",
+                "submit": "Thêm tín dụng"
+            }
+        }
+    },
+    "creditTransactions": {
+        "columns": {
+            "amount": "Số tiền",
+            "description": "Mô tả",
+            "createdAt": "Thời gian tạo"
+        },
+        "empty": "Không tìm thấy giao dịch tín dụng nào.",
+        "actions": {
+            "loadMore": "Tải thêm"
+        },
+        "endOfTable": "Bạn đã xem hết dữ liệu trong bảng."
+    },
+    "overview": {
+        "title": "Tổng quan giao dịch",
+        "toolbar": {
+            "searchPlaceholder": "Tìm theo mã giao dịch",
+            "filterByStatus": "Lọc trạng thái",
+            "filterByType": "Lọc loại",
+            "resetFilters": "Đặt lại bộ lọc"
+        },
+        "statusOptions": {
+            "ALL": "Tất cả trạng thái",
+            "SUCCESS": "SUCCESS",
+            "FAILED": "FAILED",
+            "PENDING": "PENDING",
+            "REFUNDED": "REFUNDED"
+        },
+        "typeOptions": {
+            "ALL": "Tất cả loại",
+            "TOPUP": "Nạp tiền",
+            "SUBSCRIPTION": "Thuê bao",
+            "OVERAGE": "Phí vượt mức",
+            "REFUND": "Hoàn tiền"
+        },
+        "table": {
+            "columns": {
+                "date": "Ngày giao dịch",
+                "transactionId": "Mã giao dịch",
+                "type": "Loại",
+                "amount": "Số tiền (USD)",
+                "credits": "Credits cộng",
+                "status": "Trạng thái",
+                "reason": "Lý do",
+                "action": "Thao tác"
+            },
+            "loading": "Đang tải giao dịch...",
+            "error": "Không thể tải danh sách giao dịch. Vui lòng thử lại.",
+            "empty": "Không tìm thấy giao dịch."
+        },
+        "receiptDialog": {
+            "title": "Chi tiết Receipt / Invoice",
+            "description": "Xem chi tiết giao dịch trước khi xử lý yêu cầu hỗ trợ.",
+            "fields": {
+                "transactionId": "Mã giao dịch",
+                "type": "Loại",
+                "status": "Trạng thái",
+                "amount": "Số tiền",
+                "date": "Thời gian giao dịch",
+                "invoiceRef": "Mã tham chiếu Receipt / Invoice",
+                "failureReason": "Lý do thất bại"
+            }
+        }
+    }
+}

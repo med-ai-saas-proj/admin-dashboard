@@ -1,0 +1,8 @@
+{
+    "management": {
+        "label": "Management",
+        "billing": {
+            "title": "Billing"
+        }
+    }
+}

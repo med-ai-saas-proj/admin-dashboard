@@ -1,0 +1,8 @@
+{
+    "management": {
+        "label": "Quản lý",
+        "billing": {
+            "title": "Thanh toán"
+        }
+    }
+}
