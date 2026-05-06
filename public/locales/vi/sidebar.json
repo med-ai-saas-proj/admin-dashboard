@@ -1,0 +1,14 @@
+{
+    "dashboard": {
+        "label": "Bảng điều khiển",
+        "billing": {
+            "title": "Thanh toán"
+        }
+    },
+    "management": {
+        "label": "Quản lý",
+        "billing": {
+            "title": "Thanh toán"
+        }
+    }
+}

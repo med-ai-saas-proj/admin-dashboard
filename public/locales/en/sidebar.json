@@ -1,0 +1,14 @@
+{
+    "dashboard": {
+        "label": "Dashboard",
+        "billing": {
+            "title": "Billing"
+        }
+    },
+    "management": {
+        "label": "Management",
+        "billing": {
+            "title": "Billing"
+        }
+    }
+}

@@ -1,0 +1,93 @@
+{
+    "validation": {
+        "amount": {
+            "min": "Amount must be at least 0"
+        },
+        "description": {
+            "max": "Description must be at most 255 characters"
+        }
+    },
+    "common": {
+        "description": "Description"
+    },
+    "dialogs": {
+        "addCredit": {
+            "title": "Add Credits",
+            "description": "Enter credit amount and description to add credits.",
+            "fields": {
+                "amount": "Amount",
+                "amountPlaceholder": "Enter amount",
+                "scale": "Scale",
+                "finalScaledValue": "Final scaled value"
+            },
+            "actions": {
+                "trigger": "Add Credits",
+                "submit": "Add Credits"
+            }
+        }
+    },
+    "creditTransactions": {
+        "columns": {
+            "amount": "Amount",
+            "description": "Description",
+            "createdAt": "Created At"
+        },
+        "empty": "No credit transactions found.",
+        "actions": {
+            "loadMore": "Load More"
+        },
+        "endOfTable": "You have reached the end of the table."
+    },
+    "overview": {
+        "title": "Transaction Overview",
+        "toolbar": {
+            "searchPlaceholder": "Search by Transaction ID",
+            "filterByStatus": "Filter status",
+            "filterByType": "Filter type",
+            "resetFilters": "Reset filters"
+        },
+        "statusOptions": {
+            "ALL": "All status",
+            "SUCCESS": "SUCCESS",
+            "FAILED": "FAILED",
+            "PENDING": "PENDING",
+            "REFUNDED": "REFUNDED"
+        },
+        "typeOptions": {
+            "ALL": "All types",
+            "TOPUP": "Top-up",
+            "SUBSCRIPTION": "Subscription",
+            "SUBSCRIPTION_FEE": "Subscription fee",
+            "OVERAGE": "Overage fee",
+            "REFUND": "Refund"
+        },
+        "table": {
+            "columns": {
+                "date": "Date",
+                "transactionId": "Transaction ID",
+                "type": "Type",
+                "amount": "Amount (USD)",
+                "credits": "Credits",
+                "status": "Status",
+                "reason": "Reason",
+                "action": "Action"
+            },
+            "loading": "Loading transactions...",
+            "error": "Cannot load transactions. Please try again.",
+            "empty": "No transactions found."
+        },
+        "receiptDialog": {
+            "title": "Receipt / Invoice details",
+            "description": "Inspect transaction details before handling support requests.",
+            "fields": {
+                "transactionId": "Transaction ID",
+                "type": "Type",
+                "status": "Status",
+                "amount": "Amount",
+                "date": "Transaction date",
+                "invoiceRef": "Receipt / Invoice reference",
+                "failureReason": "Failure reason"
+            }
+        }
+    }
+}

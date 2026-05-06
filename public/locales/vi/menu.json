@@ -1,0 +1,10 @@
+{
+    "dashboard": {
+        "billing": "Thanh toán"
+    },
+    "billing": {
+        "overview": "Tổng quan",
+        "invoices": "Hóa đơn",
+        "credits": "Credit"
+    }
+}

@@ -1,0 +1,91 @@
+{
+    "title": "Analyics Dashboard",
+    "tabs": {
+        "organization": "Organization",
+        "project": "Project"
+    },
+    "kpiCard": {
+        "totalRequest": "Total Requests",
+        "totalCost": "Total Cost",
+        "totalSpent": "Total Spent",
+        "totalTransactions": "Total Transactions",
+        "lifetimeRevenue": "Lifetime Revenue",
+        "totalSuccessfulTransactions": "Total Successful Transactions",
+        "totalRefundedAmount": "Total Refunded Amount",
+        "currentOutstandingBalance": "Current Outstanding Balance",
+        "change": {
+            "compare": "{{value}}% {{compareLabel}}",
+            "vsLastMonth": "vs last month",
+            "vsLastWeek": "vs last week",
+            "vsLastYear": "vs last year"
+        }
+    },
+    "datePicker": {
+        "label": "Select Date",
+        "placeholder": "Select date"
+    },
+    "monthPicker": {
+        "label": "Select Month",
+        "placeholder": "Select month"
+    },
+    "yearPicker": {
+        "label": "Select Year",
+        "placeholder": "Select year"
+    },
+    "rangePicker": {
+        "label": "Select Date Range",
+        "placeholder": "Select date range"
+    },
+    "periodPicker": {
+        "label": "Period",
+        "placeholder": "Select period",
+        "options": {
+            "daily": "Daily",
+            "weekly": "Weekly",
+            "monthly": "Monthly",
+            "yearly": "Yearly"
+        }
+    },
+    "timescalePicker": {
+        "label": "Timescale",
+        "placeholder": "Select timescale"
+    },
+    "chart": {
+        "requestVolumeAndCost": "Request Volume & Cost Chart",
+        "tokenUsageOverTime": "Token Usage Overtime Chart",
+        "totalExpenditureTrend": "Total Expenditure Trend",
+        "billingRevenueMix": "Billing Revenue Mix",
+        "transactionVolumeTrend": "Transaction Volume Trend",
+        "series": {
+            "requests": "Requests",
+            "cost": "Cost",
+            "total": "Total",
+            "subscriptionFee": "Subscription Fee",
+            "topup": "Top-up"
+        }
+    },
+    "billing": {
+        "filters": {
+            "type": {
+                "label": "Type",
+                "placeholder": "Select type",
+                "transactionTypeLabel": "Transaction Type",
+                "options": {
+                    "all": "All (Stacked)",
+                    "subscriptionFee": "Subscription Fee",
+                    "topup": "Top-up"
+                }
+            },
+            "timeRange": "Time Range"
+        },
+        "states": {
+            "noData": "No data available",
+            "loadingChart": "Loading chart...",
+            "loadError": "Unable to load billing transactions."
+        }
+    },
+    "kpiSection": {
+        "title": "Key Performance Indicators",
+        "description": "Track your system's performance with real-time metrics. Monitor total requests and costs to optimize your usage and budget allocation."
+    }
+}

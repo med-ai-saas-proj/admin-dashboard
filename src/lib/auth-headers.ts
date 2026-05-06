@@ -1,6 +1,6 @@
-import { isServiceEndpoint } from "@/config/api-routes";
+// import { isServiceEndpoint } from "@/config/api-routes";
 import keycloak from "@/config/keycloak";
-import { useServiceApiKeyStore } from "@/features/api-keys/store/service-api-key.store";
+// import { useServiceApiKeyStore } from "@/features/api-keys/store/service-api-key.store";
 import { useAuthStore } from "@/features/auth/store/auth-store";
 
 /**
@@ -10,6 +10,8 @@ import { useAuthStore } from "@/features/auth/store/auth-store";
 export async function getAuthHeaders(
 	url: string
 ): Promise<Record<string, string>> {
+	console.log(url);
+
 	const headers: Record<string, string> = {
 		"Content-Type": "application/json",
 	};
@@ -30,12 +32,12 @@ export async function getAuthHeaders(
 	}
 
 	// Add API key for service endpoints
-	if (isServiceEndpoint(url)) {
-		const selectedApiKey = useServiceApiKeyStore.getState().selectedApiKey;
-		if (selectedApiKey) {
-			headers["X-Api-Key"] = selectedApiKey;
-		}
-	}
+	// if (isServiceEndpoint(url)) {
+	// 	const selectedApiKey = useServiceApiKeyStore.getState().selectedApiKey;
+	// 	if (selectedApiKey) {
+	// 		headers["X-Api-Key"] = selectedApiKey;
+	// 	}
+	// }
 
 	return headers;
 }
