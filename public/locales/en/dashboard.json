@@ -54,11 +54,34 @@
         "requestVolumeAndCost": "Request Volume & Cost Chart",
         "tokenUsageOverTime": "Token Usage Overtime Chart",
         "totalExpenditureTrend": "Total Expenditure Trend",
+        "billingRevenueMix": "Billing Revenue Mix",
         "transactionVolumeTrend": "Transaction Volume Trend",
         "series": {
             "requests": "Requests",
             "cost": "Cost",
-            "total": "Total"
+            "total": "Total",
+            "subscriptionFee": "Subscription Fee",
+            "topup": "Top-up"
+        }
+    },
+    "billing": {
+        "filters": {
+            "type": {
+                "label": "Type",
+                "placeholder": "Select type",
+                "transactionTypeLabel": "Transaction Type",
+                "options": {
+                    "all": "All (Stacked)",
+                    "subscriptionFee": "Subscription Fee",
+                    "topup": "Top-up"
+                }
+            },
+            "timeRange": "Time Range"
+        },
+        "states": {
+            "noData": "No data available",
+            "loadingChart": "Loading chart...",
+            "loadError": "Unable to load billing transactions."
         }
     },
     "kpiSection": {

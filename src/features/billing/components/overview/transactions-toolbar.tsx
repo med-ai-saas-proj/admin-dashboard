@@ -130,7 +130,7 @@ const TransactionsToolbar = ({
 								{t("overview.typeOptions.SUBSCRIPTION")}
 							</DropdownMenuRadioItem>
 							<DropdownMenuRadioItem value="SUBSCRIPTION_FEE">
-								{t("overview.typeOptions.SUBSCRIPTION")}
+								{t("overview.typeOptions.SUBSCRIPTION_FEE")}
 							</DropdownMenuRadioItem>
 							<DropdownMenuRadioItem value="OVERAGE_FEE">
 								{t("overview.typeOptions.OVERAGE")}

@@ -54,11 +54,34 @@
         "requestVolumeAndCost": "Biểu đồ khối lượng yêu cầu & chi phí",
         "tokenUsageOverTime": "Biểu đồ sử dụng token theo thời gian",
         "totalExpenditureTrend": "Xu hướng chi tiêu tổng thể",
+        "billingRevenueMix": "Cơ cấu doanh thu thanh toán",
         "transactionVolumeTrend": "Xu hướng khối lượng giao dịch",
         "series": {
             "requests": "Yêu cầu",
             "cost": "Chi phí",
-            "total": "Tổng"
+            "total": "Tổng",
+            "subscriptionFee": "Phí thuê bao",
+            "topup": "Nạp tiền"
+        }
+    },
+    "billing": {
+        "filters": {
+            "type": {
+                "label": "Loại",
+                "placeholder": "Chọn loại",
+                "transactionTypeLabel": "Loại giao dịch",
+                "options": {
+                    "all": "Tất cả (Xếp chồng)",
+                    "subscriptionFee": "Phí thuê bao",
+                    "topup": "Nạp tiền"
+                }
+            },
+            "timeRange": "Khoảng thời gian"
+        },
+        "states": {
+            "noData": "Không có dữ liệu",
+            "loadingChart": "Đang tải biểu đồ...",
+            "loadError": "Không thể tải giao dịch thanh toán."
         }
     },
     "kpiSection": {

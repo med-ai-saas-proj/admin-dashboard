@@ -23,6 +23,7 @@ type BarChartProps = {
 	series?: Series[]; // dynamic series configuration
 	height?: number;
 	isTotalOnly?: boolean; // indicate total only mode in one y-axis
+	yTickFormatter?: (value: number) => string;
 };
 
 const BarChartDashboard = ({
@@ -32,6 +33,7 @@ const BarChartDashboard = ({
 	series = [],
 	height = 250,
 	isTotalOnly = false,
+	yTickFormatter,
 }: BarChartProps) => {
 	const { t } = useTranslation("dashboard");
 	const { i18n } = useTranslation();
@@ -129,13 +131,18 @@ const BarChartDashboard = ({
 							tickMargin={8}
 							minTickGap={32}
 							orientation={axisItem.axisId}
+							tickFormatter={
+								yTickFormatter
+									? (value) => yTickFormatter(Number(value))
+									: undefined
+							}
 						/>
 					))}
 
 				<ChartTooltip
 					content={
 						<ChartTooltipContent
-							className="w-[150px]"
+							className="w-fit"
 							labelFormatter={formatXAxisValue}
 							indicator="dot"
 						/>
@@ -147,6 +154,7 @@ const BarChartDashboard = ({
 						key={s.dataKey + idx}
 						dataKey={s.dataKey}
 						fill={s.stroke ?? `var(--chart-${(idx % 6) + 1})`}
+						stackId={s.stackId}
 						radius={[4, 4, 0, 0]}
 						yAxisId={isTotalOnly ? "left" : (s.yAxisId ?? "left")}
 						name={getSeriesLabel(s)}

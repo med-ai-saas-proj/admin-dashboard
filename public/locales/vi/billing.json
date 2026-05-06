@@ -57,6 +57,7 @@
             "ALL": "Tất cả loại",
             "TOPUP": "Nạp tiền",
             "SUBSCRIPTION": "Thuê bao",
+            "SUBSCRIPTION_FEE": "Phí thuê bao",
             "OVERAGE": "Phí vượt mức",
             "REFUND": "Hoàn tiền"
         },

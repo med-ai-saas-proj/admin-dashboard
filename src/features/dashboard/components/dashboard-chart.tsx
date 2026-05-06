@@ -13,12 +13,14 @@ type DashboardChartProps = {
 	title: string;
 	chartConfig: ChartConfiguration;
 	isTotalOnly?: boolean;
+	yTickFormatter?: (value: number) => string;
 };
 
 const DashboardChart = ({
 	title,
 	chartConfig,
 	isTotalOnly,
+	yTickFormatter,
 }: DashboardChartProps) => {
 	const chartConfiguration: ChartConfiguration = {
 		...chartConfig,
@@ -58,6 +60,7 @@ const DashboardChart = ({
 								xKey={chartConfiguration.xKey}
 								series={chartConfiguration.series}
 								isTotalOnly={isTotalOnly}
+								yTickFormatter={yTickFormatter}
 							/>
 						)}
 					</div>
