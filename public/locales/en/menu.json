@@ -1,4 +1,7 @@
 {
+    "dashboard": {
+        "billing": "Billing"
+    },
     "billing": {
         "overview": "Overview",
         "invoices": "Invoices",

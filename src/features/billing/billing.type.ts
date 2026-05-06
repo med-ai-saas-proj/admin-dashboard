@@ -23,9 +23,9 @@ export type CreditTransaction = {
 
 export type LifetimeValue = {
 	lifetimeRevenue: number; // TỔNG TIỀN ĐÃ THANH TOÁN (Chỉ cộng giao dịch SUCCESS)
-	totalSuccessfulTransactions: 34; // Số lần quẹt thẻ thành công
-	totalRefundedAmount: 150.0; // (Optional) Số tiền hệ thống từng hoàn trả lại cho họ
-	currentOutstandingBalance: 49.0; // Tổ chức đang nợ hệ thống (Ví dụ do hóa đơn tháng này quẹt thẻ xịt)
+	totalSuccessfulTransactions: number; // Số lần quẹt thẻ thành công
+	totalRefundedAmount: number; // (Optional) Số tiền hệ thống từng hoàn trả lại cho họ
+	currentOutstandingBalance: number; // Tổ chức đang nợ hệ thống (Ví dụ do hóa đơn tháng này quẹt thẻ xịt)
 	firstPaymentDate: Date; // Ngày họ trả tiền lần đầu tiên (Giúp tính dòng đời KH)
 	lastPaymentDate: Date; // Rất quan trọng để biết tổ chức này còn "Active buyer" không
 };
