@@ -5,6 +5,15 @@
             "title": "Thanh toán"
         }
     },
+    "adminDashboard": {
+        "label": "Bảng điều khiển quản trị viên",
+        "admin": {
+            "title": "Quản trị viên"
+        },
+        "users": {
+            "title": "Người dùng"
+        }
+    },
     "management": {
         "label": "Quản lý",
         "billing": {

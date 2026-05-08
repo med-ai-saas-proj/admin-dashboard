@@ -37,6 +37,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 				icon: CreditCard,
 			},
 		],
+		adminDashboard: [
+			{
+				name: t("adminDashboard.admin.title"),
+				url: "/admin-dashboard/admin",
+				icon: CreditCard,
+			},
+			{
+				name: t("adminDashboard.users.title"),
+				url: "/admin-dashboard/users",
+				icon: CreditCard,
+			},
+		],
 		management: [
 			{
 				name: t("management.billing.title"),
@@ -53,6 +65,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 			</SidebarHeader>
 			<SidebarContent>
 				<NavProjects projects={data.dashboard} label={t("dashboard.label")} />
+				<NavProjects
+					projects={data.adminDashboard}
+					label={t("adminDashboard.label")}
+				/>
 				<NavProjects projects={data.management} label={t("management.label")} />
 			</SidebarContent>
 
