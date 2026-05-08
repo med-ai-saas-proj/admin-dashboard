@@ -19,8 +19,8 @@ export type UserInfo = {
 	email: string | null;
 	first_name: string | null;
 	last_name: string | null;
-	enabled: true;
-	email_verified: true;
+	enabled: boolean;
+	email_verified: boolean;
 };
 
 export type UserOrganizationInfo = {
@@ -35,36 +35,30 @@ export type UserProfileInfo = {
 	email: string | null;
 	first_name: string | null;
 	last_name: string | null;
-	enabled: true;
-	email_verified: true;
-	organizations: [
-		{
-			id: string;
-			name: string | null;
-			alias: string | null;
-		},
-	];
+	enabled: boolean;
+	email_verified: boolean;
+	organizations: {
+		id: string;
+		name: string | null;
+		alias: string | null;
+	}[];
 	permissions: {
 		organization_permissions: string[];
 		effective_organization_permissions: string[];
-		project_permissions: [
-			{
-				id: string;
-				permissions: string[];
-				effective_permissions: string[];
-			},
-		];
+		project_permissions: {
+			id: string;
+			permissions: string[];
+			effective_permissions: string[];
+		}[];
 	};
 };
 
 export type UserPermissions = {
 	organization_permissions: string[];
-	project_permissions: [
-		{
-			project_id: string;
-			permissions: string[];
-		},
-	];
+	project_permissions: {
+		project_id: string;
+		permissions: string[];
+	}[];
 };
 
 export type UserListResponse = PaginatedResponse<UserInfo>;

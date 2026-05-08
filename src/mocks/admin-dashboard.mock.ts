@@ -1,7 +1,11 @@
 import Mock from "mockjs";
 
 import { API_ROUTES } from "@/config/api-routes";
-import type { AdminMe, AdminSummary } from "@/features/general/types/admin";
+import type {
+	AdminMe,
+	AdminSummary,
+	UserPermissions,
+} from "@/features/general/types/admin";
 
 const escapeRegExp = (value: string) =>
 	value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -46,8 +50,8 @@ const sampleUsers = Array.from({ length: 12 }, (_, i) => ({
 	email: `user${i + 1}@example.com`,
 	first_name: `First${i + 1}`,
 	last_name: `Last${i + 1}`,
-	enabled: true,
-	email_verified: true,
+	enabled: i % 2 === 0,
+	email_verified: i % 3 !== 0,
 }));
 
 Mock.mock(usersUrl, "get", (options: { url: string }) => {
@@ -133,20 +137,71 @@ const userPermissionsUrl = new RegExp(
 	`^${escapeRegExp(API_ROUTES.ADMIN_DASHBOARD.ADMIN)}/user-permissions/[^/]+(?:\\?.*)?$`
 );
 
-Mock.mock(userPermissionsUrl, "get", () => {
-	// userId present in URL but not required for the mock response
-	const permissions = {
+const sampleUserPermissions: Record<string, UserPermissions> = {
+	user_001: {
 		organization_permissions: ["ORG_READ", "ORG_WRITE"],
 		project_permissions: [
 			{
 				project_id: "proj_001",
+				permissions: ["PROJECT_READ"],
+			},
+		],
+	},
+	user_002: {
+		organization_permissions: ["ORG_READ"],
+		project_permissions: [
+			{
+				project_id: "proj_002",
 				permissions: ["PROJECT_READ", "PROJECT_WRITE"],
 			},
 		],
+	},
+};
+
+const getUserIdFromUrl = (url: string) => {
+	const parts = url.split("/");
+	return parts[parts.length - 1].split("?")[0];
+};
+
+Mock.mock(userPermissionsUrl, "get", (options: { url: string }) => {
+	const userId = getUserIdFromUrl(options.url);
+	const permissions = sampleUserPermissions[userId] ?? {
+		organization_permissions: ["ORG_READ"],
+		project_permissions: [],
 	};
 
 	return {
 		success: true,
 		data: permissions,
+	};
+});
+
+Mock.mock(
+	userPermissionsUrl,
+	"put",
+	(options: { url: string; body?: string }) => {
+		const userId = getUserIdFromUrl(options.url);
+		const permissions = options.body
+			? (JSON.parse(options.body) as UserPermissions)
+			: {
+					organization_permissions: [],
+					project_permissions: [],
+				};
+
+		sampleUserPermissions[userId] = permissions;
+
+		return {
+			success: true,
+			data: permissions,
+		};
+	}
+);
+
+Mock.mock(userPermissionsUrl, "delete", (options: { url: string }) => {
+	const userId = getUserIdFromUrl(options.url);
+	delete sampleUserPermissions[userId];
+
+	return {
+		success: true,
 	};
 });
