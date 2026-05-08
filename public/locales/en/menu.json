@@ -2,6 +2,11 @@
     "dashboard": {
         "billing": "Billing"
     },
+    "organizations": {
+        "overview": "Overview",
+        "permissions": "Permissions",
+        "settings": "Settings"
+    },
     "billing": {
         "overview": "Overview",
         "invoices": "Invoices",

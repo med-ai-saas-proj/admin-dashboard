@@ -16,6 +16,9 @@
     },
     "management": {
         "label": "Quản lý",
+        "organizations": {
+            "title": "Tổ chức"
+        },
         "billing": {
             "title": "Thanh toán"
         }

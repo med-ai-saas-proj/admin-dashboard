@@ -51,6 +51,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 		],
 		management: [
 			{
+				name: t("management.organizations.title"),
+				url: "/management/organizations",
+				icon: CreditCard,
+			},
+			{
 				name: t("management.billing.title"),
 				url: "/management/billing",
 				icon: CreditCard,

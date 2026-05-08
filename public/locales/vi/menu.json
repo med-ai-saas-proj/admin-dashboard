@@ -2,6 +2,11 @@
     "dashboard": {
         "billing": "Thanh toán"
     },
+    "organizations": {
+        "overview": "Tổng quan",
+        "permissions": "Quyền",
+        "settings": "Cài đặt"
+    },
     "billing": {
         "overview": "Tổng quan",
         "invoices": "Hóa đơn",

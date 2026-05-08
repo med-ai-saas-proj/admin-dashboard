@@ -153,7 +153,7 @@ const GeneralUsers = (): React.JSX.Element => {
 					</div>
 				</div>
 
-				<div className="space-y-4 rounded-lg">
+				<div className="border space-y-4 rounded-lg">
 					<Table className="border-none">
 						<TableHeader>
 							<TableRow>
@@ -220,18 +220,17 @@ const GeneralUsers = (): React.JSX.Element => {
 							)}
 						</TableBody>
 					</Table>
-
-					{filteredUsers.length > 0 && (
-						<div className="flex justify-center border-t px-4 py-4">
-							<CustomPagination
-								currentPage={currentPage}
-								limit={LIMIT}
-								totalElements={usersResponse?.total || 0}
-								onPageChange={handlePageChange}
-							/>
-						</div>
-					)}
 				</div>
+				{filteredUsers.length > 0 && (
+					<div className="flex justify-center px-4 py-4">
+						<CustomPagination
+							currentPage={currentPage}
+							limit={LIMIT}
+							totalElements={usersResponse?.total || 0}
+							onPageChange={handlePageChange}
+						/>
+					</div>
+				)}
 			</div>
 		</div>
 	);

@@ -51,6 +51,10 @@ export const API_ROUTES = {
 			`management/${API_VERSION}/billing`,
 			BASE_API_URL
 		).toString(),
+		ADMIN_ORGANIZATION: new URL(
+			`${API_VERSION}/admin/organizations`,
+			BASE_API_URL
+		).toString(),
 	},
 	SERVICES: {
 		EHR_SUMMARIZE: new URL(
