@@ -69,6 +69,7 @@ export const CustomPagination: React.FC<CustomPaginationProps> = ({
 				{/* Previous */}
 				<PaginationItem>
 					<PaginationPrevious
+						className="hover:cursor-pointer"
 						onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
 						aria-disabled={currentPage === 1}
 					/>
@@ -77,11 +78,14 @@ export const CustomPagination: React.FC<CustomPaginationProps> = ({
 				{/* Pages */}
 				{pages.map((page, index) =>
 					page === "..." ? (
-						<PaginationItem key={`ellipsis-${index}`}>
+						<PaginationItem
+							key={`ellipsis-${index}`}
+							className="hover:cursor-pointer"
+						>
 							<PaginationEllipsis />
 						</PaginationItem>
 					) : (
-						<PaginationItem key={page}>
+						<PaginationItem key={page} className="hover:cursor-pointer">
 							<PaginationLink
 								isActive={page === currentPage}
 								onClick={() => handlePageChange(page)}
@@ -95,6 +99,7 @@ export const CustomPagination: React.FC<CustomPaginationProps> = ({
 				{/* Next */}
 				<PaginationItem>
 					<PaginationNext
+						className="hover:cursor-pointer"
 						onClick={() =>
 							currentPage < totalPages && handlePageChange(currentPage + 1)
 						}
