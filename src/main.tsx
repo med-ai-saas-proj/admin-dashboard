@@ -5,6 +5,7 @@ import App from "./App.tsx";
 
 if (import.meta.env.DEV) {
 	import("@/mocks/admin-dashboard.mock");
+	import("@/mocks/admin-organizations.mock");
 	import("@/mocks/billing.mock");
 	// import("@/mocks/organization-people.mock");
 	// import("@/mocks/organization-project.mock");

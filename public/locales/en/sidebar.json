@@ -18,6 +18,9 @@
         "label": "Management",
         "billing": {
             "title": "Billing"
+        },
+        "organizations": {
+            "title": "Organizations"
         }
     }
 }

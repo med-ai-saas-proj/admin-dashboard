@@ -17,6 +17,24 @@ export const useMenuLink = () => {
 		},
 	];
 
+	const organizationsLinks: MenuLink[] = [
+		{
+			key: "overview",
+			title: t("organizations.overview"),
+			value: "overview",
+		},
+		{
+			key: "permissions",
+			title: t("organizations.permissions"),
+			value: "permissions",
+		},
+		{
+			key: "settings",
+			title: t("organizations.settings"),
+			value: "settings",
+		},
+	];
+
 	const billingLinks: MenuLink[] = [
 		{
 			key: "overview",
@@ -35,5 +53,5 @@ export const useMenuLink = () => {
 		},
 	];
 
-	return { dashboardLinks, billingLinks };
+	return { dashboardLinks, organizationsLinks, billingLinks };
 };

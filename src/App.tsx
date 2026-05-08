@@ -19,6 +19,8 @@ import ChartDashboard from "./routes/chart-dashboard";
 import DashboardBilling from "./features/dashboard/components/dashboard-billing";
 import GeneralAdmin from "./routes/admin-dashboard-admin";
 import GeneralUsers from "./routes/admin-dashboard-users";
+import AdminOrganizations from "./routes/admin-organizations";
+import AdminOrganizationsOverview from "./features/admin-organizations/components/admin-organizations-overview";
 
 function App() {
 	return (
@@ -62,6 +64,16 @@ function App() {
 									index={true}
 									element={<Navigate to="billing" replace />}
 								/>
+								<Route path="organizations" element={<AdminOrganizations />}>
+									<Route
+										index={true}
+										element={<Navigate to="overview" replace />}
+									/>
+									<Route
+										path="overview"
+										element={<AdminOrganizationsOverview />}
+									/>
+								</Route>
 								<Route path="billing" element={<BillingDashboard />}>
 									<Route
 										index={true}
