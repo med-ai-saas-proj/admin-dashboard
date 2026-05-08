@@ -5,6 +5,15 @@
             "title": "Billing"
         }
     },
+    "adminDashboard": {
+        "label": "Admin Dashboard",
+        "admin": {
+            "title": "Admin"
+        },
+        "users": {
+            "title": "Users"
+        }
+    },
     "management": {
         "label": "Management",
         "billing": {

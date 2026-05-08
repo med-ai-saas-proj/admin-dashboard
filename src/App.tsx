@@ -17,6 +17,8 @@ import BillingCredit from "./features/billing/components/billing-credit";
 import BillingInvoice from "./features/billing/components/billing-invoice";
 import ChartDashboard from "./routes/chart-dashboard";
 import DashboardBilling from "./features/dashboard/components/dashboard-billing";
+import GeneralAdmin from "./routes/admin-dashboard-admin";
+import GeneralUsers from "./routes/admin-dashboard-users";
 
 function App() {
 	return (
@@ -44,6 +46,10 @@ function App() {
 								</ProtectedRoute>
 							}
 						>
+							<Route path="admin-dashboard">
+								<Route path="admin" element={<GeneralAdmin />} />
+								<Route path="users" element={<GeneralUsers />} />
+							</Route>
 							<Route path="dashboard" element={<ChartDashboard />}>
 								<Route
 									index={true}

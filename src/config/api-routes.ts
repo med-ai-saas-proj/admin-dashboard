@@ -12,6 +12,7 @@ export let BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 if (!BASE_API_URL.endsWith("/")) {
 	BASE_API_URL += "/";
 }
+
 export const API_ROUTES = {
 	AUTH: {
 		SIGN_IN: new URL(`${API_VERSION}/auth/login`, BASE_API_URL).toString(),
@@ -21,6 +22,9 @@ export const API_ROUTES = {
 			`${API_VERSION}/auth/refresh`,
 			BASE_API_URL
 		).toString(),
+	},
+	ADMIN_DASHBOARD: {
+		ADMIN: new URL(`${API_VERSION}/admin`, BASE_API_URL).toString(),
 	},
 	MANAGEMENT: {
 		API_KEYS: new URL(
