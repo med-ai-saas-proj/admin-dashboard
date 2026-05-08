@@ -18,7 +18,10 @@ import {
 	TableRow,
 } from "@/components/shadcn/table";
 import { CustomPagination } from "@/components/pagination/pagination";
-import { Eye, KeyRound, Users, Search } from "lucide-react";
+import { Search } from "lucide-react";
+import UserProfileDialog from "@/features/general/components/dialogs/user-profile-dialog";
+import UserOrganizationsDialog from "@/features/general/components/dialogs/user-organizations";
+import UserPermissionsDialog from "@/features/general/components/dialogs/user-permissions-dialog";
 
 const LIMIT = 10;
 
@@ -201,30 +204,9 @@ const GeneralUsers = (): React.JSX.Element => {
 										</TableCell>
 										<TableCell>
 											<div className="flex gap-x-6">
-												<button
-													type="button"
-													aria-label="View details"
-													className="hover:text-primary transition-colors"
-													title="View details"
-												>
-													<Eye className="h-4 w-4" />
-												</button>
-												<button
-													type="button"
-													aria-label="View permissions"
-													className="hover:text-primary transition-colors"
-													title="View permissions"
-												>
-													<KeyRound className="h-4 w-4" />
-												</button>
-												<button
-													type="button"
-													aria-label="View organizations"
-													className="hover:text-primary transition-colors"
-													title="View organizations"
-												>
-													<Users className="h-4 w-4" />
-												</button>
+												<UserProfileDialog userId={user.id} />
+												<UserPermissionsDialog userId={user.id} />
+												<UserOrganizationsDialog userId={user.id} />
 											</div>
 										</TableCell>
 									</TableRow>
