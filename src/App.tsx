@@ -25,6 +25,7 @@ import AdminOrganizationDetails from "./routes/admin-organization-details";
 import AdminOrganizationDetailsUsers from "./features/admin-organization-details/components/admin-organization-details-users";
 import AdminOrganizationDetailsSettings from "./features/admin-organization-details/components/admin-organization-details-settings";
 import AdminOrganizationPermissions from "./features/admin-organizations/components/admin-organization-permissions";
+import AdminProjectsOrganization from "./features/admin-projects/components/admin-projects-organization";
 
 function App() {
 	return (
@@ -102,6 +103,10 @@ function App() {
 								<Route
 									path="users"
 									element={<AdminOrganizationDetailsUsers />}
+								/>
+								<Route
+									path="projects"
+									element={<AdminProjectsOrganization />}
 								/>
 								<Route
 									path="settings"
