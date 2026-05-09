@@ -1,12 +1,14 @@
 import Mock from "mockjs";
 
 import { API_ROUTES } from "@/config/api-routes";
+import type {
+	AdminOrganizationSettings,
+	AdminUserOrganization,
+} from "@/features/admin-organization-details/types/admin-organization-details";
 import type { AdminOrganization } from "@/features/admin-organizations/types/admin-organizations";
-import type { AdminUserOrganization } from "@/features/admin-organization-details/types/admin-organization-details";
 
 const escapeRegExp = (value: string) =>
 	value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
 // --- Organization users (paginated)
 const organizationUsersUrl = new RegExp(
 	`^${escapeRegExp(API_ROUTES.MANAGEMENT.ADMIN_ORGANIZATION)}/[^/]+/users(?:\\?.*)?$`
@@ -34,6 +36,25 @@ const sampleOrganizations: Record<string, AdminOrganization> = {
 	},
 };
 
+const sampleOrganizationSettings: Record<string, AdminOrganizationSettings> = {
+	org_001: {
+		rate_limit: 1200,
+		spending_limit: 25000,
+		extra: {
+			region: "us-east-1",
+			tier: "enterprise",
+		},
+	},
+	org_002: {
+		rate_limit: 800,
+		spending_limit: 12000,
+		extra: {
+			region: "eu-west-3",
+			tier: "business",
+		},
+	},
+};
+
 const getOrganizationIdFromUrl = (url: string) => {
 	const parts = url.split("/");
 	return parts[parts.length - 1].split("?")[0];
@@ -41,6 +62,10 @@ const getOrganizationIdFromUrl = (url: string) => {
 
 const organizationDetailsUrl = new RegExp(
 	`^${escapeRegExp(API_ROUTES.MANAGEMENT.ADMIN_ORGANIZATION)}/[^/]+(?:\\?.*)?$`
+);
+
+const organizationSettingsUrl = new RegExp(
+	`^${escapeRegExp(API_ROUTES.ADMIN_ORGANIZATION_DETAILS.SETTINGS)}/[^/]+(?:\\?.*)?$`
 );
 
 Mock.mock(organizationDetailsUrl, "get", (options: { url: string }) => {
@@ -57,6 +82,72 @@ Mock.mock(organizationDetailsUrl, "get", (options: { url: string }) => {
 		data,
 	};
 });
+
+Mock.mock(organizationSettingsUrl, "get", (options: { url: string }) => {
+	const organizationId = getOrganizationIdFromUrl(options.url);
+
+	const data = sampleOrganizationSettings[organizationId] ?? {
+		rate_limit: 500,
+		spending_limit: 5000,
+		extra: {
+			region: "us-east-1",
+			tier: "starter",
+		},
+	};
+
+	return {
+		success: true,
+		data,
+	};
+});
+
+Mock.mock(
+	organizationSettingsUrl,
+	"patch",
+	(options: { url: string; body?: string }) => {
+		const organizationId = getOrganizationIdFromUrl(options.url);
+		const current = sampleOrganizationSettings[organizationId] ?? {
+			rate_limit: 500,
+			spending_limit: 5000,
+			extra: {
+				region: "us-east-1",
+				tier: "starter",
+			},
+		};
+
+		const payload = options.body
+			? (JSON.parse(options.body) as Record<string, unknown>)
+			: {};
+		const hasRateLimit = Object.hasOwn(payload, "rate_limit");
+		const hasSpendingLimit = Object.hasOwn(payload, "spending_limit");
+		const hasExtra = Object.hasOwn(payload, "extra");
+
+		const next: AdminOrganizationSettings = {
+			rate_limit:
+				hasRateLimit && typeof payload.rate_limit === "number"
+					? payload.rate_limit
+					: current.rate_limit,
+			spending_limit:
+				hasSpendingLimit && typeof payload.spending_limit === "number"
+					? payload.spending_limit
+					: current.spending_limit,
+			extra:
+				hasExtra &&
+				payload.extra &&
+				typeof payload.extra === "object" &&
+				!Array.isArray(payload.extra)
+					? (payload.extra as Record<string, string>)
+					: current.extra,
+		};
+
+		sampleOrganizationSettings[organizationId] = next;
+
+		return {
+			success: true,
+			data: next,
+		};
+	}
+);
 
 Mock.mock(organizationUsersUrl, "get", (options: { url: string }) => {
 	const requestUrl = new URL(options.url);

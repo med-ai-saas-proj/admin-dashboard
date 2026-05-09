@@ -23,6 +23,7 @@ import AdminOrganizations from "./routes/admin-organizations";
 import AdminOrganizationsOverview from "./features/admin-organizations/components/admin-organizations-overview";
 import AdminOrganizationDetails from "./routes/admin-organization-details";
 import AdminOrganizationDetailsUsers from "./features/admin-organization-details/components/admin-organization-details-users";
+import AdminOrganizationDetailsSettings from "./features/admin-organization-details/components/admin-organization-details-settings";
 
 function App() {
 	return (
@@ -96,6 +97,10 @@ function App() {
 								<Route
 									path="users"
 									element={<AdminOrganizationDetailsUsers />}
+								/>
+								<Route
+									path="settings"
+									element={<AdminOrganizationDetailsSettings />}
 								/>
 							</Route>
 						</Route>
