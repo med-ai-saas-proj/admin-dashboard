@@ -11,10 +11,10 @@ interface AdminOrganizationDetailsActions {
 type AdminOrganizationDetailsStore = AdminOrganizationDetailsState &
 	AdminOrganizationDetailsActions;
 
-export const adminOrganizationDetailsStore =
+export const useAdminOrganizationDetailsStore =
 	create<AdminOrganizationDetailsStore>()(() => ({
 		organizationId: null,
 		setOrganizationId: (id: string | null) => {
-			adminOrganizationDetailsStore.setState({ organizationId: id });
+			useAdminOrganizationDetailsStore.setState({ organizationId: id });
 		},
 	}));

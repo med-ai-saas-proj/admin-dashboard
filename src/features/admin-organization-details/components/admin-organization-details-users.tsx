@@ -12,7 +12,7 @@ import {
 } from "@/components/shadcn/table";
 import { CustomPagination } from "@/components/pagination/pagination";
 
-import { adminOrganizationDetailsStore } from "../store/admin-organization-details";
+import { useAdminOrganizationDetailsStore } from "../store/admin-organization-details";
 import { useGetAdminOrganizationUsers } from "../hooks/use-get-admin-organization-users";
 import type { AdminUserOrganization } from "@/features/admin-organization-details/types/admin-organization-details";
 import { useParams } from "react-router-dom";
@@ -21,7 +21,7 @@ import { useGetAdminOrganizationDetails } from "@/features/admin-organizations/h
 const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 	const { orgId } = useParams<{ orgId: string }>();
 	const organizationId =
-		orgId ?? adminOrganizationDetailsStore.getState().organizationId ?? "";
+		orgId ?? useAdminOrganizationDetailsStore.getState().organizationId ?? "";
 
 	const [inputQ, setInputQ] = useState<string>("");
 	const [q, setQ] = useState<string | undefined>(undefined);
@@ -60,7 +60,8 @@ const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 		<div className="space-y-8">
 			<h1 className="text-2xl font-bold">
 				Organization Users of{" "}
-				{organizationInfo?.data.name || "Unknown Organization"}
+				{organizationInfo?.data.name || "Unknown Organization"} (
+				{organizationId})
 			</h1>
 			<div className="mb-4 flex gap-2 items-center">
 				<Input
