@@ -4,6 +4,7 @@ import { API_ROUTES } from "@/config/api-routes";
 import type {
 	AdminOrganization,
 	AdminOrganizationDelete,
+	AdminOrganizationPermissions,
 } from "@/features/admin-organizations/types/admin-organizations";
 
 const escapeRegExp = (value: string) =>
@@ -17,6 +18,10 @@ const orgDetailUrl = new RegExp(
 	`^${escapeRegExp(API_ROUTES.MANAGEMENT.ADMIN_ORGANIZATION)}/[^/]+(?:\\?.*)?$`
 );
 
+const permissionsUrl = new RegExp(
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.ADMIN_ORGANIZATION)}/permissions(?:\\?.*)?$`
+);
+
 const sampleOrgs: AdminOrganization[] = Array.from({ length: 12 }, (_, i) => ({
 	org_id: `org_${String(i + 1).padStart(3, "0")}`,
 	name: Mock.Random.pick([`Acme ${i + 1}`, `Beta ${i + 1}`, `Gamma ${i + 1}`]),
@@ -24,6 +29,27 @@ const sampleOrgs: AdminOrganization[] = Array.from({ length: 12 }, (_, i) => ({
 		? `owner_${String(i + 1).padStart(3, "0")}`
 		: null,
 }));
+
+const samplePermissions: AdminOrganizationPermissions = {
+	permissions: [
+		"ORG_READ",
+		"ORG_WRITE",
+		"ORG_DELETE",
+		"SETTINGS_READ",
+		"SETTINGS_WRITE",
+		"USERS_READ",
+		"USERS_MANAGE",
+	],
+};
+
+// Register permissions handler early so `/organizations/permissions` does
+// not accidentally match the org detail route (which would return an array).
+Mock.mock(permissionsUrl, "get", () => {
+	return {
+		success: true,
+		data: samplePermissions,
+	};
+});
 
 Mock.mock(orgsUrl, "get", (options: { url: string }) => {
 	const requestUrl = new URL(options.url);
@@ -119,5 +145,12 @@ Mock.mock(orgDetailUrl, "delete", (options: { url: string }) => {
 	return {
 		success: true,
 		data: deleteResponse,
+	};
+});
+
+Mock.mock(permissionsUrl, "get", () => {
+	return {
+		success: true,
+		data: samplePermissions,
 	};
 });

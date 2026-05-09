@@ -12,6 +12,10 @@ export type AdminOrganizationDelete = {
 	cancel_before: string;
 };
 
+export type AdminOrganizationPermissions = {
+	permissions: string[];
+};
+
 export type AdminOrganizationsListResponse = PaginatedResponse<
 	AdminOrganization[]
 >;
@@ -19,3 +23,5 @@ export type AdminOrganizationDetailsResponse = ApiResponse<AdminOrganization>;
 export type AdminOrganizationsResponse = ApiResponse<AdminOrganization[]>;
 export type AdminOrganizationDeleteResponse =
 	ApiResponse<AdminOrganizationDelete>;
+export type AdminOrganizationPermissionsResponse =
+	ApiResponse<AdminOrganizationPermissions>;

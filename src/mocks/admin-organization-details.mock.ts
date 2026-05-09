@@ -60,12 +60,17 @@ const getOrganizationIdFromUrl = (url: string) => {
 	return parts[parts.length - 1].split("?")[0];
 };
 
+const getOrganizationIdFromSettingsUrl = (url: string) => {
+	const parts = url.split("/");
+	return parts[parts.length - 2] ?? "";
+};
+
 const organizationDetailsUrl = new RegExp(
 	`^${escapeRegExp(API_ROUTES.MANAGEMENT.ADMIN_ORGANIZATION)}/[^/]+(?:\\?.*)?$`
 );
 
 const organizationSettingsUrl = new RegExp(
-	`^${escapeRegExp(API_ROUTES.ADMIN_ORGANIZATION_DETAILS.SETTINGS)}/[^/]+(?:\\?.*)?$`
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.ADMIN_ORGANIZATION)}/[^/]+/settings(?:\\?.*)?$`
 );
 
 Mock.mock(organizationDetailsUrl, "get", (options: { url: string }) => {
@@ -84,7 +89,7 @@ Mock.mock(organizationDetailsUrl, "get", (options: { url: string }) => {
 });
 
 Mock.mock(organizationSettingsUrl, "get", (options: { url: string }) => {
-	const organizationId = getOrganizationIdFromUrl(options.url);
+	const organizationId = getOrganizationIdFromSettingsUrl(options.url);
 
 	const data = sampleOrganizationSettings[organizationId] ?? {
 		rate_limit: 500,
@@ -105,7 +110,7 @@ Mock.mock(
 	organizationSettingsUrl,
 	"patch",
 	(options: { url: string; body?: string }) => {
-		const organizationId = getOrganizationIdFromUrl(options.url);
+		const organizationId = getOrganizationIdFromSettingsUrl(options.url);
 		const current = sampleOrganizationSettings[organizationId] ?? {
 			rate_limit: 500,
 			spending_limit: 5000,
