@@ -3,11 +3,11 @@ import {
 	getAdminOrganizationDetails,
 	type AdminOrganizationDetailsParams,
 } from "../services/get-admin-organization-details";
-import type { AdminOrganizationsResponse } from "../types/admin-organizations";
+import type { AdminOrganizationDetailsResponse } from "../types/admin-organizations";
 
 export const useGetAdminOrganizationDetails = (
 	params: AdminOrganizationDetailsParams,
-	options?: Omit<UseQueryOptions<AdminOrganizationsResponse>, "queryKey">
+	options?: Omit<UseQueryOptions<AdminOrganizationDetailsResponse>, "queryKey">
 ) => {
 	return useQuery({
 		queryKey: ["admin-organization-details", params],

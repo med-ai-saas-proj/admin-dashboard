@@ -9,6 +9,7 @@ import {
 import { Spinner } from "@/components/shadcn/spinner";
 import { useGetAdminOrganizationDetails } from "../../hooks/use-get-admin-organizations-details";
 import type { AdminOrganization } from "../../types/admin-organizations";
+import { useNavigate } from "react-router-dom";
 
 interface ViewDetailsAdminOrganizationDialogProps {
 	open: boolean;
@@ -21,6 +22,7 @@ export const ViewDetailsAdminOrganizationDialog = ({
 	onOpenChange,
 	organization,
 }: ViewDetailsAdminOrganizationDialogProps) => {
+	const navigate = useNavigate();
 	const { data, isLoading } = useGetAdminOrganizationDetails(
 		{
 			organization_id: organization?.org_id || "",
@@ -30,7 +32,11 @@ export const ViewDetailsAdminOrganizationDialog = ({
 		}
 	);
 
-	const details = data?.data?.[0] || organization;
+	const details = data?.data || organization;
+
+	const handleNavigateToDetails = (orgId: string) => {
+		navigate(`/organizations/${orgId}`);
+	};
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
@@ -78,6 +84,14 @@ export const ViewDetailsAdminOrganizationDialog = ({
 						onClick={() => onOpenChange(false)}
 					>
 						Close
+					</Button>
+					<Button
+						type="button"
+						className="ml-2"
+						onClick={() => handleNavigateToDetails(details?.org_id || "")}
+						disabled={!details}
+					>
+						View More
 					</Button>
 				</div>
 			</DialogContent>
