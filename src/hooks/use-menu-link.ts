@@ -28,11 +28,6 @@ export const useMenuLink = () => {
 			title: t("organizations.permissions"),
 			value: "permissions",
 		},
-		{
-			key: "settings",
-			title: t("organizations.settings"),
-			value: "settings",
-		},
 	];
 
 	const billingLinks: MenuLink[] = [

@@ -24,6 +24,7 @@ import AdminOrganizationsOverview from "./features/admin-organizations/component
 import AdminOrganizationDetails from "./routes/admin-organization-details";
 import AdminOrganizationDetailsUsers from "./features/admin-organization-details/components/admin-organization-details-users";
 import AdminOrganizationDetailsSettings from "./features/admin-organization-details/components/admin-organization-details-settings";
+import AdminOrganizationPermissions from "./features/admin-organizations/components/admin-organization-permissions";
 
 function App() {
 	return (
@@ -75,6 +76,10 @@ function App() {
 									<Route
 										path="overview"
 										element={<AdminOrganizationsOverview />}
+									/>
+									<Route
+										path="permissions"
+										element={<AdminOrganizationPermissions />}
 									/>
 								</Route>
 								<Route path="billing" element={<BillingDashboard />}>

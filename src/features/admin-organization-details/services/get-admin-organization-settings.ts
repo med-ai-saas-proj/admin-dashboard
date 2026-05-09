@@ -10,7 +10,7 @@ export const getAdminOrganizationSettings = async (
 	params: AdminOrganizationSettingsParams
 ) => {
 	const response = await apiClient.get<AdminOrganizationSettingsResponse>(
-		`${API_ROUTES.ADMIN_ORGANIZATION_DETAILS.SETTINGS}/${params.organizationId}`
+		`${API_ROUTES.MANAGEMENT.ADMIN_ORGANIZATION}/${params.organizationId}/settings`
 	);
 	return response.data;
 };

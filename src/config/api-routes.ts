@@ -56,12 +56,6 @@ export const API_ROUTES = {
 			BASE_API_URL
 		).toString(),
 	},
-	ADMIN_ORGANIZATION_DETAILS: {
-		SETTINGS: new URL(
-			`${API_VERSION}/admin/organization-settings`,
-			BASE_API_URL
-		).toString(),
-	},
 	SERVICES: {
 		EHR_SUMMARIZE: new URL(
 			`service/${API_VERSION}/ehr_summarize`,
