@@ -58,11 +58,13 @@ const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 
 	return (
 		<div className="space-y-8">
-			<h1 className="text-2xl font-bold">
-				Organization Users of{" "}
-				{organizationInfo?.data.name || "Unknown Organization"} (
-				{organizationId})
-			</h1>
+			{organizationInfo && (
+				<h1 className="text-2xl font-bold">
+					Organization Users of{" "}
+					{organizationInfo.data.name || "Unknown Organization"} (
+					{organizationId})
+				</h1>
+			)}
 			<div className="mb-4 flex gap-2 items-center">
 				<Input
 					placeholder="Search users"
