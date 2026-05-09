@@ -15,6 +15,7 @@ export type AdminOrganizationDelete = {
 export type AdminOrganizationsListResponse = PaginatedResponse<
 	AdminOrganization[]
 >;
+export type AdminOrganizationDetailsResponse = ApiResponse<AdminOrganization>;
 export type AdminOrganizationsResponse = ApiResponse<AdminOrganization[]>;
 export type AdminOrganizationDeleteResponse =
 	ApiResponse<AdminOrganizationDelete>;

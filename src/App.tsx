@@ -21,6 +21,8 @@ import GeneralAdmin from "./routes/admin-dashboard-admin";
 import GeneralUsers from "./routes/admin-dashboard-users";
 import AdminOrganizations from "./routes/admin-organizations";
 import AdminOrganizationsOverview from "./features/admin-organizations/components/admin-organizations-overview";
+import AdminOrganizationDetails from "./routes/admin-organization-details";
+import AdminOrganizationDetailsUsers from "./features/admin-organization-details/components/admin-organization-details-users";
 
 function App() {
 	return (
@@ -83,6 +85,18 @@ function App() {
 									<Route path="invoices" element={<BillingInvoice />} />
 									<Route path="credits" element={<BillingCredit />} />
 								</Route>
+							</Route>
+							<Route
+								path="organizations/:orgId"
+								element={<AdminOrganizationDetails />}
+							>
+								{/* Redirects /organizations/123 to /organizations/123/users */}
+								<Route index element={<Navigate to="users" replace />} />
+
+								<Route
+									path="users"
+									element={<AdminOrganizationDetailsUsers />}
+								/>
 							</Route>
 						</Route>
 
