@@ -15,11 +15,19 @@ import { NavUser } from "@/components/sidebar/nav-user";
 import { TeamSwitcher } from "@/components/sidebar/team-switcher";
 import { useAuthStore } from "@/features/auth/store/auth-store";
 import { useTranslation } from "react-i18next";
+import { useAdminOrganizationDetailsStore } from "@/features/admin-organization-details/store/admin-organization-details";
+import { useParams } from "react-router-dom";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	const { t } = useTranslation("sidebar");
+	const params = useParams();
 
 	const { userInfo } = useAuthStore();
+
+	const storedOrganizationId = useAdminOrganizationDetailsStore(
+		(state) => state.organizationId
+	);
+	const organizationId = params.orgId || storedOrganizationId;
 
 	const data = {
 		teams: [
@@ -61,6 +69,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 				icon: CreditCard,
 			},
 		],
+		organization: [
+			{
+				name: t("organization.users.title"),
+				url: `/organizations/${organizationId}/users`,
+				icon: CreditCard,
+				disableActive: !organizationId,
+			},
+			{
+				name: t("organization.settings.title"),
+				url: `/organizations/${organizationId}/settings`,
+				icon: CreditCard,
+				disableActive: !organizationId,
+			},
+		],
 	};
 
 	return (
@@ -75,6 +97,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 					label={t("adminDashboard.label")}
 				/>
 				<NavProjects projects={data.management} label={t("management.label")} />
+				{organizationId && (
+					<NavProjects
+						projects={data.organization}
+						label={t("organization.label")}
+					/>
+				)}
 			</SidebarContent>
 
 			<SidebarFooter>

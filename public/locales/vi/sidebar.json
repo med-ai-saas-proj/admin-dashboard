@@ -22,5 +22,14 @@
         "billing": {
             "title": "Thanh toán"
         }
+    },
+    "organization": {
+        "label": "Tổ chức",
+        "users": {
+            "title": "Người dùng"
+        },
+        "settings": {
+            "title": "Cài đặt"
+        }
     }
 }
