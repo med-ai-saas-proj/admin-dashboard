@@ -28,6 +28,9 @@
         "users": {
             "title": "Người dùng"
         },
+        "projects": {
+            "title": "Dự án"
+        },
         "settings": {
             "title": "Cài đặt"
         }

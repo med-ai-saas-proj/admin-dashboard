@@ -28,6 +28,9 @@
         "users": {
             "title": "Users"
         },
+        "projects": {
+            "title": "Projects"
+        },
         "settings": {
             "title": "Settings"
         }

@@ -77,6 +77,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 				disableActive: !organizationId,
 			},
 			{
+				name: t("organization.projects.title"),
+				url: `/organizations/${organizationId}/projects`,
+				icon: CreditCard,
+			},
+			{
 				name: t("organization.settings.title"),
 				url: `/organizations/${organizationId}/settings`,
 				icon: CreditCard,
