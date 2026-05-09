@@ -22,5 +22,14 @@
         "organizations": {
             "title": "Organizations"
         }
+    },
+    "organization": {
+        "label": "Organization",
+        "users": {
+            "title": "Users"
+        },
+        "settings": {
+            "title": "Settings"
+        }
     }
 }
