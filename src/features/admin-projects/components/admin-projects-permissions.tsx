@@ -1,4 +1,4 @@
-import { useGetAdminOrganizationPermissions } from "../hooks/use-get-admin-organization-permissions";
+import { useGetAdminProjectsPermissions } from "../hooks/use-get-admin-projects-permissions";
 import {
 	Card,
 	CardContent,
@@ -6,8 +6,8 @@ import {
 	CardTitle,
 } from "@/components/shadcn/card";
 
-const AdminOrganizationPermissions = (): React.JSX.Element => {
-	const { data: permissionsData } = useGetAdminOrganizationPermissions();
+const AdminProjectsPermissions = (): React.JSX.Element => {
+	const { data: permissionsData } = useGetAdminProjectsPermissions();
 	const permissions = permissionsData?.data?.permissions || [];
 
 	return (
@@ -16,10 +16,10 @@ const AdminOrganizationPermissions = (): React.JSX.Element => {
 				<div className="flex items-center justify-between gap-4">
 					<div>
 						<CardTitle className="text-xl font-bold text-slate-950">
-							Organization Permissions
+							Projects Permissions
 						</CardTitle>
 						<p className="text-sm text-slate-500 mt-1">
-							Currently active scope permissions for this organization.
+							Currently active scope permissions for this project.
 						</p>
 					</div>
 					{/* Optional: Visual Indicator */}
@@ -49,4 +49,4 @@ const AdminOrganizationPermissions = (): React.JSX.Element => {
 	);
 };
 
-export default AdminOrganizationPermissions;
+export default AdminProjectsPermissions;

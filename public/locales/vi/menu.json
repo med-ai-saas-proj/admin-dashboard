@@ -4,8 +4,11 @@
     },
     "organizations": {
         "overview": "Tổng quan",
-        "permissions": "Quyền",
-        "settings": "Cài đặt"
+        "permissions": "Quyền"
+    },
+    "projects": {
+        "overview": "Tổng quan",
+        "permissions": "Quyền"
     },
     "billing": {
         "overview": "Tổng quan",
