@@ -28,6 +28,7 @@ import AdminOrganizationPermissions from "./features/admin-organizations/compone
 import AdminProjectsOrganization from "./features/admin-projects/components/admin-projects-organization";
 import AdminProjects from "./routes/admin-projects";
 import AdminProjectsPermissions from "./features/admin-projects/components/admin-projects-permissions";
+import AdminProjectDetails from "./routes/admin-project-details";
 
 function App() {
 	return (
@@ -122,6 +123,10 @@ function App() {
 									element={<AdminOrganizationDetailsSettings />}
 								/>
 							</Route>
+							<Route
+								path="projects/:projectId"
+								element={<AdminProjectDetails />}
+							></Route>
 						</Route>
 
 						<Route path="*" element={<Navigate to="/" replace />} />

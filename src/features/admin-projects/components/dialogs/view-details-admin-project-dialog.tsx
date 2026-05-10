@@ -2,10 +2,14 @@ import {
 	Dialog,
 	DialogContent,
 	DialogDescription,
+	DialogFooter,
 	DialogHeader,
+	DialogClose,
 	DialogTitle,
 } from "@/components/shadcn/dialog";
+import { Button } from "@/components/shadcn/button";
 import type { AdminProjectOrganization } from "@/features/admin-projects/types/admin-projects";
+import { useNavigate } from "react-router-dom";
 
 type ViewDetailsAdminProjectDialogProps = {
 	open: boolean;
@@ -18,6 +22,15 @@ export const ViewDetailsAdminProjectDialog = ({
 	onOpenChange,
 	project,
 }: ViewDetailsAdminProjectDialogProps) => {
+	const navigate = useNavigate();
+
+	const handleViewMore = () => {
+		if (project) {
+			navigate(`/projects/${project.project_uuid}`);
+			onOpenChange(false);
+		}
+	};
+
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="sm:max-w-xl" showCloseButton>
@@ -56,6 +69,15 @@ export const ViewDetailsAdminProjectDialog = ({
 						</div>
 					</dl>
 				)}
+
+				<DialogFooter>
+					<DialogClose asChild>
+						<Button variant="outline">Close</Button>
+					</DialogClose>
+					<Button variant="default" onClick={handleViewMore}>
+						View More
+					</Button>
+				</DialogFooter>
 			</DialogContent>
 		</Dialog>
 	);

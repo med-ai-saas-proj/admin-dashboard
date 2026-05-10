@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Eye, Search } from "lucide-react";
+import { Eye, Pencil, Search } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -31,6 +31,7 @@ import type { AdminProjectOrganization } from "@/features/admin-projects/types/a
 import {
 	CreateAdminProjectDialog,
 	ViewDetailsAdminProjectDialog,
+	UpdateAdminProjectDialog,
 } from "./dialogs";
 
 const AdminProjectsOrganization = (): React.JSX.Element => {
@@ -50,6 +51,7 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 		"all" | "archived" | "active"
 	>("all");
 	const [viewDetailsDialogOpen, setViewDetailsDialogOpen] = useState(false);
+	const [updateDialogOpen, setUpdateDialogOpen] = useState(false);
 	const [selectedProject, setSelectedProject] =
 		useState<AdminProjectOrganization | null>(null);
 
@@ -85,6 +87,11 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 	const handleViewDetails = (project: AdminProjectOrganization) => {
 		setSelectedProject(project);
 		setViewDetailsDialogOpen(true);
+	};
+
+	const handleOpenUpdate = (project: AdminProjectOrganization) => {
+		setSelectedProject(project);
+		setUpdateDialogOpen(true);
 	};
 
 	return (
@@ -163,18 +170,32 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 											{project.archived ? "Archived" : "Active"}
 										</TableCell>
 										<TableCell className="text-right">
-											<Tooltip>
-												<TooltipTrigger asChild>
-													<Button
-														variant="ghost"
-														size="icon"
-														onClick={() => handleViewDetails(project)}
-													>
-														<Eye className="h-4 w-4" />
-													</Button>
-												</TooltipTrigger>
-												<TooltipContent>View details</TooltipContent>
-											</Tooltip>
+											<div className="flex justify-end gap-2">
+												<Tooltip>
+													<TooltipTrigger asChild>
+														<Button
+															variant="ghost"
+															size="icon"
+															onClick={() => handleOpenUpdate(project)}
+														>
+															<Pencil className="h-4 w-4" />
+														</Button>
+													</TooltipTrigger>
+													<TooltipContent>Update</TooltipContent>
+												</Tooltip>
+												<Tooltip>
+													<TooltipTrigger asChild>
+														<Button
+															variant="ghost"
+															size="icon"
+															onClick={() => handleViewDetails(project)}
+														>
+															<Eye className="h-4 w-4" />
+														</Button>
+													</TooltipTrigger>
+													<TooltipContent>View details</TooltipContent>
+												</Tooltip>
+											</div>
 										</TableCell>
 									</TableRow>
 								))}
@@ -187,6 +208,12 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 			<ViewDetailsAdminProjectDialog
 				open={viewDetailsDialogOpen}
 				onOpenChange={setViewDetailsDialogOpen}
+				project={selectedProject}
+			/>
+
+			<UpdateAdminProjectDialog
+				open={updateDialogOpen}
+				onOpenChange={setUpdateDialogOpen}
 				project={selectedProject}
 			/>
 		</div>
