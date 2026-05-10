@@ -4,8 +4,11 @@
     },
     "organizations": {
         "overview": "Overview",
-        "permissions": "Permissions",
-        "settings": "Settings"
+        "permissions": "Permissions"
+    },
+    "projects": {
+        "overview": "Overview",
+        "permissions": "Permissions"
     },
     "billing": {
         "overview": "Overview",

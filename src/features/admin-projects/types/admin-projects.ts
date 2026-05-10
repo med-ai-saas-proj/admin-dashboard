@@ -8,8 +8,14 @@ export type AdminProjectOrganization = {
 	archived: boolean;
 };
 
+export type AdminProjectsPermissions = {
+	permissions: string[];
+};
+
 export type AdminProjectsOrganizationResponse = PaginatedResponse<
 	AdminProjectOrganization[]
 >;
 export type CreateAdminProjectOrganizationResponse =
 	ApiResponse<AdminProjectOrganization>;
+export type AdminProjectsPermissionsResponse =
+	ApiResponse<AdminProjectsPermissions>;

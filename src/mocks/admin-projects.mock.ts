@@ -9,6 +9,16 @@ const escapeRegExp = (value: string) =>
 const projectsUrl = new RegExp(
 	`^${escapeRegExp(API_ROUTES.MANAGEMENT.ADMIN_PROJECTS)}(?:\\?.*)?$`
 );
+const projectsPermissionsUrl = new RegExp(
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.ADMIN_PROJECTS)}/permissions(?:\\?.*)?$`
+);
+
+const samplePermissions = [
+	"project:read",
+	"project:create",
+	"project:update",
+	"project:archive",
+];
 
 const sampleProjects: AdminProjectOrganization[] = Array.from(
 	{ length: 24 },
@@ -82,5 +92,14 @@ Mock.mock(projectsUrl, "post", (options: { url: string; body?: string }) => {
 	return {
 		success: true,
 		data: created,
+	};
+});
+
+Mock.mock(projectsPermissionsUrl, "get", () => {
+	return {
+		success: true,
+		data: {
+			permissions: samplePermissions,
+		},
 	};
 });

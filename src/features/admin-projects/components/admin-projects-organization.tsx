@@ -1,28 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { toast } from "sonner";
+import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Search } from "lucide-react";
+import { Eye, Search } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
-import {
-	Dialog,
-	DialogClose,
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from "@/components/shadcn/dialog";
-import {
-	Field,
-	FieldError,
-	FieldGroup,
-	FieldLabel,
-} from "@/components/shadcn/field";
 import {
 	Select,
 	SelectContent,
@@ -30,7 +10,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/shadcn/select";
-import { Textarea } from "@/components/shadcn/textarea";
 import {
 	Table,
 	TableBody,
@@ -39,133 +18,20 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/shadcn/table";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "@/components/shadcn/tooltip";
 import { Input } from "@/components/shadcn/input";
 import { Spinner } from "@/components/shadcn/spinner";
 import { useGetAdminProjectsOrganization } from "@/features/admin-projects/hooks/use-get-admin-projects-organization";
-import { useCreateAdminProjectOrganization } from "@/features/admin-projects/hooks/use-create-admin-project-organization";
 import { useAdminOrganizationDetailsStore } from "@/features/admin-organization-details/store/admin-organization-details";
-
-const createProjectSchema = z.object({
-	name: z.string().trim().min(1, "Project name is required").max(120),
-	description: z
-		.string()
-		.trim()
-		.max(255, "Description must be 255 characters or fewer")
-		.optional(),
-});
-
-type CreateProjectFormValues = z.infer<typeof createProjectSchema>;
-
-type CreateProjectDialogProps = {
-	organizationId: string;
-};
-
-const CreateProjectDialog = ({ organizationId }: CreateProjectDialogProps) => {
-	const [openDialog, setOpenDialog] = useState(false);
-	const { mutate: createProject, isPending } =
-		useCreateAdminProjectOrganization();
-	const {
-		register,
-		handleSubmit,
-		reset,
-		formState: { errors },
-	} = useForm<CreateProjectFormValues>({
-		resolver: zodResolver(createProjectSchema),
-		defaultValues: {
-			name: "",
-			description: "",
-		},
-	});
-
-	useEffect(() => {
-		if (!openDialog) {
-			reset({
-				name: "",
-				description: "",
-			});
-		}
-	}, [openDialog, reset]);
-
-	const onSubmit = (values: CreateProjectFormValues) => {
-		if (!organizationId) {
-			toast.error("Missing organization ID");
-			return;
-		}
-
-		createProject(
-			{
-				organizationId,
-				name: values.name,
-				description: values.description?.trim()
-					? values.description.trim()
-					: null,
-			},
-			{
-				onSuccess: () => {
-					toast.success("Project created");
-					setOpenDialog(false);
-				},
-				onError: () => {
-					toast.error("Failed to create project");
-				},
-			}
-		);
-	};
-
-	return (
-		<Dialog open={openDialog} onOpenChange={setOpenDialog}>
-			<DialogTrigger asChild>
-				<Button type="button" className="shrink-0">
-					Create project
-				</Button>
-			</DialogTrigger>
-			<DialogContent className="sm:max-w-xl" showCloseButton>
-				<DialogHeader>
-					<DialogTitle>Create Project</DialogTitle>
-					<DialogDescription>
-						Create a new project for this organization.
-					</DialogDescription>
-				</DialogHeader>
-
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<FieldGroup>
-						<Field>
-							<FieldLabel htmlFor="name">Project name</FieldLabel>
-							<Input
-								id="name"
-								placeholder="Enter project name"
-								{...register("name")}
-							/>
-							<FieldError errors={[errors.name]} />
-						</Field>
-
-						<Field>
-							<FieldLabel htmlFor="description">Description</FieldLabel>
-							<Textarea
-								id="description"
-								rows={4}
-								placeholder="Optional project description"
-								{...register("description")}
-							/>
-							<FieldError errors={[errors.description]} />
-						</Field>
-					</FieldGroup>
-
-					<DialogFooter className="mt-6">
-						<DialogClose asChild>
-							<Button type="button" variant="outline" disabled={isPending}>
-								Cancel
-							</Button>
-						</DialogClose>
-						<Button type="submit" disabled={isPending || !organizationId}>
-							{isPending ? "Creating..." : "Create project"}
-						</Button>
-					</DialogFooter>
-				</form>
-			</DialogContent>
-		</Dialog>
-	);
-};
+import type { AdminProjectOrganization } from "@/features/admin-projects/types/admin-projects";
+import {
+	CreateAdminProjectDialog,
+	ViewDetailsAdminProjectDialog,
+} from "./dialogs";
 
 const AdminProjectsOrganization = (): React.JSX.Element => {
 	const params = useParams<{ orgId: string }>();
@@ -183,6 +49,9 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 	const [statusFilter, setStatusFilter] = useState<
 		"all" | "archived" | "active"
 	>("all");
+	const [viewDetailsDialogOpen, setViewDetailsDialogOpen] = useState(false);
+	const [selectedProject, setSelectedProject] =
+		useState<AdminProjectOrganization | null>(null);
 
 	const projects = data?.data ?? [];
 
@@ -211,6 +80,11 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 
 	const handleSearch = () => {
 		setSearchTerm(searchInput.trim());
+	};
+
+	const handleViewDetails = (project: AdminProjectOrganization) => {
+		setSelectedProject(project);
+		setViewDetailsDialogOpen(true);
 	};
 
 	return (
@@ -253,10 +127,10 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 					</Select>
 				</form>
 
-				<CreateProjectDialog organizationId={organizationId} />
+				<CreateAdminProjectDialog organizationId={organizationId} />
 			</div>
 
-			<div className="rounded-lg border bg-background shadow-sm">
+			<div className="rounded-lg border bg-background shadow-sm overflow-hidden">
 				<div className="max-h-[70vh] overflow-auto">
 					{isLoading ? (
 						<div className="flex items-center justify-center py-16">
@@ -275,6 +149,7 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 									<TableHead>Description</TableHead>
 									<TableHead>Organization ID</TableHead>
 									<TableHead>Archived</TableHead>
+									<TableHead className="text-right">Actions</TableHead>
 								</TableRow>
 							</TableHeader>
 							<TableBody>
@@ -287,6 +162,20 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 										<TableCell>
 											{project.archived ? "Archived" : "Active"}
 										</TableCell>
+										<TableCell className="text-right">
+											<Tooltip>
+												<TooltipTrigger asChild>
+													<Button
+														variant="ghost"
+														size="icon"
+														onClick={() => handleViewDetails(project)}
+													>
+														<Eye className="h-4 w-4" />
+													</Button>
+												</TooltipTrigger>
+												<TooltipContent>View details</TooltipContent>
+											</Tooltip>
+										</TableCell>
 									</TableRow>
 								))}
 							</TableBody>
@@ -294,6 +183,12 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 					)}
 				</div>
 			</div>
+
+			<ViewDetailsAdminProjectDialog
+				open={viewDetailsDialogOpen}
+				onOpenChange={setViewDetailsDialogOpen}
+				project={selectedProject}
+			/>
 		</div>
 	);
 };
