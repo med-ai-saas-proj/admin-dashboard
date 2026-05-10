@@ -103,3 +103,42 @@ Mock.mock(projectsPermissionsUrl, "get", () => {
 		},
 	};
 });
+
+// Match a single project by ID for update
+const projectItemUrl = new RegExp(
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.ADMIN_PROJECTS)}/([^/]+)(?:\\?.*)?$`
+);
+
+Mock.mock(projectItemUrl, "put", (options: { url: string; body?: string }) => {
+	const requestUrl = new URL(options.url);
+	const parts = requestUrl.pathname.split("/");
+	const projectId = parts[parts.length - 1];
+
+	const body = options.body
+		? (JSON.parse(options.body) as Record<string, unknown>)
+		: {};
+
+	const idx = sampleProjects.findIndex((p) => p.project_uuid === projectId);
+	if (idx === -1) {
+		return {
+			success: false,
+			message: "Project not found",
+		};
+	}
+
+	const updated = {
+		...sampleProjects[idx],
+		name: typeof body.name === "string" ? body.name : sampleProjects[idx].name,
+		description:
+			typeof body.description === "string"
+				? body.description
+				: sampleProjects[idx].description,
+	};
+
+	sampleProjects[idx] = updated;
+
+	return {
+		success: true,
+		data: updated,
+	};
+});

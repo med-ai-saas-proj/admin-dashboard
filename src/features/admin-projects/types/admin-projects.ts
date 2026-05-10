@@ -19,3 +19,5 @@ export type CreateAdminProjectOrganizationResponse =
 	ApiResponse<AdminProjectOrganization>;
 export type AdminProjectsPermissionsResponse =
 	ApiResponse<AdminProjectsPermissions>;
+export type UpdateAdminProjectOrganizationResponse =
+	ApiResponse<AdminProjectOrganization>;
