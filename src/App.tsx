@@ -29,6 +29,8 @@ import AdminProjectsOrganization from "./features/admin-projects/components/admi
 import AdminProjects from "./routes/admin-projects";
 import AdminProjectsPermissions from "./features/admin-projects/components/admin-projects-permissions";
 import AdminProjectDetails from "./routes/admin-project-details";
+import AdminProjectDetailsSettings from "./features/admin-project-details/components/admin-project-details-settings";
+import AdminProjectDetailsUsers from "./features/admin-project-details/components/admin-project-details-users";
 
 function App() {
 	return (
@@ -122,11 +124,20 @@ function App() {
 									path="settings"
 									element={<AdminOrganizationDetailsSettings />}
 								/>
+
+								{/* projects/:projectId */}
+								<Route
+									path="projects/:projectId"
+									element={<AdminProjectDetails />}
+								>
+									<Route index element={<Navigate to="users" replace />} />
+									<Route path="users" element={<AdminProjectDetailsUsers />} />
+									<Route
+										path="settings"
+										element={<AdminProjectDetailsSettings />}
+									/>
+								</Route>
 							</Route>
-							<Route
-								path="projects/:projectId"
-								element={<AdminProjectDetails />}
-							></Route>
 						</Route>
 
 						<Route path="*" element={<Navigate to="/" replace />} />

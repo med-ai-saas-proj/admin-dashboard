@@ -34,5 +34,14 @@
         "settings": {
             "title": "Settings"
         }
+    },
+    "project": {
+        "label": "Project",
+        "users": {
+            "title": "Users"
+        },
+        "settings": {
+            "title": "Settings"
+        }
     }
 }

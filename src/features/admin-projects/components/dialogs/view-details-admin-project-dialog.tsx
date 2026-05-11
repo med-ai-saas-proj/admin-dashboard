@@ -26,7 +26,9 @@ export const ViewDetailsAdminProjectDialog = ({
 
 	const handleViewMore = () => {
 		if (project) {
-			navigate(`/projects/${project.project_uuid}`);
+			navigate(
+				`/organizations/${project.organization_id}/projects/${project.project_uuid}`
+			);
 			onOpenChange(false);
 		}
 	};

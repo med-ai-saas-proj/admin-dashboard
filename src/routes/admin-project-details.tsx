@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useParams, Outlet } from "react-router-dom";
-import DashboardLayout from "@/layouts/dashboard-layout";
 import { useAdminProjectDetailsStore } from "@/features/admin-project-details/store/admin-project-details";
 
 const AdminProjectDetails = (): React.JSX.Element => {
@@ -12,11 +11,7 @@ const AdminProjectDetails = (): React.JSX.Element => {
 			.setProjectDetails({ projectId: projectId });
 	}, [projectId]);
 
-	return (
-		<DashboardLayout pageTitle="Projects">
-			<Outlet />
-		</DashboardLayout>
-	);
+	return <Outlet />;
 };
 
 export default AdminProjectDetails;

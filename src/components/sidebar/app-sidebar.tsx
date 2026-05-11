@@ -17,6 +17,7 @@ import { useAuthStore } from "@/features/auth/store/auth-store";
 import { useTranslation } from "react-i18next";
 import { useAdminOrganizationDetailsStore } from "@/features/admin-organization-details/store/admin-organization-details";
 import { useParams } from "react-router-dom";
+import { useAdminProjectDetailsStore } from "@/features/admin-project-details/store/admin-project-details";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	const { t } = useTranslation("sidebar");
@@ -28,6 +29,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 		(state) => state.organizationId
 	);
 	const organizationId = params.orgId || storedOrganizationId;
+
+	const storedProjectId = useAdminProjectDetailsStore(
+		(state) => state.projectId
+	);
+	const projectId = params.projectId || storedProjectId;
 
 	const data = {
 		teams: [
@@ -88,6 +94,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 				disableActive: !organizationId,
 			},
 		],
+		project: [
+			{
+				name: t("project.users.title"),
+				url: `/organizations/${organizationId}/projects/${projectId}/users`,
+				icon: CreditCard,
+				disableActive: !projectId,
+			},
+			{
+				name: t("project.settings.title"),
+				url: `/organizations/${organizationId}/projects/${projectId}/settings`,
+				icon: CreditCard,
+				disableActive: !projectId,
+			},
+		],
 	};
 
 	return (
@@ -107,6 +127,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 						projects={data.organization}
 						label={t("organization.label")}
 					/>
+				)}
+				{projectId && (
+					<NavProjects projects={data.project} label={t("project.label")} />
 				)}
 			</SidebarContent>
 
