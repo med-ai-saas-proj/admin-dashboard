@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Eye, Pencil, Search } from "lucide-react";
+import { Eye, Pencil, Search, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -32,6 +32,7 @@ import {
 	CreateAdminProjectDialog,
 	ViewDetailsAdminProjectDialog,
 	UpdateAdminProjectDialog,
+	DeleteAdminProjectDialog,
 } from "./dialogs";
 
 const AdminProjectsOrganization = (): React.JSX.Element => {
@@ -52,6 +53,7 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 	>("all");
 	const [viewDetailsDialogOpen, setViewDetailsDialogOpen] = useState(false);
 	const [updateDialogOpen, setUpdateDialogOpen] = useState(false);
+	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [selectedProject, setSelectedProject] =
 		useState<AdminProjectOrganization | null>(null);
 
@@ -92,6 +94,11 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 	const handleOpenUpdate = (project: AdminProjectOrganization) => {
 		setSelectedProject(project);
 		setUpdateDialogOpen(true);
+	};
+
+	const handleOpenDelete = (project: AdminProjectOrganization) => {
+		setSelectedProject(project);
+		setDeleteDialogOpen(true);
 	};
 
 	return (
@@ -195,6 +202,18 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 													</TooltipTrigger>
 													<TooltipContent>View details</TooltipContent>
 												</Tooltip>
+												<Tooltip>
+													<TooltipTrigger asChild>
+														<Button
+															variant="ghost"
+															size="icon"
+															onClick={() => handleOpenDelete(project)}
+														>
+															<Trash2 className="h-4 w-4" />
+														</Button>
+													</TooltipTrigger>
+													<TooltipContent>Archive project</TooltipContent>
+												</Tooltip>
 											</div>
 										</TableCell>
 									</TableRow>
@@ -214,6 +233,12 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 			<UpdateAdminProjectDialog
 				open={updateDialogOpen}
 				onOpenChange={setUpdateDialogOpen}
+				project={selectedProject}
+			/>
+
+			<DeleteAdminProjectDialog
+				open={deleteDialogOpen}
+				onOpenChange={setDeleteDialogOpen}
 				project={selectedProject}
 			/>
 		</div>

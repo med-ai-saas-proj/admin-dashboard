@@ -142,3 +142,30 @@ Mock.mock(projectItemUrl, "put", (options: { url: string; body?: string }) => {
 		data: updated,
 	};
 });
+
+Mock.mock(projectItemUrl, "delete", (options: { url: string }) => {
+	const requestUrl = new URL(options.url);
+	const parts = requestUrl.pathname.split("/");
+	const projectId = parts[parts.length - 1];
+
+	const idx = sampleProjects.findIndex((p) => p.project_uuid === projectId);
+	if (idx === -1) {
+		return {
+			success: false,
+			message: "Project not found",
+		};
+	}
+
+	sampleProjects[idx] = {
+		...sampleProjects[idx],
+		archived: true,
+	};
+
+	return {
+		success: true,
+		data: {
+			id: projectId,
+			archived: true,
+		},
+	};
+});
