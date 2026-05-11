@@ -183,24 +183,24 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 														<Button
 															variant="ghost"
 															size="icon"
-															onClick={() => handleOpenUpdate(project)}
-														>
-															<Pencil className="h-4 w-4" />
-														</Button>
-													</TooltipTrigger>
-													<TooltipContent>Update</TooltipContent>
-												</Tooltip>
-												<Tooltip>
-													<TooltipTrigger asChild>
-														<Button
-															variant="ghost"
-															size="icon"
 															onClick={() => handleViewDetails(project)}
 														>
 															<Eye className="h-4 w-4" />
 														</Button>
 													</TooltipTrigger>
 													<TooltipContent>View details</TooltipContent>
+												</Tooltip>
+												<Tooltip>
+													<TooltipTrigger asChild>
+														<Button
+															variant="ghost"
+															size="icon"
+															onClick={() => handleOpenUpdate(project)}
+														>
+															<Pencil className="h-4 w-4" />
+														</Button>
+													</TooltipTrigger>
+													<TooltipContent>Update</TooltipContent>
 												</Tooltip>
 												<Tooltip>
 													<TooltipTrigger asChild>

@@ -34,5 +34,14 @@
         "settings": {
             "title": "Cài đặt"
         }
+    },
+    "project": {
+        "label": "Dự án",
+        "users": {
+            "title": "Người dùng"
+        },
+        "settings": {
+            "title": "Cài đặt"
+        }
     }
 }
