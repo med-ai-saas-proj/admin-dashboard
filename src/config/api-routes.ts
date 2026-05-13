@@ -52,11 +52,15 @@ export const API_ROUTES = {
 			BASE_API_URL
 		).toString(),
 		ADMIN_ORGANIZATION: new URL(
-			`${API_VERSION}/admin/organizations`,
+			`management/${API_VERSION}/admin/organizations`,
 			BASE_API_URL
 		).toString(),
 		ADMIN_PROJECTS: new URL(
-			`${API_VERSION}/admin/projects`,
+			`management/${API_VERSION}/admin/projects`,
+			BASE_API_URL
+		).toString(),
+		ADMIN_API_KEYS: new URL(
+			`management/${API_VERSION}/admin/api-keys`,
 			BASE_API_URL
 		).toString(),
 	},

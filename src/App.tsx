@@ -31,6 +31,9 @@ import AdminProjectsPermissions from "./features/admin-projects/components/admin
 import AdminProjectDetails from "./routes/admin-project-details";
 import AdminProjectDetailsSettings from "./features/admin-project-details/components/admin-project-details-settings";
 import AdminProjectDetailsUsers from "./features/admin-project-details/components/admin-project-details-users";
+import AdminApiKeysPage from "./routes/admin-api-key";
+import AdminApiKeysPermissions from "./features/admin-api-keys/components/admin-api-keys-permissions";
+import AdminApiKeysOverview from "./features/admin-api-keys/components/admin-api-keys-overview";
 
 function App() {
 	return (
@@ -136,6 +139,15 @@ function App() {
 										path="settings"
 										element={<AdminProjectDetailsSettings />}
 									/>
+
+									<Route path="api-keys" element={<AdminApiKeysPage />}>
+										<Route index element={<Navigate to="overview" replace />} />
+										<Route path="overview" element={<AdminApiKeysOverview />} />
+										<Route
+											path="permissions"
+											element={<AdminApiKeysPermissions />}
+										/>
+									</Route>
 								</Route>
 							</Route>
 						</Route>

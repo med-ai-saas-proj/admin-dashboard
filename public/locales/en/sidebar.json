@@ -42,6 +42,9 @@
         },
         "settings": {
             "title": "Settings"
+        },
+        "apiKeys": {
+            "title": "API Keys"
         }
     }
 }

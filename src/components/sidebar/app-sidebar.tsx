@@ -107,6 +107,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 				icon: CreditCard,
 				disableActive: !projectId,
 			},
+			{
+				name: t("project.apiKeys.title"),
+				url: `/organizations/${organizationId}/projects/${projectId}/api-keys`,
+				icon: CreditCard,
+				disableActive: !projectId,
+			},
 		],
 	};
 
