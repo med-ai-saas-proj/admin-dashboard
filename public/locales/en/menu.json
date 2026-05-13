@@ -10,6 +10,10 @@
         "overview": "Overview",
         "permissions": "Permissions"
     },
+    "apiKeys": {
+        "overview": "Overview",
+        "permissions": "Permissions"
+    },
     "billing": {
         "overview": "Overview",
         "invoices": "Invoices",

@@ -42,6 +42,9 @@
         },
         "settings": {
             "title": "Cài đặt"
+        },
+        "apiKeys": {
+            "title": "Khóa API"
         }
     }
 }

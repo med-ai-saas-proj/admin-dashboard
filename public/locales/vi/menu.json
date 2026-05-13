@@ -10,6 +10,10 @@
         "overview": "Tổng quan",
         "permissions": "Quyền"
     },
+    "apiKeys": {
+        "overview": "Tổng quan",
+        "create": "Tạo mới"
+    },
     "billing": {
         "overview": "Tổng quan",
         "invoices": "Hóa đơn",

@@ -1,0 +1,10 @@
+import { useQuery } from "@tanstack/react-query";
+import { getApiKeyPermissions } from "../services/get-admin-api-key-permissions";
+import type { AdminApiKeyPermissionsResponse } from "../types/admin-api-keys";
+
+export const useGetAdminApiKeyPermissions = () => {
+	return useQuery<AdminApiKeyPermissionsResponse>({
+		queryKey: ["admin-api-key-permissions"],
+		queryFn: () => getApiKeyPermissions(),
+	});
+};
