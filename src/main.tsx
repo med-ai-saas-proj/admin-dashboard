@@ -9,6 +9,7 @@ if (import.meta.env.DEV) {
 	import("@/mocks/admin-projects.mock");
 	import("@/mocks/admin-organization-details.mock");
 	import("@/mocks/admin-project-details.mock");
+	import("@/mocks/admin-api-keys.mock");
 	import("@/mocks/billing.mock");
 	// import("@/mocks/organization-people.mock");
 	// import("@/mocks/organization-project.mock");
