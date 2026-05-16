@@ -25,7 +25,10 @@ const updateSchema = z.object({
 
 type UpdateForm = z.infer<typeof updateSchema>;
 
+import { useTranslation } from "react-i18next";
+
 const UpdateAdminApiKeyDialog = ({ open, onOpenChange, apiKey }: any) => {
+	const { t } = useTranslation("admin-api-key");
 	const projectId = apiKey?.project_uuid || "";
 	const updateMutation = useUpdateAdminApiKey(projectId);
 
@@ -75,12 +78,14 @@ const UpdateAdminApiKeyDialog = ({ open, onOpenChange, apiKey }: any) => {
 
 			<DialogContent className="sm:max-w-lg">
 				<DialogHeader>
-					<DialogTitle>Update API Key</DialogTitle>
+					<DialogTitle>{t("update.dialog.title")}</DialogTitle>
 				</DialogHeader>
 
 				<form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
 					<div>
-						<Label className="text-sm font-medium mb-2">Name</Label>
+						<Label className="text-sm font-medium mb-2">
+							{t("update.form.labels.name")}
+						</Label>
 						<Input {...register("name")} />
 						{errors.name && (
 							<div className="text-xs text-destructive">
@@ -89,7 +94,9 @@ const UpdateAdminApiKeyDialog = ({ open, onOpenChange, apiKey }: any) => {
 						)}
 					</div>
 					<div>
-						<Label className="text-sm font-medium mb-2">Description</Label>
+						<Label className="text-sm font-medium mb-2">
+							{t("update.form.labels.description")}
+						</Label>
 						<Input {...register("description")} />
 					</div>
 					<div className="flex items-center gap-2">
@@ -103,20 +110,22 @@ const UpdateAdminApiKeyDialog = ({ open, onOpenChange, apiKey }: any) => {
 								/>
 							)}
 						/>
-						<span className="text-sm">Disabled</span>
+						<span className="text-sm">{t("update.form.labels.disabled")}</span>
 					</div>
 
 					<DialogFooter>
 						<DialogClose asChild>
 							<Button variant="ghost" type="button">
-								Cancel
+								{t("update.buttons.cancel")}
 							</Button>
 						</DialogClose>
 						<Button
 							type="submit"
 							disabled={isSubmitting || updateMutation.isPending}
 						>
-							{updateMutation.isPending ? "Updating..." : "Update"}
+							{updateMutation.isPending
+								? t("update.buttons.updating")
+								: t("update.buttons.update")}
 						</Button>
 					</DialogFooter>
 				</form>

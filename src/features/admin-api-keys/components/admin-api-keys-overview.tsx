@@ -3,6 +3,7 @@ import { Eye, Pencil, Search, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import { Input } from "@/components/shadcn/input";
+import { useTranslation } from "react-i18next";
 import {
 	Select,
 	SelectContent,
@@ -36,6 +37,7 @@ import type { AdminApiKey } from "../types/admin-api-keys";
 const AdminApiKeysOverview = (): React.JSX.Element => {
 	const params = useParams<{ projectId: string }>();
 	const projectId = params.projectId || "";
+	const { t } = useTranslation("admin-api-key");
 
 	const { data, isLoading, isFetching } = useGetAdminApiKeysProject(projectId);
 
@@ -114,12 +116,12 @@ const AdminApiKeysOverview = (): React.JSX.Element => {
 						<Input
 							value={searchInput}
 							onChange={(e) => setSearchInput(e.target.value)}
-							placeholder="Search API keys"
+							placeholder={t("overview.search.placeholder")}
 							className="min-w-0"
 						/>
 						<Button type="submit" variant="default">
 							<Search className="size-4" />
-							Search
+							{t("overview.buttons.search")}
 						</Button>
 					</div>
 
@@ -130,12 +132,18 @@ const AdminApiKeysOverview = (): React.JSX.Element => {
 						}
 					>
 						<SelectTrigger className="w-full sm:w-[220px]">
-							<SelectValue placeholder="Filter status" />
+							<SelectValue placeholder={t("overview.filter.label")} />
 						</SelectTrigger>
 						<SelectContent>
-							<SelectItem value="all">All keys</SelectItem>
-							<SelectItem value="enabled">Enabled</SelectItem>
-							<SelectItem value="disabled">Disabled</SelectItem>
+							<SelectItem value="all">
+								{t("overview.filter.options.all")}
+							</SelectItem>
+							<SelectItem value="enabled">
+								{t("overview.filter.options.enabled")}
+							</SelectItem>
+							<SelectItem value="disabled">
+								{t("overview.filter.options.disabled")}
+							</SelectItem>
 						</SelectContent>
 					</Select>
 				</form>
@@ -151,18 +159,24 @@ const AdminApiKeysOverview = (): React.JSX.Element => {
 						</div>
 					) : filtered.length === 0 ? (
 						<div className="flex items-center justify-center py-16 text-sm text-muted-foreground">
-							{isFetching ? "Loading API keys..." : "No API keys found"}
+							{isFetching
+								? t("overview.table.empty.loading")
+								: t("overview.table.empty.noData")}
 						</div>
 					) : (
 						<Table>
 							<TableHeader className="sticky top-0 z-10 bg-background">
 								<TableRow>
-									<TableHead>UUID</TableHead>
-									<TableHead>Name</TableHead>
-									<TableHead>Description</TableHead>
-									<TableHead>Created</TableHead>
-									<TableHead>Disabled</TableHead>
-									<TableHead className="text-right">Actions</TableHead>
+									<TableHead>{t("overview.table.headers.uuid")}</TableHead>
+									<TableHead>{t("overview.table.headers.name")}</TableHead>
+									<TableHead>
+										{t("overview.table.headers.description")}
+									</TableHead>
+									<TableHead>{t("overview.table.headers.created")}</TableHead>
+									<TableHead>{t("overview.table.headers.disabled")}</TableHead>
+									<TableHead className="text-right">
+										{t("overview.table.headers.actions")}
+									</TableHead>
 								</TableRow>
 							</TableHeader>
 							<TableBody>
@@ -174,7 +188,11 @@ const AdminApiKeysOverview = (): React.JSX.Element => {
 										<TableCell>
 											{new Date(k.created_at).toLocaleString()}
 										</TableCell>
-										<TableCell>{k.disabled ? "Disabled" : "Enabled"}</TableCell>
+										<TableCell>
+											{k.disabled
+												? t("overview.status.disabled")
+												: t("overview.status.enabled")}
+										</TableCell>
 										<TableCell className="text-right">
 											<div className="flex justify-end gap-2">
 												<Tooltip>
@@ -187,7 +205,9 @@ const AdminApiKeysOverview = (): React.JSX.Element => {
 															<Eye className="h-4 w-4" />
 														</Button>
 													</TooltipTrigger>
-													<TooltipContent>View details</TooltipContent>
+													<TooltipContent>
+														{t("overview.actions.view")}
+													</TooltipContent>
 												</Tooltip>
 												<Tooltip>
 													<TooltipTrigger asChild>
@@ -199,7 +219,9 @@ const AdminApiKeysOverview = (): React.JSX.Element => {
 															<Pencil className="h-4 w-4" />
 														</Button>
 													</TooltipTrigger>
-													<TooltipContent>Update</TooltipContent>
+													<TooltipContent>
+														{t("overview.actions.edit")}
+													</TooltipContent>
 												</Tooltip>
 												<Tooltip>
 													<TooltipTrigger asChild>
@@ -211,7 +233,9 @@ const AdminApiKeysOverview = (): React.JSX.Element => {
 															<Trash2 className="h-4 w-4" />
 														</Button>
 													</TooltipTrigger>
-													<TooltipContent>Delete</TooltipContent>
+													<TooltipContent>
+														{t("overview.actions.delete")}
+													</TooltipContent>
 												</Tooltip>
 											</div>
 										</TableCell>

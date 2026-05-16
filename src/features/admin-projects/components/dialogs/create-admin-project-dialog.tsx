@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -43,6 +44,8 @@ type CreateAdminProjectDialogProps = {
 export const CreateAdminProjectDialog = ({
 	organizationId,
 }: CreateAdminProjectDialogProps) => {
+	const { t } = useTranslation("admin-project");
+
 	const [openDialog, setOpenDialog] = useState(false);
 	const { mutate: createProject, isPending } =
 		useCreateAdminProjectOrganization();
@@ -71,7 +74,7 @@ export const CreateAdminProjectDialog = ({
 
 	const onSubmit = (values: CreateProjectFormValues) => {
 		if (!organizationId) {
-			toast.error("Missing organization ID");
+			toast.error(t("create.messages.missingOrgId"));
 			return;
 		}
 
@@ -85,11 +88,11 @@ export const CreateAdminProjectDialog = ({
 			},
 			{
 				onSuccess: () => {
-					toast.success("Project created");
+					toast.success(t("create.messages.success"));
 					setOpenDialog(false);
 				},
 				onError: () => {
-					toast.error("Failed to create project");
+					toast.error(t("create.messages.error"));
 				},
 			}
 		);
@@ -99,35 +102,39 @@ export const CreateAdminProjectDialog = ({
 		<Dialog open={openDialog} onOpenChange={setOpenDialog}>
 			<DialogTrigger asChild>
 				<Button type="button" className="shrink-0">
-					Create project
+					{t("overview.buttons.create")}
 				</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-xl" showCloseButton>
 				<DialogHeader>
-					<DialogTitle>Create Project</DialogTitle>
+					<DialogTitle>{t("create.dialog.title")}</DialogTitle>
 					<DialogDescription>
-						Create a new project for this organization.
+						{t("create.dialog.description")}
 					</DialogDescription>
 				</DialogHeader>
 
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<FieldGroup>
 						<Field>
-							<FieldLabel htmlFor="name">Project name</FieldLabel>
+							<FieldLabel htmlFor="name">
+								{t("create.form.labels.name")}
+							</FieldLabel>
 							<Input
 								id="name"
-								placeholder="Enter project name"
+								placeholder={t("create.form.placeholders.name")}
 								{...register("name")}
 							/>
 							<FieldError errors={[errors.name]} />
 						</Field>
 
 						<Field>
-							<FieldLabel htmlFor="description">Description</FieldLabel>
+							<FieldLabel htmlFor="description">
+								{t("create.form.labels.description")}
+							</FieldLabel>
 							<Textarea
 								id="description"
 								rows={4}
-								placeholder="Optional project description"
+								placeholder={t("create.form.placeholders.description")}
 								{...register("description")}
 							/>
 							<FieldError errors={[errors.description]} />
@@ -137,11 +144,13 @@ export const CreateAdminProjectDialog = ({
 					<DialogFooter className="mt-6">
 						<DialogClose asChild>
 							<Button type="button" variant="outline" disabled={isPending}>
-								Cancel
+								{t("create.buttons.cancel")}
 							</Button>
 						</DialogClose>
 						<Button type="submit" disabled={isPending || !organizationId}>
-							{isPending ? "Creating..." : "Create project"}
+							{isPending
+								? t("create.buttons.creating")
+								: t("create.buttons.create")}
 						</Button>
 					</DialogFooter>
 				</form>

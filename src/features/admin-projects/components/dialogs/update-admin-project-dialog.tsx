@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -46,6 +47,8 @@ export const UpdateAdminProjectDialog = ({
 	onOpenChange,
 	project,
 }: UpdateAdminProjectDialogProps) => {
+	const { t } = useTranslation("admin-project");
+
 	const { mutate: updateProject, isPending } =
 		useUpdateAdminProjectOrganization();
 
@@ -76,7 +79,7 @@ export const UpdateAdminProjectDialog = ({
 
 	const onSubmit = (values: UpdateProjectFormValues) => {
 		if (!project) {
-			toast.error("No project selected");
+			toast.error(t("update.messages.noProjectSelected"));
 			return;
 		}
 
@@ -88,11 +91,11 @@ export const UpdateAdminProjectDialog = ({
 			},
 			{
 				onSuccess: () => {
-					toast.success("Project updated");
+					toast.success(t("update.messages.success"));
 					onOpenChange(false);
 				},
 				onError: () => {
-					toast.error("Failed to update project");
+					toast.error(t("update.messages.error"));
 				},
 			}
 		);
@@ -102,19 +105,23 @@ export const UpdateAdminProjectDialog = ({
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="sm:max-w-xl" showCloseButton>
 				<DialogHeader>
-					<DialogTitle>Update Project</DialogTitle>
+					<DialogTitle>{t("update.dialog.title")}</DialogTitle>
 				</DialogHeader>
 
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<FieldGroup>
 						<Field>
-							<FieldLabel htmlFor="name">Project name</FieldLabel>
+							<FieldLabel htmlFor="name">
+								{t("update.form.labels.name")}
+							</FieldLabel>
 							<Input id="name" {...register("name")} />
 							<FieldError errors={[errors.name]} />
 						</Field>
 
 						<Field>
-							<FieldLabel htmlFor="description">Description</FieldLabel>
+							<FieldLabel htmlFor="description">
+								{t("update.form.labels.description")}
+							</FieldLabel>
 							<Textarea
 								id="description"
 								rows={4}
@@ -127,11 +134,13 @@ export const UpdateAdminProjectDialog = ({
 					<DialogFooter className="mt-6">
 						<DialogClose asChild>
 							<Button type="button" variant="outline" disabled={isPending}>
-								Cancel
+								{t("update.buttons.cancel")}
 							</Button>
 						</DialogClose>
 						<Button type="submit" disabled={isPending}>
-							{isPending ? "Updating..." : "Update project"}
+							{isPending
+								? t("update.buttons.updating")
+								: t("update.buttons.update")}
 						</Button>
 					</DialogFooter>
 				</form>

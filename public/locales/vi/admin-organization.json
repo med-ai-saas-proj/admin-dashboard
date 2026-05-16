@@ -1,0 +1,182 @@
+{
+    "overview": {
+        "title": "Quản Lý Tổ Chức",
+        "search": {
+            "placeholder": "Tìm kiếm theo ID, tên hoặc chủ sở hữu..."
+        },
+        "table": {
+            "headers": {
+                "organizationId": "ID Tổ Chức",
+                "organizationName": "Tên Tổ Chức",
+                "ownerId": "ID Chủ Sở Hữu",
+                "actions": "Hành Động"
+            },
+            "empty": {
+                "withSearch": "Không tìm thấy tổ chức nào phù hợp với tìm kiếm của bạn",
+                "noData": "Chưa có tổ chức nào"
+            }
+        },
+        "buttons": {
+            "search": "Tìm Kiếm",
+            "createOrganization": "Tạo Tổ Chức"
+        },
+        "actions": {
+            "viewDetails": "Xem Chi Tiết",
+            "update": "Cập Nhật",
+            "delete": "Xóa"
+        }
+    },
+    "create": {
+        "dialog": {
+            "title": "Tạo Tổ Chức",
+            "description": "Thêm một tổ chức mới vào hệ thống"
+        },
+        "form": {
+            "labels": {
+                "organizationName": "Tên Tổ Chức",
+                "alias": "Bí Danh",
+                "ownerId": "ID Chủ Sở Hữu"
+            },
+            "placeholders": {
+                "organizationName": "Nhập tên tổ chức",
+                "alias": "Nhập bí danh tổ chức (tùy chọn)",
+                "ownerId": "Nhập ID chủ sở hữu (tùy chọn)"
+            }
+        },
+        "buttons": {
+            "cancel": "Hủy",
+            "create": "Tạo tổ chức",
+            "creating": "Đang Tạo..."
+        },
+        "messages": {
+            "success": "Tổ chức được tạo thành công",
+            "error": "Không thể tạo tổ chức",
+            "validationError": "Tên tổ chức là bắt buộc"
+        }
+    },
+    "update": {
+        "dialog": {
+            "title": "Cập Nhật Tổ Chức",
+            "description": "Chỉnh sửa chi tiết tổ chức"
+        },
+        "form": {
+            "labels": {
+                "organizationName": "Tên Tổ Chức"
+            },
+            "placeholders": {
+                "organizationName": "Nhập tên tổ chức"
+            }
+        },
+        "buttons": {
+            "update": "Cập Nhật",
+            "updating": "Đang Cập Nhật..."
+        },
+        "messages": {
+            "success": "Tổ chức được cập nhật thành công",
+            "error": "Không thể cập nhật tổ chức",
+            "validationError": "Tên tổ chức là bắt buộc"
+        }
+    },
+    "delete": {
+        "dialog": {
+            "title": "Xóa Tổ Chức",
+            "description": "Bạn có chắc chắn muốn xóa tổ chức này không?"
+        },
+        "warning": "Hành động này không thể được hoàn tác. Tổ chức và tất cả dữ liệu liên quan sẽ bị xóa vĩnh viễn.",
+        "buttons": {
+            "delete": "Xóa",
+            "deleting": "Đang Xóa..."
+        },
+        "messages": {
+            "success": "Tổ chức được xóa thành công",
+            "error": "Không thể xóa tổ chức"
+        }
+    },
+    "details": {
+        "dialog": {
+            "title": "Chi Tiết Tổ Chức",
+            "description": "Xem thông tin chi tiết về tổ chức này"
+        },
+        "labels": {
+            "organizationId": "ID Tổ Chức",
+            "organizationName": "Tên Tổ Chức",
+            "ownerId": "ID Chủ Sở Hữu"
+        },
+        "buttons": {
+            "close": "Đóng",
+            "viewMore": "Xem Thêm"
+        }
+    },
+    "settings": {
+        "title": "Cài Đặt Tổ Chức của",
+        "card": {
+            "title": "Giới Hạn & Ngân Sách"
+        },
+        "dialog": {
+            "title": "Chỉnh Sửa Cài Đặt Tổ Chức",
+            "description": "Cập nhật giới hạn tốc độ, giới hạn chi tiêu và siêu dữ liệu bổ sung cho tổ chức này."
+        },
+        "labels": {
+            "rateLimit": "Giới Hạn Tốc Độ",
+            "spendingLimit": "Giới Hạn Chi Tiêu"
+        },
+        "placeholders": {
+            "rateLimit": "Nhập số yêu cầu mỗi giây",
+            "spendingLimit": "Nhập ngân sách hàng tháng"
+        },
+        "units": {
+            "rateLimit": "yêu cầu/giây",
+            "spendingLimit": "mỗi tháng"
+        },
+        "buttons": {
+            "editSettings": "Chỉnh Sửa Cài Đặt",
+            "cancel": "Hủy",
+            "save": "Lưu thay đổi",
+            "saving": "Đang Lưu..."
+        },
+        "messages": {
+            "missingOrgId": "Thiếu ID tổ chức",
+            "success": "Cài đặt tổ chức đã được cập nhật",
+            "error": "Không thể cập nhật cài đặt tổ chức"
+        },
+        "validation": {
+            "rateLimitRequired": "Giới hạn tốc độ là bắt buộc",
+            "rateLimitNonNegative": "Giới hạn tốc độ phải là số nguyên không âm",
+            "spendingLimitRequired": "Giới hạn chi tiêu là bắt buộc",
+            "spendingLimitNonNegative": "Giới hạn chi tiêu phải là số nguyên không âm"
+        }
+    },
+    "permissions": {
+        "card": {
+            "title": "Quyền Tổ Chức",
+            "description": "Các quyền theo phạm vi hiện đang hoạt động cho tổ chức này."
+        }
+    },
+    "users": {
+        "title": "Người Dùng Tổ Chức của",
+        "search": {
+            "placeholder": "Tìm kiếm người dùng"
+        },
+        "table": {
+            "headers": {
+                "number": "#",
+                "id": "ID",
+                "username": "Tên Người Dùng",
+                "email": "Email"
+            },
+            "empty": {
+                "withSearch": "Không tìm thấy người dùng nào phù hợp với tìm kiếm của bạn",
+                "noData": "Không có người dùng nào"
+            }
+        },
+        "buttons": {
+            "search": "Tìm Kiếm"
+        },
+        "status": {
+            "loading": "Đang Tải..."
+        }
+    },
+    "common": {
+        "notAvailable": "Không Có"
+    }
+}

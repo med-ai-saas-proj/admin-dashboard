@@ -10,6 +10,7 @@ import { Input } from "@/components/shadcn/input";
 import { Label } from "@/components/shadcn/label";
 import { Spinner } from "@/components/shadcn/spinner";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useCreateAdminOrganization } from "../../hooks/use-create-admin-organizations";
 import { useGetAdminOrganizations } from "../../hooks/use-get-admin-organizations";
@@ -23,6 +24,8 @@ export const CreateAdminOrganizationDialog = ({
 	open,
 	onOpenChange,
 }: CreateAdminOrganizationDialogProps) => {
+	const { t } = useTranslation("admin-organization");
+
 	const [name, setName] = useState("");
 	const [alias, setAlias] = useState("");
 	const [ownerId, setOwnerId] = useState("");
@@ -35,7 +38,7 @@ export const CreateAdminOrganizationDialog = ({
 		e.preventDefault();
 
 		if (!name.trim()) {
-			toast.error("Organization name is required");
+			toast.error(t("create.messages.validationError"));
 			return;
 		}
 
@@ -47,7 +50,7 @@ export const CreateAdminOrganizationDialog = ({
 			},
 			{
 				onSuccess: () => {
-					toast.success("Organization created successfully");
+					toast.success(t("create.messages.success"));
 					setName("");
 					setAlias("");
 					setOwnerId("");
@@ -55,7 +58,7 @@ export const CreateAdminOrganizationDialog = ({
 					refetch();
 				},
 				onError: () => {
-					toast.error("Failed to create organization");
+					toast.error(t("create.messages.error"));
 				},
 			}
 		);
@@ -65,18 +68,20 @@ export const CreateAdminOrganizationDialog = ({
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Create Organization</DialogTitle>
+					<DialogTitle>{t("create.dialog.title")}</DialogTitle>
 					<DialogDescription>
-						Add a new organization to the system
+						{t("create.dialog.description")}
 					</DialogDescription>
 				</DialogHeader>
 
 				<form onSubmit={handleSubmit} className="space-y-4">
 					<div className="space-y-2">
-						<Label htmlFor="name">Organization Name</Label>
+						<Label htmlFor="name">
+							{t("create.form.labels.organizationName")}
+						</Label>
 						<Input
 							id="name"
-							placeholder="Enter organization name"
+							placeholder={t("create.form.placeholders.organizationName")}
 							value={name}
 							onChange={(e) => setName(e.target.value)}
 							disabled={isPending}
@@ -84,10 +89,10 @@ export const CreateAdminOrganizationDialog = ({
 					</div>
 
 					<div className="space-y-2">
-						<Label htmlFor="alias">Alias</Label>
+						<Label htmlFor="alias">{t("create.form.labels.alias")}</Label>
 						<Input
 							id="alias"
-							placeholder="Enter organization alias (optional)"
+							placeholder={t("create.form.placeholders.alias")}
 							value={alias}
 							onChange={(e) => setAlias(e.target.value)}
 							disabled={isPending}
@@ -95,10 +100,10 @@ export const CreateAdminOrganizationDialog = ({
 					</div>
 
 					<div className="space-y-2">
-						<Label htmlFor="owner-id">Owner ID</Label>
+						<Label htmlFor="owner-id">{t("create.form.labels.ownerId")}</Label>
 						<Input
 							id="owner-id"
-							placeholder="Enter owner ID (optional)"
+							placeholder={t("create.form.placeholders.ownerId")}
 							value={ownerId}
 							onChange={(e) => setOwnerId(e.target.value)}
 							disabled={isPending}
@@ -112,16 +117,16 @@ export const CreateAdminOrganizationDialog = ({
 							onClick={() => onOpenChange(false)}
 							disabled={isPending}
 						>
-							Cancel
+							{t("create.buttons.cancel")}
 						</Button>
 						<Button type="submit" disabled={isPending}>
 							{isPending ? (
 								<>
 									<Spinner className="mr-2 h-4 w-4" />
-									Creating...
+									{t("create.buttons.creating")}
 								</>
 							) : (
-								"Create"
+								t("create.buttons.create")
 							)}
 						</Button>
 					</div>

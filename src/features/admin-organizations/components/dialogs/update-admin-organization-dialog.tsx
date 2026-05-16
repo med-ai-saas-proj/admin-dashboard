@@ -10,6 +10,7 @@ import { Input } from "@/components/shadcn/input";
 import { Label } from "@/components/shadcn/label";
 import { Spinner } from "@/components/shadcn/spinner";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { useUpdateAdminOrganization } from "../../hooks/use-update-admin-organizations";
 import { useGetAdminOrganizations } from "../../hooks/use-get-admin-organizations";
@@ -26,6 +27,8 @@ export const UpdateAdminOrganizationDialog = ({
 	onOpenChange,
 	organization,
 }: UpdateAdminOrganizationDialogProps) => {
+	const { t } = useTranslation("admin-organization");
+
 	const [name, setName] = useState("");
 
 	const { mutate: updateOrganization, isPending } =
@@ -42,7 +45,7 @@ export const UpdateAdminOrganizationDialog = ({
 		e.preventDefault();
 
 		if (!name.trim() || !organization) {
-			toast.error("Organization name is required");
+			toast.error(t("update.messages.validationError"));
 			return;
 		}
 
@@ -53,12 +56,12 @@ export const UpdateAdminOrganizationDialog = ({
 			},
 			{
 				onSuccess: () => {
-					toast.success("Organization updated successfully");
+					toast.success(t("update.messages.success"));
 					onOpenChange(false);
 					refetch();
 				},
 				onError: () => {
-					toast.error("Failed to update organization");
+					toast.error(t("update.messages.error"));
 				},
 			}
 		);
@@ -68,16 +71,20 @@ export const UpdateAdminOrganizationDialog = ({
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Update Organization</DialogTitle>
-					<DialogDescription>Edit the organization details</DialogDescription>
+					<DialogTitle>{t("update.dialog.title")}</DialogTitle>
+					<DialogDescription>
+						{t("update.dialog.description")}
+					</DialogDescription>
 				</DialogHeader>
 
 				<form onSubmit={handleSubmit} className="space-y-4">
 					<div className="space-y-2">
-						<Label htmlFor="name">Organization Name</Label>
+						<Label htmlFor="name">
+							{t("update.form.labels.organizationName")}
+						</Label>
 						<Input
 							id="name"
-							placeholder="Enter organization name"
+							placeholder={t("update.form.placeholders.organizationName")}
 							value={name}
 							onChange={(e) => setName(e.target.value)}
 							disabled={isPending}
@@ -91,16 +98,18 @@ export const UpdateAdminOrganizationDialog = ({
 							onClick={() => onOpenChange(false)}
 							disabled={isPending}
 						>
-							Cancel
+							{t("create.action.cancel") ||
+								t("common.action.cancel") ||
+								"Cancel"}
 						</Button>
 						<Button type="submit" disabled={isPending}>
 							{isPending ? (
 								<>
 									<Spinner className="mr-2 h-4 w-4" />
-									Updating...
+									{t("update.buttons.updating")}
 								</>
 							) : (
-								"Update"
+								t("update.buttons.update")
 							)}
 						</Button>
 					</div>

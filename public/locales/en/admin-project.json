@@ -1,0 +1,196 @@
+{
+    "overview": {
+        "title": "Projects Dashboard",
+        "search": {
+            "placeholder": "Search projects"
+        },
+        "filter": {
+            "label": "Filter status",
+            "options": {
+                "all": "All projects",
+                "active": "Not archived",
+                "archived": "Archived"
+            }
+        },
+        "table": {
+            "headers": {
+                "uuid": "UUID",
+                "name": "Name",
+                "description": "Description",
+                "organizationId": "Organization ID",
+                "archived": "Status",
+                "actions": "Actions"
+            },
+            "status": {
+                "active": "Active",
+                "archived": "Archived"
+            },
+            "empty": {
+                "loading": "Loading projects...",
+                "noData": "No projects found"
+            }
+        },
+        "buttons": {
+            "search": "Search",
+            "create": "Create project"
+        },
+        "actions": {
+            "view": "View details",
+            "edit": "Edit",
+            "delete": "Delete"
+        }
+    },
+    "create": {
+        "dialog": {
+            "title": "Create Project",
+            "description": "Create a new project for this organization."
+        },
+        "form": {
+            "labels": {
+                "name": "Project name",
+                "description": "Description"
+            },
+            "placeholders": {
+                "name": "Enter project name",
+                "description": "Optional project description"
+            }
+        },
+        "buttons": {
+            "cancel": "Cancel",
+            "create": "Create project",
+            "creating": "Creating..."
+        },
+        "messages": {
+            "nameRequired": "Project name is required",
+            "descriptionTooLong": "Description must be 255 characters or fewer",
+            "success": "Project created",
+            "error": "Failed to create project",
+            "missingOrgId": "Missing organization ID"
+        }
+    },
+    "update": {
+        "dialog": {
+            "title": "Update Project"
+        },
+        "form": {
+            "labels": {
+                "name": "Project name",
+                "description": "Description"
+            }
+        },
+        "buttons": {
+            "cancel": "Cancel",
+            "update": "Update project",
+            "updating": "Updating..."
+        },
+        "messages": {
+            "nameRequired": "Project name is required",
+            "descriptionTooLong": "Description must be 255 characters or fewer",
+            "success": "Project updated",
+            "error": "Failed to update project",
+            "noProjectSelected": "No project selected"
+        }
+    },
+    "delete": {
+        "dialog": {
+            "title": "Archive Project",
+            "description": "Are you sure you want to archive this project? This action will move the project to archived status."
+        },
+        "labels": {
+            "project": "Project",
+            "uuid": "UUID"
+        },
+        "buttons": {
+            "cancel": "Cancel",
+            "delete": "Archive Project",
+            "deleting": "Archiving..."
+        },
+        "messages": {
+            "success": "Project archived successfully",
+            "error": "Failed to archive project",
+            "noProjectSelected": "No project selected"
+        }
+    },
+    "details": {
+        "dialog": {
+            "title": "Project details",
+            "description": "Overview of the selected project."
+        },
+        "labels": {
+            "uuid": "UUID",
+            "name": "Name",
+            "description": "Description",
+            "organizationId": "Organization ID",
+            "status": "Status"
+        },
+        "status": {
+            "active": "Active",
+            "archived": "Archived"
+        },
+        "empty": "No project selected.",
+        "buttons": {
+            "close": "Close",
+            "viewMore": "View More"
+        }
+    },
+    "settings": {
+        "title": "Project Settings of",
+        "card": {
+            "title": "Limits & Budgeting"
+        },
+        "dialog": {
+            "title": "Edit Project Settings",
+            "description": "Update the rate limit and spending limit for this project."
+        },
+        "labels": {
+            "rateLimit": "Rate limit",
+            "spendingLimit": "Spending limit"
+        },
+        "placeholders": {
+            "rateLimit": "Enter requests per second",
+            "spendingLimit": "Enter monthly budget"
+        },
+        "units": {
+            "rateLimit": "requests/sec",
+            "spendingLimit": "per month"
+        },
+        "buttons": {
+            "editSettings": "Edit Settings",
+            "cancel": "Cancel",
+            "save": "Save changes",
+            "saving": "Saving..."
+        },
+        "messages": {
+            "missingProjectId": "Missing project ID",
+            "success": "Project settings updated",
+            "error": "Failed to update project settings"
+        }
+    },
+    "users": {
+        "title": "Project Users of",
+        "search": {
+            "placeholder": "Search users"
+        },
+        "buttons": {
+            "search": "Search"
+        },
+        "status": {
+            "loading": "Loading..."
+        },
+        "table": {
+            "empty": {
+                "withSearch": "No users found matching your search",
+                "noData": "No users"
+            }
+        }
+    },
+    "permissions": {
+        "card": {
+            "title": "Projects Permissions",
+            "description": "Currently active scope permissions for this project."
+        }
+    },
+    "common": {
+        "notAvailable": "-"
+    }
+}

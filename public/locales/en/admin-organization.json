@@ -1,0 +1,182 @@
+{
+    "overview": {
+        "title": "Organization Management",
+        "search": {
+            "placeholder": "Search by ID, name, or owner..."
+        },
+        "table": {
+            "headers": {
+                "organizationId": "Organization ID",
+                "organizationName": "Organization Name",
+                "ownerId": "Owner ID",
+                "actions": "Actions"
+            },
+            "empty": {
+                "withSearch": "No organizations found matching your search",
+                "noData": "No organizations yet"
+            }
+        },
+        "buttons": {
+            "search": "Search",
+            "createOrganization": "Create Organization"
+        },
+        "actions": {
+            "viewDetails": "View Details",
+            "update": "Update",
+            "delete": "Delete"
+        }
+    },
+    "create": {
+        "dialog": {
+            "title": "Create Organization",
+            "description": "Add a new organization to the system"
+        },
+        "form": {
+            "labels": {
+                "organizationName": "Organization Name",
+                "alias": "Alias",
+                "ownerId": "Owner ID"
+            },
+            "placeholders": {
+                "organizationName": "Enter organization name",
+                "alias": "Enter organization alias (optional)",
+                "ownerId": "Enter owner ID (optional)"
+            }
+        },
+        "buttons": {
+            "cancel": "Cancel",
+            "create": "Create organization",
+            "creating": "Creating..."
+        },
+        "messages": {
+            "success": "Organization created successfully",
+            "error": "Failed to create organization",
+            "validationError": "Organization name is required"
+        }
+    },
+    "update": {
+        "dialog": {
+            "title": "Update Organization",
+            "description": "Edit the organization details"
+        },
+        "form": {
+            "labels": {
+                "organizationName": "Organization Name"
+            },
+            "placeholders": {
+                "organizationName": "Enter organization name"
+            }
+        },
+        "buttons": {
+            "update": "Update",
+            "updating": "Updating..."
+        },
+        "messages": {
+            "success": "Organization updated successfully",
+            "error": "Failed to update organization",
+            "validationError": "Organization name is required"
+        }
+    },
+    "delete": {
+        "dialog": {
+            "title": "Delete Organization",
+            "description": "Are you sure you want to delete this organization?"
+        },
+        "warning": "This action cannot be undone. The organization and all its associated data will be permanently deleted.",
+        "buttons": {
+            "delete": "Delete",
+            "deleting": "Deleting..."
+        },
+        "messages": {
+            "success": "Organization deleted successfully",
+            "error": "Failed to delete organization"
+        }
+    },
+    "details": {
+        "dialog": {
+            "title": "Organization Details",
+            "description": "View detailed information about this organization"
+        },
+        "labels": {
+            "organizationId": "Organization ID",
+            "organizationName": "Organization Name",
+            "ownerId": "Owner ID"
+        },
+        "buttons": {
+            "close": "Close",
+            "viewMore": "View More"
+        }
+    },
+    "settings": {
+        "title": "Organization Settings of",
+        "card": {
+            "title": "Limits & Budgeting"
+        },
+        "dialog": {
+            "title": "Edit Organization Settings",
+            "description": "Update rate limits, spending limits, and additional metadata for this organization."
+        },
+        "labels": {
+            "rateLimit": "Rate Limit",
+            "spendingLimit": "Spending Limit"
+        },
+        "placeholders": {
+            "rateLimit": "Enter requests per second",
+            "spendingLimit": "Enter monthly budget"
+        },
+        "units": {
+            "rateLimit": "requests/sec",
+            "spendingLimit": "per month"
+        },
+        "buttons": {
+            "editSettings": "Edit Settings",
+            "cancel": "Cancel",
+            "save": "Save changes",
+            "saving": "Saving..."
+        },
+        "messages": {
+            "missingOrgId": "Missing organization ID",
+            "success": "Organization settings updated",
+            "error": "Failed to update organization settings"
+        },
+        "validation": {
+            "rateLimitRequired": "Rate limit is required",
+            "rateLimitNonNegative": "Rate limit must be a non-negative integer",
+            "spendingLimitRequired": "Spending limit is required",
+            "spendingLimitNonNegative": "Spending limit must be a non-negative integer"
+        }
+    },
+    "permissions": {
+        "card": {
+            "title": "Organization Permissions",
+            "description": "Currently active scope permissions for this organization."
+        }
+    },
+    "users": {
+        "title": "Organization Users of",
+        "search": {
+            "placeholder": "Search users"
+        },
+        "table": {
+            "headers": {
+                "number": "#",
+                "id": "ID",
+                "username": "Username",
+                "email": "Email"
+            },
+            "empty": {
+                "withSearch": "No users found matching your search",
+                "noData": "No users"
+            }
+        },
+        "buttons": {
+            "search": "Search"
+        },
+        "status": {
+            "loading": "Loading..."
+        }
+    },
+    "common": {
+        "notAvailable": "N/A"
+    }
+}

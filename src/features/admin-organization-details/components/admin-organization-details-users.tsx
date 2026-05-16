@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Input } from "@/components/shadcn/input";
 import { Button } from "@/components/shadcn/button";
+import { useTranslation } from "react-i18next";
 import { Spinner } from "@/components/shadcn/spinner";
 import {
 	Table,
@@ -29,6 +30,8 @@ const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 	const [limit] = useState<number>(10);
 
 	const offset = (currentPage - 1) * limit;
+
+	const { t } = useTranslation("admin-organization");
 
 	const { data: organizationInfo } = useGetAdminOrganizationDetails(
 		{
@@ -60,23 +63,25 @@ const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 		<div className="space-y-8">
 			{organizationInfo && (
 				<h1 className="text-2xl font-bold">
-					Organization Users of{" "}
-					{organizationInfo.data.name || "Unknown Organization"} (
+					{t("users.title")}{" "}
+					{organizationInfo.data.name || t("details.labels.organizationName")} (
 					{organizationId})
 				</h1>
 			)}
 			<div className="mb-4 flex gap-2 items-center">
 				<Input
-					placeholder="Search users"
+					placeholder={t("users.search.placeholder")}
 					value={inputQ}
 					onChange={(e) => setInputQ(e.target.value)}
 					className="max-w-sm"
 				/>
 				<Button onClick={handleSearch} variant="default" size="sm">
-					Search
+					{t("users.buttons.search")}
 				</Button>
 				{isFetching && (
-					<div className="text-sm text-muted-foreground">Loading...</div>
+					<div className="text-sm text-muted-foreground">
+						{t("users.status.loading")}
+					</div>
 				)}
 			</div>
 
@@ -87,16 +92,18 @@ const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 					</div>
 				) : users.length === 0 ? (
 					<div className="flex justify-center items-center py-8 text-muted-foreground">
-						{q ? "No users found matching your search" : "No users"}
+						{q
+							? t("users.table.empty.withSearch")
+							: t("users.table.empty.noData")}
 					</div>
 				) : (
 					<Table>
 						<TableHeader>
 							<TableRow>
-								<TableHead>#</TableHead>
-								<TableHead>ID</TableHead>
-								<TableHead>Username</TableHead>
-								<TableHead>Email</TableHead>
+								<TableHead>{t("users.table.headers.number")}</TableHead>
+								<TableHead>{t("users.table.headers.id")}</TableHead>
+								<TableHead>{t("users.table.headers.username")}</TableHead>
+								<TableHead>{t("users.table.headers.email")}</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>

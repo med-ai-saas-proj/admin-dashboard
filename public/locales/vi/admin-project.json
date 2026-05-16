@@ -1,0 +1,196 @@
+{
+    "overview": {
+        "title": "Bảng Điều Khiển Dự Án",
+        "search": {
+            "placeholder": "Tìm kiếm dự án"
+        },
+        "filter": {
+            "label": "Lọc theo trạng thái",
+            "options": {
+                "all": "Tất cả dự án",
+                "active": "Không được lưu trữ",
+                "archived": "Đã lưu trữ"
+            }
+        },
+        "table": {
+            "headers": {
+                "uuid": "UUID",
+                "name": "Tên",
+                "description": "Mô Tả",
+                "organizationId": "ID Tổ Chức",
+                "archived": "Trạng Thái",
+                "actions": "Hành Động"
+            },
+            "status": {
+                "active": "Hoạt Động",
+                "archived": "Đã Lưu Trữ"
+            },
+            "empty": {
+                "loading": "Đang Tải Dự Án...",
+                "noData": "Không Tìm Thấy Dự Án Nào"
+            }
+        },
+        "buttons": {
+            "search": "Tìm Kiếm",
+            "create": "Tạo dự án"
+        },
+        "actions": {
+            "view": "Xem chi tiết",
+            "edit": "Chỉnh Sửa",
+            "delete": "Xóa"
+        }
+    },
+    "create": {
+        "dialog": {
+            "title": "Tạo Dự Án",
+            "description": "Tạo một dự án mới cho tổ chức này."
+        },
+        "form": {
+            "labels": {
+                "name": "Tên dự án",
+                "description": "Mô Tả"
+            },
+            "placeholders": {
+                "name": "Nhập tên dự án",
+                "description": "Mô tả dự án tùy chọn"
+            }
+        },
+        "buttons": {
+            "cancel": "Hủy",
+            "create": "Tạo dự án",
+            "creating": "Đang Tạo..."
+        },
+        "messages": {
+            "nameRequired": "Tên dự án là bắt buộc",
+            "descriptionTooLong": "Mô tả phải có 255 ký tự hoặc ít hơn",
+            "success": "Dự án được tạo",
+            "error": "Không thể tạo dự án",
+            "missingOrgId": "Thiếu ID tổ chức"
+        }
+    },
+    "update": {
+        "dialog": {
+            "title": "Cập Nhật Dự Án"
+        },
+        "form": {
+            "labels": {
+                "name": "Tên dự án",
+                "description": "Mô Tả"
+            }
+        },
+        "buttons": {
+            "cancel": "Hủy",
+            "update": "Cập nhật dự án",
+            "updating": "Đang Cập Nhật..."
+        },
+        "messages": {
+            "nameRequired": "Tên dự án là bắt buộc",
+            "descriptionTooLong": "Mô tả phải có 255 ký tự hoặc ít hơn",
+            "success": "Dự án được cập nhật",
+            "error": "Không thể cập nhật dự án",
+            "noProjectSelected": "Không có dự án nào được chọn"
+        }
+    },
+    "delete": {
+        "dialog": {
+            "title": "Lưu Trữ Dự Án",
+            "description": "Bạn có chắc chắn muốn lưu trữ dự án này không? Hành động này sẽ di chuyển dự án sang trạng thái đã lưu trữ."
+        },
+        "labels": {
+            "project": "Dự Án",
+            "uuid": "UUID"
+        },
+        "buttons": {
+            "cancel": "Hủy",
+            "delete": "Lưu Trữ Dự Án",
+            "deleting": "Đang Lưu Trữ..."
+        },
+        "messages": {
+            "success": "Dự án được lưu trữ thành công",
+            "error": "Không thể lưu trữ dự án",
+            "noProjectSelected": "Không có dự án nào được chọn"
+        }
+    },
+    "details": {
+        "dialog": {
+            "title": "Chi tiết dự án",
+            "description": "Tổng quan về dự án được chọn."
+        },
+        "labels": {
+            "uuid": "UUID",
+            "name": "Tên",
+            "description": "Mô Tả",
+            "organizationId": "ID Tổ Chức",
+            "status": "Trạng Thái"
+        },
+        "status": {
+            "active": "Hoạt Động",
+            "archived": "Đã Lưu Trữ"
+        },
+        "empty": "Không có dự án nào được chọn.",
+        "buttons": {
+            "close": "Đóng",
+            "viewMore": "Xem Thêm"
+        }
+    },
+    "settings": {
+        "title": "Cài Đặt Dự Án của",
+        "card": {
+            "title": "Giới Hạn & Ngân Sách"
+        },
+        "dialog": {
+            "title": "Chỉnh Sửa Cài Đặt Dự Án",
+            "description": "Cập nhật giới hạn tốc độ và giới hạn chi tiêu cho dự án này."
+        },
+        "labels": {
+            "rateLimit": "Giới Hạn Tốc Độ",
+            "spendingLimit": "Giới Hạn Chi Tiêu"
+        },
+        "placeholders": {
+            "rateLimit": "Nhập số yêu cầu mỗi giây",
+            "spendingLimit": "Nhập ngân sách hàng tháng"
+        },
+        "units": {
+            "rateLimit": "yêu cầu/giây",
+            "spendingLimit": "mỗi tháng"
+        },
+        "buttons": {
+            "editSettings": "Chỉnh Sửa Cài Đặt",
+            "cancel": "Hủy",
+            "save": "Lưu thay đổi",
+            "saving": "Đang Lưu..."
+        },
+        "messages": {
+            "missingProjectId": "Thiếu ID dự án",
+            "success": "Cài đặt dự án đã được cập nhật",
+            "error": "Không thể cập nhật cài đặt dự án"
+        }
+    },
+    "users": {
+        "title": "Người Dùng Dự Án của",
+        "search": {
+            "placeholder": "Tìm kiếm người dùng"
+        },
+        "buttons": {
+            "search": "Tìm Kiếm"
+        },
+        "status": {
+            "loading": "Đang Tải..."
+        },
+        "table": {
+            "empty": {
+                "withSearch": "Không tìm thấy người dùng nào phù hợp với tìm kiếm của bạn",
+                "noData": "Không có người dùng nào"
+            }
+        }
+    },
+    "permissions": {
+        "card": {
+            "title": "Quyền Dự Án",
+            "description": "Các quyền theo phạm vi hiện đang hoạt động cho dự án này."
+        }
+    },
+    "common": {
+        "notAvailable": "-"
+    }
+}

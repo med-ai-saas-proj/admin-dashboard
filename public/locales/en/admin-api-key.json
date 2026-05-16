@@ -1,0 +1,125 @@
+{
+    "overview": {
+        "title": "API Keys Dashboard",
+        "search": {
+            "placeholder": "Search API keys"
+        },
+        "filter": {
+            "label": "Filter status",
+            "options": {
+                "all": "All keys",
+                "enabled": "Enabled",
+                "disabled": "Disabled"
+            }
+        },
+        "table": {
+            "headers": {
+                "uuid": "UUID",
+                "name": "Name",
+                "description": "Description",
+                "created": "Created",
+                "disabled": "Disabled",
+                "actions": "Actions"
+            },
+            "status": {
+                "enabled": "Enabled",
+                "disabled": "Disabled"
+            },
+            "empty": {
+                "loading": "Loading API keys...",
+                "noData": "No API keys found"
+            }
+        },
+        "buttons": {
+            "search": "Search",
+            "create": "Create API Key"
+        },
+        "actions": {
+            "view": "View details",
+            "edit": "Edit",
+            "delete": "Delete"
+        },
+        "status": {
+            "enabled": "Enabled",
+            "disabled": "Disabled"
+        }
+    },
+    "create": {
+        "dialog": {
+            "title": "Create API Key"
+        },
+        "form": {
+            "labels": {
+                "name": "Name",
+                "description": "Description",
+                "permissions": "Permissions (comma separated)",
+                "disabled": "Disabled"
+            }
+        },
+        "buttons": {
+            "cancel": "Cancel",
+            "create": "Create"
+        },
+        "messages": {
+            "nameRequired": "Name is required"
+        }
+    },
+    "view": {
+        "dialog": {
+            "title": "API Key Details"
+        },
+        "labels": {
+            "uuid": "UUID",
+            "name": "Name",
+            "description": "Description",
+            "permissions": "Permissions"
+        },
+        "empty": "No API key selected.",
+        "buttons": {
+            "close": "Close"
+        }
+    },
+    "permissions": {
+        "card": {
+            "title": "API Key Permissions",
+            "description": "Available permission scopes for API keys."
+        },
+        "item": {
+            "idLabel": "ID"
+        }
+    },
+    "update": {
+        "dialog": {
+            "title": "Update API Key"
+        },
+        "form": {
+            "labels": {
+                "name": "Name",
+                "description": "Description",
+                "disabled": "Disabled"
+            }
+        },
+        "buttons": {
+            "cancel": "Cancel",
+            "update": "Update",
+            "updating": "Updating..."
+        },
+        "messages": {
+            "nameRequired": "Name is required"
+        }
+    },
+    "delete": {
+        "dialog": {
+            "title": "Delete API Key"
+        },
+        "message": "Are you sure you want to delete this API key? This action can not be reversed.",
+        "buttons": {
+            "cancel": "Cancel",
+            "delete": "Delete",
+            "deleting": "Deleting..."
+        }
+    },
+    "common": {
+        "notAvailable": "-"
+    }
+}
