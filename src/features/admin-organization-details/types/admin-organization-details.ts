@@ -9,7 +9,7 @@ export type AdminUserOrganization = {
 export type AdminOrganizationSettings = {
 	rate_limit: number;
 	spending_limit: number;
-	extra: Record<string, string>;
+	// extra: Record<string, string>;
 };
 
 export type AdminOrganizationUsersResponse = PaginatedResponse<
