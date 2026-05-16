@@ -198,9 +198,8 @@ const apiKeyItemUrl = new RegExp(
 );
 
 Mock.mock(apiKeyItemUrl, "put", (options: { url: string; body?: string }) => {
-	const requestUrl = new URL(options.url);
 	const match = options.url.match(apiKeyItemUrl);
-	const apiKeyId = match && match[1] ? match[1] : null;
+	const apiKeyId = match?.[1] ? match[1] : null;
 	const body = options.body
 		? (JSON.parse(options.body) as Record<string, unknown>)
 		: {};
@@ -245,7 +244,7 @@ Mock.mock(apiKeyItemUrl, "put", (options: { url: string; body?: string }) => {
 // Delete API key
 Mock.mock(apiKeyItemUrl, "delete", (options: { url: string }) => {
 	const match = options.url.match(apiKeyItemUrl);
-	const apiKeyId = match && match[1] ? match[1] : null;
+	const apiKeyId = match?.[1] ? match[1] : null;
 
 	if (!apiKeyId) {
 		return { success: false, message: "api key id is required" };

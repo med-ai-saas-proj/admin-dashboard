@@ -40,18 +40,18 @@ const sampleOrganizationSettings: Record<string, AdminOrganizationSettings> = {
 	org_001: {
 		rate_limit: 1200,
 		spending_limit: 25000,
-		extra: {
-			region: "us-east-1",
-			tier: "enterprise",
-		},
+		// extra: {
+		// 	region: "us-east-1",
+		// 	tier: "enterprise",
+		// },
 	},
 	org_002: {
 		rate_limit: 800,
 		spending_limit: 12000,
-		extra: {
-			region: "eu-west-3",
-			tier: "business",
-		},
+		// extra: {
+		// 	region: "eu-west-3",
+		// 	tier: "business",
+		// },
 	},
 };
 
@@ -125,7 +125,7 @@ Mock.mock(
 			: {};
 		const hasRateLimit = Object.hasOwn(payload, "rate_limit");
 		const hasSpendingLimit = Object.hasOwn(payload, "spending_limit");
-		const hasExtra = Object.hasOwn(payload, "extra");
+		// const hasExtra = Object.hasOwn(payload, "extra");
 
 		const next: AdminOrganizationSettings = {
 			rate_limit:
@@ -136,13 +136,13 @@ Mock.mock(
 				hasSpendingLimit && typeof payload.spending_limit === "number"
 					? payload.spending_limit
 					: current.spending_limit,
-			extra:
-				hasExtra &&
-				payload.extra &&
-				typeof payload.extra === "object" &&
-				!Array.isArray(payload.extra)
-					? (payload.extra as Record<string, string>)
-					: current.extra,
+			// extra:
+			// 	hasExtra &&
+			// 	payload.extra &&
+			// 	typeof payload.extra === "object" &&
+			// 	!Array.isArray(payload.extra)
+			// 		? (payload.extra as Record<string, string>)
+			// 		: current.extra,
 		};
 
 		sampleOrganizationSettings[organizationId] = next;
