@@ -24,15 +24,14 @@ import {
 	TooltipTrigger,
 } from "@/components/shadcn/tooltip";
 import { Spinner } from "@/components/shadcn/spinner";
-
 import { CustomPagination } from "@/components/pagination/pagination";
-
 import { useGetAdminApiKeysProject } from "../hooks/use-get-admin-api-key-project";
 import { CreateAdminApiKeyDialog } from "./dialogs/create-admin-api-key-dialog";
 import ViewAdminApiKeyDialog from "./dialogs/view-admin-api-key-dialog";
 import UpdateAdminApiKeyDialog from "./dialogs/update-admin-api-key-dialog";
 import DeleteAdminApiKeyDialog from "./dialogs/delete-admin-api-key-dialog";
 import { useParams } from "react-router-dom";
+import type { AdminApiKey } from "../types/admin-api-keys";
 
 const AdminApiKeysOverview = (): React.JSX.Element => {
 	const params = useParams<{ projectId: string }>();
@@ -49,7 +48,7 @@ const AdminApiKeysOverview = (): React.JSX.Element => {
 	const [viewDialogOpen, setViewDialogOpen] = useState(false);
 	const [updateDialogOpen, setUpdateDialogOpen] = useState(false);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-	const [selectedKey, setSelectedKey] = useState<any | null>(null);
+	const [selectedKey, setSelectedKey] = useState<AdminApiKey | null>(null);
 
 	// Pagination
 	const [currentPage, setCurrentPage] = useState(1);
@@ -86,17 +85,17 @@ const AdminApiKeysOverview = (): React.JSX.Element => {
 		setCurrentPage(1);
 	};
 
-	const handleView = (k: any) => {
+	const handleView = (k: AdminApiKey) => {
 		setSelectedKey(k);
 		setViewDialogOpen(true);
 	};
 
-	const handleOpenUpdate = (k: any) => {
+	const handleOpenUpdate = (k: AdminApiKey) => {
 		setSelectedKey(k);
 		setUpdateDialogOpen(true);
 	};
 
-	const handleOpenDelete = (k: any) => {
+	const handleOpenDelete = (k: AdminApiKey) => {
 		setSelectedKey(k);
 		setDeleteDialogOpen(true);
 	};
@@ -167,7 +166,7 @@ const AdminApiKeysOverview = (): React.JSX.Element => {
 								</TableRow>
 							</TableHeader>
 							<TableBody>
-								{paginated.map((k: any) => (
+								{paginated.map((k: AdminApiKey) => (
 									<TableRow key={k.api_key_uuid}>
 										<TableCell>{k.api_key_uuid}</TableCell>
 										<TableCell>{k.name}</TableCell>

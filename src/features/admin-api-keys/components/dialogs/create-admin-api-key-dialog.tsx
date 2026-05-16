@@ -32,7 +32,7 @@ export const CreateAdminApiKeyDialog = ({
 	projectId: string;
 }) => {
 	const [open, setOpen] = useState(false);
-	const create = useCreateAdminApiKey();
+	const { mutate: createApiKey, isPending } = useCreateAdminApiKey();
 
 	const {
 		register,
@@ -57,18 +57,23 @@ export const CreateAdminApiKeyDialog = ({
 	}, [open, reset]);
 
 	const onSubmit = async (values: CreateForm) => {
-		await create.mutateAsync({
-			projectId,
-			name: values.name,
-			description: values.description ?? "",
-			permissions: (values.permissions ?? "")
-				.split(",")
-				.map((s) => s.trim())
-				.filter(Boolean),
-			disabled: Boolean(values.disabled),
-		} as any);
-		setOpen(false);
-		reset();
+		createApiKey(
+			{
+				projectId,
+				name: values.name,
+				description: values.description ?? "",
+				permissions: (values.permissions ?? "")
+					.split(",")
+					.map((s) => s.trim())
+					.filter(Boolean),
+			},
+			{
+				onSuccess: () => {
+					setOpen(false);
+					reset();
+				},
+			}
+		);
 	};
 
 	return (
@@ -124,7 +129,7 @@ export const CreateAdminApiKeyDialog = ({
 								Cancel
 							</Button>
 						</DialogClose>
-						<Button type="submit" disabled={isSubmitting || create.isPending}>
+						<Button type="submit" disabled={isSubmitting || isPending}>
 							Create
 						</Button>
 					</DialogFooter>

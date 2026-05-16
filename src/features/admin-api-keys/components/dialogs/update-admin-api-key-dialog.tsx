@@ -15,6 +15,7 @@ import { Button } from "@/components/shadcn/button";
 import { Input } from "@/components/shadcn/input";
 import { Checkbox } from "@/components/shadcn/checkbox";
 import { Label } from "@/components/shadcn/label";
+import { useUpdateAdminApiKey } from "../../hooks/use-update-admin-api-key";
 
 const updateSchema = z.object({
 	name: z.string().min(1, "Name is required"),
@@ -25,6 +26,9 @@ const updateSchema = z.object({
 type UpdateForm = z.infer<typeof updateSchema>;
 
 const UpdateAdminApiKeyDialog = ({ open, onOpenChange, apiKey }: any) => {
+	const projectId = apiKey?.project_uuid || "";
+	const updateMutation = useUpdateAdminApiKey(projectId);
+
 	const {
 		register,
 		handleSubmit,
@@ -51,7 +55,15 @@ const UpdateAdminApiKeyDialog = ({ open, onOpenChange, apiKey }: any) => {
 	}, [open, reset]);
 
 	const onSubmit = async (values: UpdateForm) => {
-		// Placeholder: integrate update mutation when available
+		if (!apiKey) return;
+
+		const data = await updateMutation.mutateAsync({
+			apiKeyId: apiKey.api_key_uuid,
+			name: values.name,
+			description: values.description || "",
+			permissions: apiKey.permissions,
+		});
+
 		onOpenChange(false);
 	};
 
@@ -68,7 +80,7 @@ const UpdateAdminApiKeyDialog = ({ open, onOpenChange, apiKey }: any) => {
 
 				<form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
 					<div>
-						<Label className="text-sm font-medium">Name</Label>
+						<Label className="text-sm font-medium mb-2">Name</Label>
 						<Input {...register("name")} />
 						{errors.name && (
 							<div className="text-xs text-destructive">
@@ -77,7 +89,7 @@ const UpdateAdminApiKeyDialog = ({ open, onOpenChange, apiKey }: any) => {
 						)}
 					</div>
 					<div>
-						<Label className="text-sm font-medium">Description</Label>
+						<Label className="text-sm font-medium mb-2">Description</Label>
 						<Input {...register("description")} />
 					</div>
 					<div className="flex items-center gap-2">
@@ -100,8 +112,11 @@ const UpdateAdminApiKeyDialog = ({ open, onOpenChange, apiKey }: any) => {
 								Cancel
 							</Button>
 						</DialogClose>
-						<Button type="submit" disabled={isSubmitting}>
-							Update
+						<Button
+							type="submit"
+							disabled={isSubmitting || updateMutation.isPending}
+						>
+							{updateMutation.isPending ? "Updating..." : "Update"}
 						</Button>
 					</DialogFooter>
 				</form>
