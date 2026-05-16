@@ -89,5 +89,27 @@
                 "failureReason": "Lý do thất bại"
             }
         }
+    },
+    "invoice": {
+        "title": "Hóa đơn",
+        "toolbar": {
+            "filterPaid": "Lọc theo trạng thái thanh toán",
+            "all": "Tất cả",
+            "paid": "Đã thanh toán",
+            "unpaid": "Chưa thanh toán"
+        },
+        "table": {
+            "columns": {
+                "invoiceUid": "Mã hóa đơn",
+                "billingPeriod": "Kỳ tính phí",
+                "totalAmount": "Tổng số tiền",
+                "paidAt": "Ngày thanh toán",
+                "usedCredits": "Credits sử dụng",
+                "details": "Chi tiết"
+            },
+            "empty": "Không tìm thấy hóa đơn nào.",
+            "loadMore": "Tải thêm",
+            "endOfTable": "Bạn đã xem hết dữ liệu trong bảng."
+        }
     }
 }
