@@ -60,7 +60,7 @@ const UpdateAdminApiKeyDialog = ({ open, onOpenChange, apiKey }: any) => {
 	const onSubmit = async (values: UpdateForm) => {
 		if (!apiKey) return;
 
-		const data = await updateMutation.mutateAsync({
+		await updateMutation.mutateAsync({
 			apiKeyId: apiKey.api_key_uuid,
 			name: values.name,
 			description: values.description || "",
