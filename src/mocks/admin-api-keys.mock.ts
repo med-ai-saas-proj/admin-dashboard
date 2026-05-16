@@ -191,3 +191,83 @@ Mock.mock(apiKeysUrl, "post", (options: { url: string; body?: string }) => {
 		data: newKey,
 	};
 });
+
+// Update API key
+const apiKeyItemUrl = new RegExp(
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.ADMIN_API_KEYS)}/([^/]+)(?:[?].*)?$`
+);
+
+Mock.mock(apiKeyItemUrl, "put", (options: { url: string; body?: string }) => {
+	const requestUrl = new URL(options.url);
+	const match = options.url.match(apiKeyItemUrl);
+	const apiKeyId = match && match[1] ? match[1] : null;
+	const body = options.body
+		? (JSON.parse(options.body) as Record<string, unknown>)
+		: {};
+
+	if (!apiKeyId) {
+		return { success: false, message: "api key id is required" };
+	}
+
+	let updated: AdminApiKey | null = null;
+
+	// Search across all projects and update the matching key
+	Object.keys(sampleApiKeys).forEach((proj) => {
+		sampleApiKeys[proj] = sampleApiKeys[proj].map((k) => {
+			if (k.api_key_uuid === apiKeyId) {
+				const newK = {
+					...k,
+					name: typeof body.name === "string" ? body.name : k.name,
+					description:
+						typeof body.description === "string"
+							? body.description
+							: k.description,
+					permissions: Array.isArray(body.permissions)
+						? (body.permissions as string[])
+						: k.permissions,
+					disabled:
+						typeof body.disabled === "boolean" ? body.disabled : k.disabled,
+				};
+				updated = newK;
+				return newK;
+			}
+			return k;
+		});
+	});
+
+	if (!updated) {
+		return { success: false, message: "api key not found" };
+	}
+
+	return { success: true, data: updated };
+});
+
+// Delete API key
+Mock.mock(apiKeyItemUrl, "delete", (options: { url: string }) => {
+	const match = options.url.match(apiKeyItemUrl);
+	const apiKeyId = match && match[1] ? match[1] : null;
+
+	if (!apiKeyId) {
+		return { success: false, message: "api key id is required" };
+	}
+
+	let removed: AdminApiKey | null = null;
+
+	Object.keys(sampleApiKeys).forEach((proj) => {
+		const before = sampleApiKeys[proj];
+		const after = before.filter((k) => {
+			if (k.api_key_uuid === apiKeyId) {
+				removed = k;
+				return false;
+			}
+			return true;
+		});
+		sampleApiKeys[proj] = after;
+	});
+
+	if (!removed) {
+		return { success: false, message: "api key not found" };
+	}
+
+	return { success: true, data: null };
+});
