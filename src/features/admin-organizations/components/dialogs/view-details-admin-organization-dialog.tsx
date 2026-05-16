@@ -7,6 +7,7 @@ import {
 	DialogTitle,
 } from "@/components/shadcn/dialog";
 import { Spinner } from "@/components/shadcn/spinner";
+import { useTranslation } from "react-i18next";
 import { useGetAdminOrganizationDetails } from "../../hooks/use-get-admin-organizations-details";
 import type { AdminOrganization } from "../../types/admin-organizations";
 import { useNavigate } from "react-router-dom";
@@ -22,6 +23,7 @@ export const ViewDetailsAdminOrganizationDialog = ({
 	onOpenChange,
 	organization,
 }: ViewDetailsAdminOrganizationDialogProps) => {
+	const { t } = useTranslation("admin-organization");
 	const navigate = useNavigate();
 	const { data, isLoading } = useGetAdminOrganizationDetails(
 		{
@@ -42,9 +44,9 @@ export const ViewDetailsAdminOrganizationDialog = ({
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Organization Details</DialogTitle>
+					<DialogTitle>{t("details.dialog.title")}</DialogTitle>
 					<DialogDescription>
-						View detailed information about this organization
+						{t("details.dialog.description")}
 					</DialogDescription>
 				</DialogHeader>
 
@@ -56,21 +58,21 @@ export const ViewDetailsAdminOrganizationDialog = ({
 					<div className="space-y-4">
 						<div>
 							<p className="text-sm font-semibold text-muted-foreground">
-								Organization ID
+								{t("details.labels.organizationId")}
 							</p>
 							<p className="text-sm mt-1">{details?.org_id}</p>
 						</div>
 
 						<div>
 							<p className="text-sm font-semibold text-muted-foreground">
-								Organization Name
+								{t("details.labels.organizationName")}
 							</p>
 							<p className="text-sm mt-1">{details?.name}</p>
 						</div>
 
 						<div>
 							<p className="text-sm font-semibold text-muted-foreground">
-								Owner ID
+								{t("details.labels.ownerId")}
 							</p>
 							<p className="text-sm mt-1">{details?.owner_id || "N/A"}</p>
 						</div>
@@ -83,7 +85,7 @@ export const ViewDetailsAdminOrganizationDialog = ({
 						variant="outline"
 						onClick={() => onOpenChange(false)}
 					>
-						Close
+						{t("details.buttons.close")}
 					</Button>
 					<Button
 						type="button"
@@ -91,7 +93,7 @@ export const ViewDetailsAdminOrganizationDialog = ({
 						onClick={() => handleNavigateToDetails(details?.org_id || "")}
 						disabled={!details}
 					>
-						View More
+						{t("details.buttons.viewMore")}
 					</Button>
 				</div>
 			</DialogContent>

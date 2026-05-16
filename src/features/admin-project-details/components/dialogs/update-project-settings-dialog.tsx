@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -56,6 +57,7 @@ const UpdateProjectSettingsDialog = ({
 	currentSettings,
 }: UpdateProjectSettingsDialogProps) => {
 	const [openDialog, setOpenDialog] = useState(false);
+	const { t } = useTranslation("admin-project");
 	const { mutate: updateSettings, isPending } = useUpdateAdminProjectSettings();
 	const {
 		register,
@@ -79,7 +81,7 @@ const UpdateProjectSettingsDialog = ({
 
 	const onSubmit = (values: SettingsFormValues) => {
 		if (!projectId) {
-			toast.error("Missing project ID");
+			toast.error(t("settings.messages.missingProjectId"));
 			return;
 		}
 
@@ -91,11 +93,11 @@ const UpdateProjectSettingsDialog = ({
 			},
 			{
 				onSuccess: () => {
-					toast.success("Project settings updated");
+					toast.success(t("settings.messages.success"));
 					setOpenDialog(false);
 				},
 				onError: () => {
-					toast.error("Failed to update project settings");
+					toast.error(t("settings.messages.error"));
 				},
 			}
 		);
@@ -106,35 +108,39 @@ const UpdateProjectSettingsDialog = ({
 			<DialogTrigger asChild>{triggerElement}</DialogTrigger>
 			<DialogContent className="sm:max-w-2xl" showCloseButton>
 				<DialogHeader>
-					<DialogTitle>Edit Project Settings</DialogTitle>
+					<DialogTitle>{t("settings.dialog.title")}</DialogTitle>
 					<DialogDescription>
-						Update the rate limit and spending limit for this project.
+						{t("settings.dialog.description")}
 					</DialogDescription>
 				</DialogHeader>
 
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<FieldGroup>
 						<Field>
-							<FieldLabel htmlFor="rate_limit">Rate limit</FieldLabel>
+							<FieldLabel htmlFor="rate_limit">
+								{t("settings.labels.rateLimit")}
+							</FieldLabel>
 							<Input
 								id="rate_limit"
 								type="number"
 								min={0}
 								step={1}
-								placeholder="Enter requests per second"
+								placeholder={t("settings.placeholders.rateLimit")}
 								{...register("rate_limit")}
 							/>
 							<FieldError errors={[errors.rate_limit]} />
 						</Field>
 
 						<Field>
-							<FieldLabel htmlFor="spending_limit">Spending limit</FieldLabel>
+							<FieldLabel htmlFor="spending_limit">
+								{t("settings.labels.spendingLimit")}
+							</FieldLabel>
 							<Input
 								id="spending_limit"
 								type="number"
 								min={0}
 								step={1}
-								placeholder="Enter monthly budget"
+								placeholder={t("settings.placeholders.spendingLimit")}
 								{...register("spending_limit")}
 							/>
 							<FieldError errors={[errors.spending_limit]} />
@@ -144,11 +150,13 @@ const UpdateProjectSettingsDialog = ({
 					<DialogFooter className="mt-6">
 						<DialogClose asChild>
 							<Button type="button" variant="outline" disabled={isPending}>
-								Cancel
+								{t("settings.buttons.cancel")}
 							</Button>
 						</DialogClose>
 						<Button type="submit" disabled={isPending || !projectId}>
-							{isPending ? "Saving..." : "Save changes"}
+							{isPending
+								? t("settings.buttons.saving")
+								: t("settings.buttons.save")}
 						</Button>
 					</DialogFooter>
 				</form>

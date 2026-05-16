@@ -5,8 +5,10 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/shadcn/card";
+import { useTranslation } from "react-i18next";
 
 const AdminOrganizationPermissions = (): React.JSX.Element => {
+	const { t } = useTranslation("admin-organization");
 	const { data: permissionsData } = useGetAdminOrganizationPermissions();
 	const permissions = permissionsData?.data?.permissions || [];
 
@@ -16,10 +18,10 @@ const AdminOrganizationPermissions = (): React.JSX.Element => {
 				<div className="flex items-center justify-between gap-4">
 					<div>
 						<CardTitle className="text-xl font-bold text-slate-950">
-							Organization Permissions
+							{t("permissions.card.title")}
 						</CardTitle>
 						<p className="text-sm text-slate-500 mt-1">
-							Currently active scope permissions for this organization.
+							{t("permissions.card.description")}
 						</p>
 					</div>
 					{/* Optional: Visual Indicator */}

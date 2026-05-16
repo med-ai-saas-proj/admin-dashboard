@@ -8,6 +8,7 @@ import {
 } from "@/components/shadcn/dialog";
 import { Spinner } from "@/components/shadcn/spinner";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 import { useDeleteAdminOrganization } from "../../hooks/use-delete-admin-organization";
 import { useGetAdminOrganizations } from "../../hooks/use-get-admin-organizations";
 import type { AdminOrganization } from "../../types/admin-organizations";
@@ -23,6 +24,8 @@ export const DeleteAdminOrganizationDialog = ({
 	onOpenChange,
 	organization,
 }: DeleteAdminOrganizationDialogProps) => {
+	const { t } = useTranslation("admin-organization");
+
 	const { mutate: deleteOrganization, isPending } =
 		useDeleteAdminOrganization();
 	const { refetch } = useGetAdminOrganizations();
@@ -36,12 +39,12 @@ export const DeleteAdminOrganizationDialog = ({
 			},
 			{
 				onSuccess: () => {
-					toast.success("Organization deleted successfully");
+					toast.success(t("delete.messages.success"));
 					onOpenChange(false);
 					refetch();
 				},
 				onError: () => {
-					toast.error("Failed to delete organization");
+					toast.error(t("delete.messages.error"));
 				},
 			}
 		);
@@ -51,9 +54,9 @@ export const DeleteAdminOrganizationDialog = ({
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Delete Organization</DialogTitle>
+					<DialogTitle>{t("delete.dialog.title")}</DialogTitle>
 					<DialogDescription>
-						Are you sure you want to delete this organization?
+						{t("delete.dialog.description")}
 					</DialogDescription>
 				</DialogHeader>
 
@@ -65,10 +68,7 @@ export const DeleteAdminOrganizationDialog = ({
 						</p>
 					</div>
 
-					<p className="text-sm text-muted-foreground">
-						This action cannot be undone. The organization and all its
-						associated data will be permanently deleted.
-					</p>
+					<p className="text-sm text-muted-foreground">{t("delete.warning")}</p>
 
 					<div className="flex justify-end gap-2">
 						<Button
@@ -77,7 +77,7 @@ export const DeleteAdminOrganizationDialog = ({
 							onClick={() => onOpenChange(false)}
 							disabled={isPending}
 						>
-							Cancel
+							{t("create.action.cancel") || "Cancel"}
 						</Button>
 						<Button
 							type="button"
@@ -88,10 +88,10 @@ export const DeleteAdminOrganizationDialog = ({
 							{isPending ? (
 								<>
 									<Spinner className="mr-2 h-4 w-4" />
-									Deleting...
+									{t("delete.buttons.deleting")}
 								</>
 							) : (
-								"Delete"
+								t("delete.buttons.delete")
 							)}
 						</Button>
 					</div>

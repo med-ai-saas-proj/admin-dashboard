@@ -8,8 +8,11 @@ import {
 	DialogTrigger,
 } from "@/components/shadcn/dialog";
 import { Button } from "@/components/shadcn/button";
+import { useTranslation } from "react-i18next";
 
 const ViewAdminApiKeyDialog = ({ open, onOpenChange, apiKey }: any) => {
+	const { t } = useTranslation("admin-api-key");
+
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogTrigger asChild>
@@ -18,26 +21,34 @@ const ViewAdminApiKeyDialog = ({ open, onOpenChange, apiKey }: any) => {
 
 			<DialogContent className="sm:max-w-md">
 				<DialogHeader>
-					<DialogTitle>API Key Details</DialogTitle>
+					<DialogTitle>{t("view.dialog.title")}</DialogTitle>
 					<DialogDescription>
 						{apiKey ? (
 							<div className="space-y-3 text-sm text-slate-700">
 								<div>
-									<div className="text-sm text-slate-500">UUID</div>
+									<div className="text-sm text-slate-500">
+										{t("view.labels.uuid")}
+									</div>
 									<div className="font-mono text-slate-800">
 										{apiKey.api_key_uuid}
 									</div>
 								</div>
 								<div>
-									<div className="text-sm text-slate-500">Name</div>
+									<div className="text-sm text-slate-500">
+										{t("view.labels.name")}
+									</div>
 									<div className="font-medium">{apiKey.name}</div>
 								</div>
 								<div>
-									<div className="text-sm text-slate-500">Description</div>
-									<div>{apiKey.description ?? "-"}</div>
+									<div className="text-sm text-slate-500">
+										{t("view.labels.description")}
+									</div>
+									<div>{apiKey.description ?? t("common.notAvailable")}</div>
 								</div>
 								<div>
-									<div className="text-sm text-slate-500">Permissions</div>
+									<div className="text-sm text-slate-500">
+										{t("view.labels.permissions")}
+									</div>
 									<div className="flex flex-wrap gap-2 mt-1">
 										{(apiKey.permissions || []).map((p: string, i: number) => (
 											<span
@@ -51,14 +62,14 @@ const ViewAdminApiKeyDialog = ({ open, onOpenChange, apiKey }: any) => {
 								</div>
 							</div>
 						) : (
-							<div className="text-sm text-slate-600">No API key selected.</div>
+							<div className="text-sm text-slate-600">{t("view.empty")}</div>
 						)}
 					</DialogDescription>
 				</DialogHeader>
 
 				<div className="mt-4 flex justify-end">
 					<DialogClose asChild>
-						<Button variant="default">Close</Button>
+						<Button variant="default">{t("view.buttons.close")}</Button>
 					</DialogClose>
 				</div>
 			</DialogContent>

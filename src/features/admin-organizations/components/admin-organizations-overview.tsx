@@ -17,6 +17,7 @@ import {
 import { Spinner } from "@/components/shadcn/spinner";
 import { CustomPagination } from "@/components/pagination/pagination";
 import { Eye, Pencil, Trash2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { useGetAdminOrganizations } from "../hooks/use-get-admin-organizations";
 import { useCallback, useState } from "react";
 import type { AdminOrganization } from "../types/admin-organizations";
@@ -28,6 +29,8 @@ import {
 } from "./dialogs";
 
 const AdminOrganizationsOverview = (): React.JSX.Element => {
+	const { t } = useTranslation("admin-organization");
+
 	const [searchInput, setSearchInput] = useState("");
 	const [searchQuery, setSearchQuery] = useState("");
 	const [currentPage, setCurrentPage] = useState(1);
@@ -78,7 +81,7 @@ const AdminOrganizationsOverview = (): React.JSX.Element => {
 				<div className="flex-1 flex items-center gap-x-2 max-w-xl">
 					<Input
 						id="search"
-						placeholder="Search by ID, name, or owner..."
+						placeholder={t("overview.search.placeholder")}
 						value={searchInput}
 						onChange={(e) => setSearchInput(e.target.value)}
 					/>
@@ -87,7 +90,7 @@ const AdminOrganizationsOverview = (): React.JSX.Element => {
 						className="whitespace-nowrap"
 						variant="default"
 					>
-						Search
+						{t("overview.buttons.search")}
 					</Button>
 				</div>
 				<div className="flex gap-2">
@@ -95,7 +98,7 @@ const AdminOrganizationsOverview = (): React.JSX.Element => {
 						onClick={() => setCreateDialogOpen(true)}
 						className="whitespace-nowrap"
 					>
-						Create Organization
+						{t("overview.buttons.createOrganization")}
 					</Button>
 				</div>
 			</div>
@@ -109,17 +112,23 @@ const AdminOrganizationsOverview = (): React.JSX.Element => {
 				) : organizations.length === 0 ? (
 					<div className="flex justify-center items-center py-8 text-muted-foreground">
 						{searchQuery
-							? "No organizations found matching your search"
-							: "No organizations yet"}
+							? t("overview.table.empty.withSearch")
+							: t("overview.table.empty.noData")}
 					</div>
 				) : (
 					<Table>
 						<TableHeader>
 							<TableRow>
-								<TableHead>Organization ID</TableHead>
-								<TableHead>Organization Name</TableHead>
-								<TableHead>Owner ID</TableHead>
-								<TableHead className="text-right">Actions</TableHead>
+								<TableHead>
+									{t("overview.table.headers.organizationId")}
+								</TableHead>
+								<TableHead>
+									{t("overview.table.headers.organizationName")}
+								</TableHead>
+								<TableHead>{t("overview.table.headers.ownerId")}</TableHead>
+								<TableHead className="text-right">
+									{t("overview.table.headers.actions")}
+								</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
@@ -129,7 +138,9 @@ const AdminOrganizationsOverview = (): React.JSX.Element => {
 										{org.org_id}
 									</TableCell>
 									<TableCell>{org.name}</TableCell>
-									<TableCell>{org.owner_id || "N/A"}</TableCell>
+									<TableCell>
+										{org.owner_id || t("common.notAvailable")}
+									</TableCell>
 									<TableCell className="text-right">
 										<TooltipProvider>
 											<div className="flex gap-2 justify-end">
@@ -143,7 +154,9 @@ const AdminOrganizationsOverview = (): React.JSX.Element => {
 															<Eye className="h-4 w-4" />
 														</Button>
 													</TooltipTrigger>
-													<TooltipContent>View Details</TooltipContent>
+													<TooltipContent>
+														{t("overview.actions.viewDetails")}
+													</TooltipContent>
 												</Tooltip>
 												<Tooltip>
 													<TooltipTrigger asChild>
@@ -155,7 +168,9 @@ const AdminOrganizationsOverview = (): React.JSX.Element => {
 															<Pencil className="h-4 w-4" />
 														</Button>
 													</TooltipTrigger>
-													<TooltipContent>Update</TooltipContent>
+													<TooltipContent>
+														{t("overview.actions.update")}
+													</TooltipContent>
 												</Tooltip>
 												<Tooltip>
 													<TooltipTrigger asChild>
@@ -167,7 +182,9 @@ const AdminOrganizationsOverview = (): React.JSX.Element => {
 															<Trash2 className="h-4 w-4 text-destructive" />
 														</Button>
 													</TooltipTrigger>
-													<TooltipContent>Delete</TooltipContent>
+													<TooltipContent>
+														{t("overview.actions.delete")}
+													</TooltipContent>
 												</Tooltip>
 											</div>
 										</TooltipProvider>

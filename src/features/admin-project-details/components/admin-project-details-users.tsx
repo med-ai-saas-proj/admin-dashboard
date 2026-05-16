@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button } from "@/components/shadcn/button";
 import { Input } from "@/components/shadcn/input";
+import { useTranslation } from "react-i18next";
 import { Spinner } from "@/components/shadcn/spinner";
 import {
 	Table,
@@ -35,6 +36,8 @@ const AdminProjectDetailsUsersPage = (): React.JSX.Element => {
 		q,
 	});
 
+	const { t } = useTranslation("admin-project");
+
 	const handleSearch = () => {
 		setCurrentPage(1);
 		setQ(inputQ.trim() || undefined);
@@ -46,21 +49,23 @@ const AdminProjectDetailsUsersPage = (): React.JSX.Element => {
 	return (
 		<div className="space-y-8">
 			<h1 className="text-2xl font-bold">
-				Project Users {projectId ? `(${projectId})` : ""}
+				{t("users.title")} {projectId ? `(${projectId})` : ""}
 			</h1>
 
 			<div className="mb-4 flex items-center gap-2">
 				<Input
-					placeholder="Search users"
+					placeholder={t("users.search.placeholder")}
 					value={inputQ}
 					onChange={(e) => setInputQ(e.target.value)}
 					className="max-w-sm"
 				/>
 				<Button onClick={handleSearch} variant="default" size="sm">
-					Search
+					{t("users.buttons.search")}
 				</Button>
 				{isFetching && (
-					<div className="text-sm text-muted-foreground">Loading...</div>
+					<div className="text-sm text-muted-foreground">
+						{t("users.status.loading")}
+					</div>
 				)}
 			</div>
 
@@ -71,7 +76,9 @@ const AdminProjectDetailsUsersPage = (): React.JSX.Element => {
 					</div>
 				) : users.length === 0 ? (
 					<div className="flex justify-center items-center py-8 text-muted-foreground">
-						{q ? "No users found matching your search" : "No users"}
+						{q
+							? t("users.table.empty.withSearch")
+							: t("users.table.empty.noData")}
 					</div>
 				) : (
 					<Table>

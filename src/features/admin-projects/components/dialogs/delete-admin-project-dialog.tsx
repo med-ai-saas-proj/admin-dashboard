@@ -1,4 +1,5 @@
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -24,12 +25,14 @@ export const DeleteAdminProjectDialog = ({
 	onOpenChange,
 	project,
 }: DeleteAdminProjectDialogProps) => {
+	const { t } = useTranslation("admin-project");
+
 	const { mutate: deleteProject, isPending } =
 		useDeleteAdminProjectOrganization();
 
 	const handleDelete = () => {
 		if (!project) {
-			toast.error("No project selected");
+			toast.error(t("delete.messages.noProjectSelected"));
 			return;
 		}
 
@@ -39,11 +42,11 @@ export const DeleteAdminProjectDialog = ({
 			},
 			{
 				onSuccess: () => {
-					toast.success("Project archived successfully");
+					toast.success(t("delete.messages.success"));
 					onOpenChange(false);
 				},
 				onError: () => {
-					toast.error("Failed to archive project");
+					toast.error(t("delete.messages.error"));
 				},
 			}
 		);
@@ -53,10 +56,9 @@ export const DeleteAdminProjectDialog = ({
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent showCloseButton>
 				<DialogHeader>
-					<DialogTitle>Archive Project</DialogTitle>
+					<DialogTitle>{t("delete.dialog.title")}</DialogTitle>
 					<DialogDescription>
-						Are you sure you want to archive this project? This action will move
-						the project to archived status.
+						{t("delete.dialog.description")}
 					</DialogDescription>
 				</DialogHeader>
 
@@ -73,7 +75,7 @@ export const DeleteAdminProjectDialog = ({
 				<DialogFooter>
 					<DialogClose asChild>
 						<Button type="button" variant="outline" disabled={isPending}>
-							Cancel
+							{t("delete.buttons.cancel")}
 						</Button>
 					</DialogClose>
 					<Button
@@ -82,7 +84,9 @@ export const DeleteAdminProjectDialog = ({
 						onClick={handleDelete}
 						disabled={isPending}
 					>
-						{isPending ? "Archiving..." : "Archive Project"}
+						{isPending
+							? t("delete.buttons.deleting")
+							: t("delete.buttons.delete")}
 					</Button>
 				</DialogFooter>
 			</DialogContent>

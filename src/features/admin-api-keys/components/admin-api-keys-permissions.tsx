@@ -5,8 +5,10 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/shadcn/card";
+import { useTranslation } from "react-i18next";
 
 const AdminApiKeysPermissions = (): React.JSX.Element => {
+	const { t } = useTranslation("admin-api-key");
 	const { data: permissionsData } = useGetAdminApiKeyPermissions();
 	const permissions = permissionsData?.data || [];
 
@@ -16,10 +18,10 @@ const AdminApiKeysPermissions = (): React.JSX.Element => {
 				<div className="flex items-center justify-between gap-4">
 					<div>
 						<CardTitle className="text-xl font-bold text-slate-950">
-							API Key Permissions
+							{t("permissions.card.title")}
 						</CardTitle>
 						<p className="text-sm text-slate-500 mt-1">
-							Available permission scopes for API keys.
+							{t("permissions.card.description")}
 						</p>
 					</div>
 					<span className="relative flex h-3 w-3">
@@ -37,7 +39,8 @@ const AdminApiKeysPermissions = (): React.JSX.Element => {
 							className="p-3 border border-slate-200 rounded-lg bg-white shadow-sm"
 						>
 							<div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
-								ID: <span className="text-slate-800 font-mono">{p.id}</span>
+								{t("permissions.item.idLabel")}:{" "}
+								<span className="text-slate-800 font-mono">{p.id}</span>
 							</div>
 							<div className="font-medium text-slate-900">{p.name}</div>
 							<div className="text-sm text-slate-600 mt-1">{p.description}</div>

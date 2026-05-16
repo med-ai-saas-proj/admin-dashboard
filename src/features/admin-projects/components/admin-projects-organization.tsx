@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Eye, Pencil, Search, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
+import { useTranslation } from "react-i18next";
 import {
 	Select,
 	SelectContent,
@@ -36,6 +37,7 @@ import {
 } from "./dialogs";
 
 const AdminProjectsOrganization = (): React.JSX.Element => {
+	const { t } = useTranslation("admin-project");
 	const params = useParams<{ orgId: string }>();
 	const orgId = useAdminOrganizationDetailsStore.getState().organizationId;
 	const organizationId = orgId ?? params.orgId ?? "";
@@ -115,12 +117,12 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 						<Input
 							value={searchInput}
 							onChange={(event) => setSearchInput(event.target.value)}
-							placeholder="Search projects"
+							placeholder={t("overview.search.placeholder")}
 							className="min-w-0"
 						/>
 						<Button type="submit" variant="default">
 							<Search className="size-4" />
-							Search
+							{t("overview.buttons.search")}
 						</Button>
 					</div>
 
@@ -131,12 +133,18 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 						}
 					>
 						<SelectTrigger className="w-full sm:w-[220px]">
-							<SelectValue placeholder="Filter status" />
+							<SelectValue placeholder={t("overview.filter.label")} />
 						</SelectTrigger>
 						<SelectContent>
-							<SelectItem value="all">All projects</SelectItem>
-							<SelectItem value="active">Not archived</SelectItem>
-							<SelectItem value="archived">Archived</SelectItem>
+							<SelectItem value="all">
+								{t("overview.filter.options.all")}
+							</SelectItem>
+							<SelectItem value="active">
+								{t("overview.filter.options.active")}
+							</SelectItem>
+							<SelectItem value="archived">
+								{t("overview.filter.options.archived")}
+							</SelectItem>
 						</SelectContent>
 					</Select>
 				</form>
@@ -151,19 +159,29 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 							<Spinner className="size-6" />
 						</div>
 					) : filteredProjects.length === 0 ? (
-						<div className="flex items-center justify-center py-16 text-sm text-muted-foreground">
-							{isFetching ? "Loading projects..." : "No projects found"}
+						<div className="flex items-center justify-center py-16">
+							<div className="text-sm text-muted-foreground">
+								{isFetching
+									? t("overview.loading")
+									: t("overview.table.empty.noData")}
+							</div>
 						</div>
 					) : (
 						<Table>
 							<TableHeader className="sticky top-0 z-10 bg-background">
 								<TableRow>
-									<TableHead>UUID</TableHead>
-									<TableHead>Name</TableHead>
-									<TableHead>Description</TableHead>
-									<TableHead>Organization ID</TableHead>
-									<TableHead>Archived</TableHead>
-									<TableHead className="text-right">Actions</TableHead>
+									<TableHead>{t("overview.table.headers.uuid")}</TableHead>
+									<TableHead>{t("overview.table.headers.name")}</TableHead>
+									<TableHead>
+										{t("overview.table.headers.description")}
+									</TableHead>
+									<TableHead>
+										{t("overview.table.headers.organizationId")}
+									</TableHead>
+									<TableHead>{t("overview.table.headers.archived")}</TableHead>
+									<TableHead className="text-right">
+										{t("overview.table.headers.actions")}
+									</TableHead>
 								</TableRow>
 							</TableHeader>
 							<TableBody>
@@ -174,7 +192,9 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 										<TableCell>{project.description ?? "-"}</TableCell>
 										<TableCell>{project.organization_id}</TableCell>
 										<TableCell>
-											{project.archived ? "Archived" : "Active"}
+											{project.archived
+												? t("overview.status.archived")
+												: t("overview.status.active")}
 										</TableCell>
 										<TableCell className="text-right">
 											<div className="flex justify-end gap-2">
@@ -188,7 +208,9 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 															<Eye className="h-4 w-4" />
 														</Button>
 													</TooltipTrigger>
-													<TooltipContent>View details</TooltipContent>
+													<TooltipContent>
+														{t("overview.actions.view")}
+													</TooltipContent>
 												</Tooltip>
 												<Tooltip>
 													<TooltipTrigger asChild>
@@ -200,7 +222,9 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 															<Pencil className="h-4 w-4" />
 														</Button>
 													</TooltipTrigger>
-													<TooltipContent>Update</TooltipContent>
+													<TooltipContent>
+														{t("overview.actions.edit")}
+													</TooltipContent>
 												</Tooltip>
 												<Tooltip>
 													<TooltipTrigger asChild>
@@ -212,7 +236,9 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 															<Trash2 className="h-4 w-4" />
 														</Button>
 													</TooltipTrigger>
-													<TooltipContent>Archive project</TooltipContent>
+													<TooltipContent>
+														{t("overview.actions.delete")}
+													</TooltipContent>
 												</Tooltip>
 											</div>
 										</TableCell>

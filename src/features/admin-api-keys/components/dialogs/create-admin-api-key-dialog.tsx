@@ -16,6 +16,7 @@ import { Input } from "@/components/shadcn/input";
 import { Label } from "@/components/shadcn/label";
 import { Checkbox } from "@/components/shadcn/checkbox";
 import { useCreateAdminApiKey } from "../../hooks/use-create-admin-api-key";
+import { useTranslation } from "react-i18next";
 
 const createSchema = z.object({
 	name: z.string().min(1, "Name is required"),
@@ -33,6 +34,7 @@ export const CreateAdminApiKeyDialog = ({
 }) => {
 	const [open, setOpen] = useState(false);
 	const { mutate: createApiKey, isPending } = useCreateAdminApiKey();
+	const { t } = useTranslation("admin-api-key");
 
 	const {
 		register,
@@ -79,16 +81,18 @@ export const CreateAdminApiKeyDialog = ({
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<Button variant="default">Create API Key</Button>
+				<Button variant="default">{t("overview.buttons.create")}</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-lg">
 				<DialogHeader>
-					<DialogTitle>Create API Key</DialogTitle>
+					<DialogTitle>{t("create.dialog.title")}</DialogTitle>
 				</DialogHeader>
 
 				<form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
 					<div>
-						<Label className="text-sm font-medium">Name</Label>
+						<Label className="text-sm font-medium">
+							{t("create.form.labels.name")}
+						</Label>
 						<Input {...register("name")} />
 						{errors.name && (
 							<div className="text-xs text-destructive">
@@ -98,13 +102,15 @@ export const CreateAdminApiKeyDialog = ({
 					</div>
 
 					<div>
-						<Label className="text-sm font-medium">Description</Label>
+						<Label className="text-sm font-medium">
+							{t("create.form.labels.description")}
+						</Label>
 						<Input {...register("description")} />
 					</div>
 
 					<div>
 						<Label className="text-sm font-medium">
-							Permissions (comma separated)
+							{t("create.form.labels.permissions")}
 						</Label>
 						<Input {...register("permissions")} />
 					</div>
@@ -120,17 +126,17 @@ export const CreateAdminApiKeyDialog = ({
 								/>
 							)}
 						/>
-						<span className="text-sm">Disabled</span>
+						<span className="text-sm">{t("create.form.labels.disabled")}</span>
 					</div>
 
 					<DialogFooter>
 						<DialogClose asChild>
 							<Button variant="ghost" type="button">
-								Cancel
+								{t("create.buttons.cancel")}
 							</Button>
 						</DialogClose>
 						<Button type="submit" disabled={isSubmitting || isPending}>
-							Create
+							{t("create.buttons.create")}
 						</Button>
 					</DialogFooter>
 				</form>

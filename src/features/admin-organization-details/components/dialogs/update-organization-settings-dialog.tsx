@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -26,53 +27,60 @@ import { Input } from "@/components/shadcn/input";
 import { useUpdateOrganizationSettings } from "../../hooks/use-update-organization-settings";
 import type { AdminOrganizationSettings } from "../../types/admin-organization-details";
 
-const settingsSchema = z.object({
-	rate_limit: z
-		.string()
-		.trim()
-		.min(1, "Rate limit is required")
-		.refine((value) => Number.isInteger(Number(value)) && Number(value) >= 0, {
-			message: "Rate limit must be a non-negative integer",
-		}),
-	spending_limit: z
-		.string()
-		.trim()
-		.min(1, "Spending limit is required")
-		.refine((value) => Number.isInteger(Number(value)) && Number(value) >= 0, {
-			message: "Spending limit must be a non-negative integer",
-		}),
-	// extraJson: z
-	// 	.string()
-	// 	.trim()
-	// 	.optional()
-	// 	.refine(
-	// 		(value) => {
-	// 			if (!value) return true;
+const createSettingsSchema = (t: (key: string) => string) =>
+	z.object({
+		rate_limit: z
+			.string()
+			.trim()
+			.min(1, t("settings.validation.rateLimitRequired"))
+			.refine(
+				(value) => Number.isInteger(Number(value)) && Number(value) >= 0,
+				{
+					message: t("settings.validation.rateLimitNonNegative"),
+				}
+			),
+		spending_limit: z
+			.string()
+			.trim()
+			.min(1, t("settings.validation.spendingLimitRequired"))
+			.refine(
+				(value) => Number.isInteger(Number(value)) && Number(value) >= 0,
+				{
+					message: t("settings.validation.spendingLimitNonNegative"),
+				}
+			),
+		// extraJson: z
+		// 	.string()
+		// 	.trim()
+		// 	.optional()
+		// 	.refine(
+		// 		(value) => {
+		// 			if (!value) return true;
 
-	// 			try {
-	// 				const parsedValue = JSON.parse(value) as unknown;
-	// 				if (
-	// 					!parsedValue ||
-	// 					typeof parsedValue !== "object" ||
-	// 					Array.isArray(parsedValue)
-	// 				) {
-	// 					return false;
-	// 				}
+		// 			try {
+		// 				const parsedValue = JSON.parse(value) as unknown;
+		// 				if (
+		// 					!parsedValue ||
+		// 					typeof parsedValue !== "object" ||
+		// 					Array.isArray(parsedValue)
+		// 				) {
+		// 					return false;
+		// 				}
 
-	// 				return Object.values(parsedValue as Record<string, unknown>).every(
-	// 					(entry) => typeof entry === "string"
-	// 				);
-	// 			} catch {
-	// 				return false;
-	// 			}
-	// 		},
-	// 		{
-	// 			message: "Additional metadata must be a JSON object with string values",
-	// 		}
-	// 	),
-});
+		// 				return Object.values(parsedValue as Record<string, unknown>).every(
+		// 					(entry) => typeof entry === "string"
+		// 				);
+		// 			} catch {
+		// 				return false;
+		// 			}
+		// 		},
+		// 		{
+		// 			message: "Additional metadata must be a JSON object with string values",
+		// 		}
+		// 	),
+	});
 
-type SettingsFormValues = z.infer<typeof settingsSchema>;
+type SettingsFormValues = z.infer<ReturnType<typeof createSettingsSchema>>;
 
 type UpdateOrganizationSettingsDialogProps = {
 	triggerElement: React.ReactNode;
@@ -89,6 +97,8 @@ const UpdateOrganizationSettingsDialog = ({
 	currentSettings,
 }: UpdateOrganizationSettingsDialogProps) => {
 	const [openDialog, setOpenDialog] = useState(false);
+	const { t } = useTranslation("admin-organization");
+	const settingsSchema = useMemo(() => createSettingsSchema(t), [t]);
 	const { mutate: updateSettings, isPending } = useUpdateOrganizationSettings();
 	const {
 		register,
@@ -114,7 +124,7 @@ const UpdateOrganizationSettingsDialog = ({
 
 	const onSubmit = (values: SettingsFormValues) => {
 		if (!organizationId) {
-			toast.error("Missing organization ID");
+			toast.error(t("settings.messages.missingOrgId"));
 			return;
 		}
 
@@ -132,11 +142,11 @@ const UpdateOrganizationSettingsDialog = ({
 			},
 			{
 				onSuccess: () => {
-					toast.success("Organization settings updated");
+					toast.success(t("settings.messages.success"));
 					setOpenDialog(false);
 				},
 				onError: () => {
-					toast.error("Failed to update organization settings");
+					toast.error(t("settings.messages.error"));
 				},
 			}
 		);
@@ -147,36 +157,39 @@ const UpdateOrganizationSettingsDialog = ({
 			<DialogTrigger asChild>{triggerElement}</DialogTrigger>
 			<DialogContent className="sm:max-w-2xl" showCloseButton>
 				<DialogHeader>
-					<DialogTitle>Edit Organization Settings</DialogTitle>
+					<DialogTitle>{t("settings.dialog.title")}</DialogTitle>
 					<DialogDescription>
-						Update rate limits, spending limits, and additional metadata for
-						this organization.
+						{t("settings.dialog.description")}
 					</DialogDescription>
 				</DialogHeader>
 
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<FieldGroup>
 						<Field>
-							<FieldLabel htmlFor="rate_limit">Rate limit</FieldLabel>
+							<FieldLabel htmlFor="rate_limit">
+								{t("settings.labels.rateLimit")}
+							</FieldLabel>
 							<Input
 								id="rate_limit"
 								type="number"
 								min={0}
 								step={1}
-								placeholder="Enter requests per second"
+								placeholder={t("settings.placeholders.rateLimit")}
 								{...register("rate_limit")}
 							/>
 							<FieldError errors={[errors.rate_limit]} />
 						</Field>
 
 						<Field>
-							<FieldLabel htmlFor="spending_limit">Spending limit</FieldLabel>
+							<FieldLabel htmlFor="spending_limit">
+								{t("settings.labels.spendingLimit")}
+							</FieldLabel>
 							<Input
 								id="spending_limit"
 								type="number"
 								min={0}
 								step={1}
-								placeholder="Enter monthly budget"
+								placeholder={t("settings.placeholders.spendingLimit")}
 								{...register("spending_limit")}
 							/>
 							<FieldError errors={[errors.spending_limit]} />
@@ -199,11 +212,13 @@ const UpdateOrganizationSettingsDialog = ({
 					<DialogFooter className="mt-6">
 						<DialogClose asChild>
 							<Button type="button" variant="outline" disabled={isPending}>
-								Cancel
+								{t("settings.buttons.cancel")}
 							</Button>
 						</DialogClose>
 						<Button type="submit" disabled={isPending || !organizationId}>
-							{isPending ? "Saving..." : "Save changes"}
+							{isPending
+								? t("settings.buttons.saving")
+								: t("settings.buttons.save")}
 						</Button>
 					</DialogFooter>
 				</form>

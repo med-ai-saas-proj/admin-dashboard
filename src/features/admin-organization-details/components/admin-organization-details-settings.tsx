@@ -11,6 +11,7 @@ import {
 import { useGetAdminOrganizationDetails } from "@/features/admin-organizations/hooks/use-get-admin-organizations-details";
 import { Button } from "@/components/shadcn/button";
 import UpdateOrganizationSettingsDialog from "./dialogs/update-organization-settings-dialog";
+import { useTranslation } from "react-i18next";
 
 const AdminOrganizationDetailsSettings = (): React.JSX.Element => {
 	const { orgId } = useParams<{ orgId: string }>();
@@ -28,14 +29,16 @@ const AdminOrganizationDetailsSettings = (): React.JSX.Element => {
 			enabled: !!organizationId,
 		}
 	);
+	const { t } = useTranslation("admin-organization");
+
 	const settings = settingsData?.data;
 
 	return (
 		<div className="space-y-12">
 			{organizationInfo && (
 				<h1 className="text-2xl font-bold">
-					Organization Settings of{" "}
-					{organizationInfo.data.name || "Unknown Organization"} (
+					{t("settings.title")}{" "}
+					{organizationInfo.data.name || t("details.labels.organizationName")} (
 					{organizationId})
 				</h1>
 			)}
@@ -43,7 +46,7 @@ const AdminOrganizationDetailsSettings = (): React.JSX.Element => {
 				<Card className="w-full shadow-sm border-slate-200">
 					<CardHeader className="pb-3">
 						<CardTitle className="text-xl font-bold tracking-tight text-slate-900">
-							Limits & Budgeting
+							{t("settings.card.title")}
 						</CardTitle>
 					</CardHeader>
 
@@ -51,14 +54,16 @@ const AdminOrganizationDetailsSettings = (): React.JSX.Element => {
 						{/* Rate Limit Section */}
 						<div className="flex flex-col gap-2">
 							<p className="text-sm font-medium text-slate-500 uppercase tracking-wider">
-								Rate Limit
+								{t("settings.labels.rateLimit")}
 							</p>
 							<div className="flex items-baseline gap-2">
 								<span className="text-2xl font-semibold text-slate-900">
 									{settings?.rate_limit ?? "-"}
 								</span>
 								{settings?.rate_limit && (
-									<span className="text-xs text-slate-400">requests/sec</span>
+									<span className="text-xs text-slate-400">
+										{t("settings.units.rateLimit")}
+									</span>
 								)}
 							</div>
 						</div>
@@ -66,7 +71,7 @@ const AdminOrganizationDetailsSettings = (): React.JSX.Element => {
 						{/* Spending Limit Section */}
 						<div className="flex flex-col gap-2">
 							<p className="text-sm font-medium text-slate-500 uppercase tracking-wider">
-								Spending Limit
+								{t("settings.labels.spendingLimit")}
 							</p>
 							<div className="flex items-baseline gap-2">
 								<span className="text-2xl font-semibold text-slate-900">
@@ -75,7 +80,9 @@ const AdminOrganizationDetailsSettings = (): React.JSX.Element => {
 										: "-"}
 								</span>
 								{settings?.spending_limit && (
-									<span className="text-xs text-slate-400">per month</span>
+									<span className="text-xs text-slate-400">
+										{t("settings.units.spendingLimit")}
+									</span>
 								)}
 							</div>
 						</div>
@@ -87,7 +94,7 @@ const AdminOrganizationDetailsSettings = (): React.JSX.Element => {
 							currentSettings={settings}
 							triggerElement={
 								<Button variant="default" className="font-medium">
-									Edit Settings
+									{t("settings.buttons.editSettings")}
 								</Button>
 							}
 						/>
