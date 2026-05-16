@@ -93,7 +93,7 @@ const AdminOrganizationDetailsSettings = (): React.JSX.Element => {
 						/>
 					</CardFooter>
 				</Card>
-				<Card className="w-full shadow-sm border-slate-200">
+				{/* <Card className="w-full shadow-sm border-slate-200">
 					<CardHeader className="pb-3">
 						<CardTitle className="text-sm font-semibold uppercase tracking-wider text-slate-500">
 							Additional Metadata
@@ -122,7 +122,7 @@ const AdminOrganizationDetailsSettings = (): React.JSX.Element => {
 							</div>
 						)}
 					</CardContent>
-				</Card>
+				</Card> */}
 			</div>
 		</div>
 	);

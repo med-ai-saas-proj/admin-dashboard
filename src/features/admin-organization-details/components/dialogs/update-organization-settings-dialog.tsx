@@ -22,7 +22,7 @@ import {
 	FieldLabel,
 } from "@/components/shadcn/field";
 import { Input } from "@/components/shadcn/input";
-import { Textarea } from "@/components/shadcn/textarea";
+// import { Textarea } from "@/components/shadcn/textarea";
 import { useUpdateOrganizationSettings } from "../../hooks/use-update-organization-settings";
 import type { AdminOrganizationSettings } from "../../types/admin-organization-details";
 
@@ -41,35 +41,35 @@ const settingsSchema = z.object({
 		.refine((value) => Number.isInteger(Number(value)) && Number(value) >= 0, {
 			message: "Spending limit must be a non-negative integer",
 		}),
-	extraJson: z
-		.string()
-		.trim()
-		.optional()
-		.refine(
-			(value) => {
-				if (!value) return true;
+	// extraJson: z
+	// 	.string()
+	// 	.trim()
+	// 	.optional()
+	// 	.refine(
+	// 		(value) => {
+	// 			if (!value) return true;
 
-				try {
-					const parsedValue = JSON.parse(value) as unknown;
-					if (
-						!parsedValue ||
-						typeof parsedValue !== "object" ||
-						Array.isArray(parsedValue)
-					) {
-						return false;
-					}
+	// 			try {
+	// 				const parsedValue = JSON.parse(value) as unknown;
+	// 				if (
+	// 					!parsedValue ||
+	// 					typeof parsedValue !== "object" ||
+	// 					Array.isArray(parsedValue)
+	// 				) {
+	// 					return false;
+	// 				}
 
-					return Object.values(parsedValue as Record<string, unknown>).every(
-						(entry) => typeof entry === "string"
-					);
-				} catch {
-					return false;
-				}
-			},
-			{
-				message: "Additional metadata must be a JSON object with string values",
-			}
-		),
+	// 				return Object.values(parsedValue as Record<string, unknown>).every(
+	// 					(entry) => typeof entry === "string"
+	// 				);
+	// 			} catch {
+	// 				return false;
+	// 			}
+	// 		},
+	// 		{
+	// 			message: "Additional metadata must be a JSON object with string values",
+	// 		}
+	// 	),
 });
 
 type SettingsFormValues = z.infer<typeof settingsSchema>;
@@ -80,8 +80,8 @@ type UpdateOrganizationSettingsDialogProps = {
 	currentSettings?: AdminOrganizationSettings;
 };
 
-const formatExtraJson = (extra: AdminOrganizationSettings["extra"] = {}) =>
-	JSON.stringify(extra, null, 2);
+// const formatExtraJson = (extra: AdminOrganizationSettings["extra"] = {}) =>
+//     JSON.stringify(extra, null, 2);
 
 const UpdateOrganizationSettingsDialog = ({
 	triggerElement,
@@ -100,7 +100,7 @@ const UpdateOrganizationSettingsDialog = ({
 		defaultValues: {
 			rate_limit: currentSettings?.rate_limit?.toString() ?? "",
 			spending_limit: currentSettings?.spending_limit?.toString() ?? "",
-			extraJson: formatExtraJson(currentSettings?.extra),
+			// extraJson: formatExtraJson(currentSettings?.extra),
 		},
 	});
 
@@ -108,7 +108,7 @@ const UpdateOrganizationSettingsDialog = ({
 		reset({
 			rate_limit: currentSettings?.rate_limit?.toString() ?? "",
 			spending_limit: currentSettings?.spending_limit?.toString() ?? "",
-			extraJson: formatExtraJson(currentSettings?.extra),
+			// extraJson: formatExtraJson(currentSettings?.extra),
 		});
 	}, [currentSettings, reset]);
 
@@ -118,17 +118,17 @@ const UpdateOrganizationSettingsDialog = ({
 			return;
 		}
 
-		let extra: Record<string, string> | undefined;
-		if (values.extraJson?.trim()) {
-			extra = JSON.parse(values.extraJson) as Record<string, string>;
-		}
+		// let extra: Record<string, string> | undefined;
+		// if (values.extraJson?.trim()) {
+		// 	extra = JSON.parse(values.extraJson) as Record<string, string>;
+		// }
 
 		updateSettings(
 			{
 				organizationId,
 				rate_limit: Number(values.rate_limit),
 				spending_limit: Number(values.spending_limit),
-				extra,
+				// extra,
 			},
 			{
 				onSuccess: () => {
@@ -182,7 +182,7 @@ const UpdateOrganizationSettingsDialog = ({
 							<FieldError errors={[errors.spending_limit]} />
 						</Field>
 
-						<Field>
+						{/* <Field>
 							<FieldLabel htmlFor="extraJson">
 								Additional metadata JSON
 							</FieldLabel>
@@ -193,7 +193,7 @@ const UpdateOrganizationSettingsDialog = ({
 								{...register("extraJson")}
 							/>
 							<FieldError errors={[errors.extraJson]} />
-						</Field>
+						</Field> */}
 					</FieldGroup>
 
 					<DialogFooter className="mt-6">

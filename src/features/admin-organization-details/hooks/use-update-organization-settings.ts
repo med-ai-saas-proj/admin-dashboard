@@ -4,7 +4,7 @@ import {
 	type QueryKey,
 } from "@tanstack/react-query";
 import {
-	type UpdateAdminOrganizationSettingsParams,
+	type UpdateAdminOrganizationSettingsCredentails,
 	updateAdminOrganizationSettings,
 } from "../services/update-organization-settings";
 import type { AdminOrganizationSettingsResponse } from "../types/admin-organization-details";
@@ -14,7 +14,7 @@ export const useUpdateOrganizationSettings = () => {
 
 	return useMutation({
 		mutationKey: ["update-admin-organization-settings"],
-		mutationFn: (params: UpdateAdminOrganizationSettingsParams) =>
+		mutationFn: (params: UpdateAdminOrganizationSettingsCredentails) =>
 			updateAdminOrganizationSettings(params),
 		onMutate: async (params) => {
 			await queryClient.cancelQueries({
@@ -33,7 +33,7 @@ export const useUpdateOrganizationSettings = () => {
 						data: {
 							rate_limit: 0,
 							spending_limit: 0,
-							extra: {},
+							// extra: {},
 						},
 					};
 					return {
@@ -41,7 +41,7 @@ export const useUpdateOrganizationSettings = () => {
 						data: {
 							rate_limit: params.rate_limit ?? prev.data.rate_limit,
 							spending_limit: params.spending_limit ?? prev.data.spending_limit,
-							extra: params.extra ?? prev.data.extra,
+							// extra: params.extra ?? prev.data.extra,
 						},
 					};
 				}
