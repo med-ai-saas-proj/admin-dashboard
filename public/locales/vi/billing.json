@@ -51,7 +51,9 @@
             "SUCCESS": "SUCCESS",
             "FAILED": "FAILED",
             "PENDING": "PENDING",
-            "REFUNDED": "REFUNDED"
+            "REFUNDED": "REFUNDED",
+            "CAPTURED": "CAPTURED",
+            "EXPIRED": "EXPIRED"
         },
         "typeOptions": {
             "ALL": "Tất cả loại",

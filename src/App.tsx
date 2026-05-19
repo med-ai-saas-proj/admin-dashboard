@@ -91,6 +91,13 @@ function App() {
 										element={<AdminOrganizationPermissions />}
 									/>
 								</Route>
+							</Route>
+							<Route
+								path="organizations/:orgId"
+								element={<AdminOrganizationDetails />}
+							>
+								{/* Redirects /organizations/123 to /organizations/123/users */}
+								<Route index element={<Navigate to="users" replace />} />
 								<Route path="billing" element={<BillingDashboard />}>
 									<Route
 										index={true}
@@ -100,14 +107,6 @@ function App() {
 									<Route path="invoices" element={<BillingInvoice />} />
 									<Route path="credits" element={<BillingCredit />} />
 								</Route>
-							</Route>
-							<Route
-								path="organizations/:orgId"
-								element={<AdminOrganizationDetails />}
-							>
-								{/* Redirects /organizations/123 to /organizations/123/users */}
-								<Route index element={<Navigate to="users" replace />} />
-
 								<Route
 									path="users"
 									element={<AdminOrganizationDetailsUsers />}

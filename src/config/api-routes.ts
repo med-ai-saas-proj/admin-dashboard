@@ -48,7 +48,7 @@ export const API_ROUTES = {
 			BASE_API_URL
 		).toString(),
 		BILLING: new URL(
-			`management/${API_VERSION}/billing`,
+			`management/${API_VERSION}/admin`,
 			BASE_API_URL
 		).toString(),
 		ADMIN_ORGANIZATION: new URL(

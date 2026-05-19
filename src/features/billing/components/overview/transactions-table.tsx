@@ -35,20 +35,20 @@ const TransactionsTable = ({
 
 	const renderStatus = (status: Transactions["status"]) => {
 		switch (status) {
-			case "SUCCESS":
+			case "CAPTURED":
 				return (
 					<span
 						className={`${badgeBaseClass} border-emerald-500 text-emerald-700 bg-white`}
 					>
-						{t("overview.statusOptions.SUCCESS")}
+						{t("overview.statusOptions.CAPTURED")}
 					</span>
 				);
-			case "FAILED":
+			case "EXPIRED":
 				return (
 					<span
 						className={`${badgeBaseClass} border-red-500 text-red-600 bg-white`}
 					>
-						{t("overview.statusOptions.FAILED")}
+						{t("overview.statusOptions.EXPIRED")}
 					</span>
 				);
 			case "PENDING":
@@ -70,24 +70,6 @@ const TransactionsTable = ({
 		}
 	};
 
-	const renderType = (type: Transactions["type"]) => {
-		const labelMap: Record<string, string> = {
-			TOPUP: t("overview.typeOptions.TOPUP"),
-			SUBSCRIPTION: t("overview.typeOptions.SUBSCRIPTION"),
-			SUBSCRIPTION_FEE: t("overview.typeOptions.SUBSCRIPTION"),
-			OVERAGE_FEE: t("overview.typeOptions.OVERAGE"),
-			REFUND: t("overview.typeOptions.REFUND"),
-		};
-
-		return (
-			<span
-				className={`${badgeBaseClass} border-slate-300 text-slate-700 bg-slate-50`}
-			>
-				{labelMap[type] || type}
-			</span>
-		);
-	};
-
 	return (
 		<div className="rounded-lg border">
 			<Table>
@@ -95,12 +77,8 @@ const TransactionsTable = ({
 					<TableRow>
 						<TableHead>{t("overview.table.columns.date")}</TableHead>
 						<TableHead>{t("overview.table.columns.transactionId")}</TableHead>
-						<TableHead>{t("overview.table.columns.type")}</TableHead>
-						<TableHead className="text-right">
+						<TableHead className="text-center">
 							{t("overview.table.columns.amount")}
-						</TableHead>
-						<TableHead className="text-right">
-							{t("overview.table.columns.credits")}
 						</TableHead>
 						<TableHead>{t("overview.table.columns.status")}</TableHead>
 						<TableHead>{t("overview.table.columns.reason")}</TableHead>
@@ -157,22 +135,15 @@ const TransactionsTable = ({
 									<TableCell className="text-muted-foreground text-xs font-medium">
 										{transaction.transactionId}
 									</TableCell>
-									<TableCell>{renderType(transaction.type)}</TableCell>
-									<TableCell className="text-right font-medium">
+									<TableCell className="text-center font-medium">
 										{new Intl.NumberFormat(currentLocale, {
 											style: "currency",
 											currency: "USD",
 										}).format(Number(transaction.amount ?? 0))}
 									</TableCell>
-									<TableCell className="text-right font-medium text-emerald-600">
-										+
-										{Number(transaction.creditsAdded ?? 0).toLocaleString(
-											currentLocale
-										)}
-									</TableCell>
 									<TableCell>{renderStatus(transaction.status)}</TableCell>
 									<TableCell className="max-w-56 truncate text-destructive">
-										{transaction.status === "FAILED"
+										{transaction.status === "EXPIRED"
 											? failureReason || transaction.description || "-"
 											: "-"}
 									</TableCell>

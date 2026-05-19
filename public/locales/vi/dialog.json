@@ -1,0 +1,7 @@
+{
+    "billing": {
+        "credit": {
+            "successMessage": "Đã thêm {{amount}} USD vào tài khoản"
+        }
+    }
+}
