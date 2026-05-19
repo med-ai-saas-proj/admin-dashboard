@@ -17,6 +17,45 @@ export const useMenuLink = () => {
 		},
 	];
 
+	const organizationsLinks: MenuLink[] = [
+		{
+			key: "overview",
+			title: t("organizations.overview"),
+			value: "overview",
+		},
+		{
+			key: "permissions",
+			title: t("organizations.permissions"),
+			value: "permissions",
+		},
+	];
+
+	const projectsLinks: MenuLink[] = [
+		{
+			key: "overview",
+			title: t("projects.overview"),
+			value: "overview",
+		},
+		{
+			key: "permissions",
+			title: t("projects.permissions"),
+			value: "permissions",
+		},
+	];
+
+	const apikeysLinks: MenuLink[] = [
+		{
+			key: "overview",
+			title: t("apiKeys.overview"),
+			value: "overview",
+		},
+		{
+			key: "permissions",
+			title: t("apiKeys.permissions"),
+			value: "permissions",
+		},
+	];
+
 	const billingLinks: MenuLink[] = [
 		{
 			key: "overview",
@@ -35,5 +74,11 @@ export const useMenuLink = () => {
 		},
 	];
 
-	return { dashboardLinks, billingLinks };
+	return {
+		dashboardLinks,
+		organizationsLinks,
+		projectsLinks,
+		apikeysLinks,
+		billingLinks,
+	};
 };

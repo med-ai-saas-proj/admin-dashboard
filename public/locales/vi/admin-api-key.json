@@ -1,0 +1,125 @@
+{
+    "overview": {
+        "title": "Bảng Điều Khiển Khóa API",
+        "search": {
+            "placeholder": "Tìm kiếm khóa API"
+        },
+        "filter": {
+            "label": "Lọc theo trạng thái",
+            "options": {
+                "all": "Tất cả khóa",
+                "enabled": "Được Bật",
+                "disabled": "Bị Tắt"
+            }
+        },
+        "table": {
+            "headers": {
+                "uuid": "UUID",
+                "name": "Tên",
+                "description": "Mô Tả",
+                "created": "Tạo Lúc",
+                "disabled": "Trạng Thái",
+                "actions": "Hành Động"
+            },
+            "status": {
+                "enabled": "Được Bật",
+                "disabled": "Bị Tắt"
+            },
+            "empty": {
+                "loading": "Đang Tải Khóa API...",
+                "noData": "Không Tìm Thấy Khóa API Nào"
+            }
+        },
+        "buttons": {
+            "search": "Tìm Kiếm",
+            "create": "Tạo Khóa API"
+        },
+        "actions": {
+            "view": "Xem chi tiết",
+            "edit": "Chỉnh Sửa",
+            "delete": "Xóa"
+        },
+        "status": {
+            "enabled": "Được Bật",
+            "disabled": "Bị Tắt"
+        }
+    },
+    "create": {
+        "dialog": {
+            "title": "Tạo Khóa API"
+        },
+        "form": {
+            "labels": {
+                "name": "Tên",
+                "description": "Mô Tả",
+                "permissions": "Quyền (cách nhau bằng dấu phẩy)",
+                "disabled": "Bị Tắt"
+            }
+        },
+        "buttons": {
+            "cancel": "Hủy",
+            "create": "Tạo"
+        },
+        "messages": {
+            "nameRequired": "Tên là bắt buộc"
+        }
+    },
+    "view": {
+        "dialog": {
+            "title": "Chi Tiết Khóa API"
+        },
+        "labels": {
+            "uuid": "UUID",
+            "name": "Tên",
+            "description": "Mô Tả",
+            "permissions": "Quyền"
+        },
+        "empty": "Không Có Khóa API Nào Được Chọn.",
+        "buttons": {
+            "close": "Đóng"
+        }
+    },
+    "permissions": {
+        "card": {
+            "title": "Quyền Khóa API",
+            "description": "Các phạm vi quyền khả dụng cho khóa API."
+        },
+        "item": {
+            "idLabel": "ID"
+        }
+    },
+    "update": {
+        "dialog": {
+            "title": "Cập Nhật Khóa API"
+        },
+        "form": {
+            "labels": {
+                "name": "Tên",
+                "description": "Mô Tả",
+                "disabled": "Bị Tắt"
+            }
+        },
+        "buttons": {
+            "cancel": "Hủy",
+            "update": "Cập Nhật",
+            "updating": "Đang Cập Nhật..."
+        },
+        "messages": {
+            "nameRequired": "Tên là bắt buộc"
+        }
+    },
+    "delete": {
+        "dialog": {
+            "title": "Xóa Khóa API"
+        },
+        "message": "Bạn có chắc chắn muốn xóa khóa API này không? Hành động này không thể được hoàn tác.",
+        "buttons": {
+            "cancel": "Hủy",
+            "delete": "Xóa",
+            "deleting": "Đang Xóa..."
+        }
+    },
+    "common": {
+        "notAvailable": "-"
+    }
+}

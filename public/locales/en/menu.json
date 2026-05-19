@@ -2,6 +2,18 @@
     "dashboard": {
         "billing": "Billing"
     },
+    "organizations": {
+        "overview": "Overview",
+        "permissions": "Permissions"
+    },
+    "projects": {
+        "overview": "Overview",
+        "permissions": "Permissions"
+    },
+    "apiKeys": {
+        "overview": "Overview",
+        "permissions": "Permissions"
+    },
     "billing": {
         "overview": "Overview",
         "invoices": "Invoices",

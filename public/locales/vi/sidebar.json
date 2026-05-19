@@ -5,10 +5,46 @@
             "title": "Thanh toán"
         }
     },
+    "adminDashboard": {
+        "label": "Bảng điều khiển quản trị viên",
+        "admin": {
+            "title": "Quản trị viên"
+        },
+        "users": {
+            "title": "Người dùng"
+        }
+    },
     "management": {
         "label": "Quản lý",
+        "organizations": {
+            "title": "Tổ chức"
+        },
         "billing": {
             "title": "Thanh toán"
+        }
+    },
+    "organization": {
+        "label": "Tổ chức",
+        "users": {
+            "title": "Người dùng"
+        },
+        "projects": {
+            "title": "Dự án"
+        },
+        "settings": {
+            "title": "Cài đặt"
+        }
+    },
+    "project": {
+        "label": "Dự án",
+        "users": {
+            "title": "Người dùng"
+        },
+        "settings": {
+            "title": "Cài đặt"
+        },
+        "apiKeys": {
+            "title": "Khóa API"
         }
     }
 }

@@ -5,10 +5,46 @@
             "title": "Billing"
         }
     },
+    "adminDashboard": {
+        "label": "Admin Dashboard",
+        "admin": {
+            "title": "Admin"
+        },
+        "users": {
+            "title": "Users"
+        }
+    },
     "management": {
         "label": "Management",
         "billing": {
             "title": "Billing"
+        },
+        "organizations": {
+            "title": "Organizations"
+        }
+    },
+    "organization": {
+        "label": "Organization",
+        "users": {
+            "title": "Users"
+        },
+        "projects": {
+            "title": "Projects"
+        },
+        "settings": {
+            "title": "Settings"
+        }
+    },
+    "project": {
+        "label": "Project",
+        "users": {
+            "title": "Users"
+        },
+        "settings": {
+            "title": "Settings"
+        },
+        "apiKeys": {
+            "title": "API Keys"
         }
     }
 }

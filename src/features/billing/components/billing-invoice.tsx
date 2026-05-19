@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import {
 	Table,
@@ -20,6 +21,7 @@ import { Button } from "@/components/shadcn/button";
 import { useGetInvoices } from "../hooks/use-get-invoices";
 
 const BillingInvoice = (): React.JSX.Element => {
+	const { t } = useTranslation("billing");
 	const [paidFilter, setPaidFilter] = useState<"all" | "true" | "false">("all");
 	const [limit, setLimit] = useState(10);
 
@@ -43,12 +45,12 @@ const BillingInvoice = (): React.JSX.Element => {
 					onValueChange={(value) => setPaidFilter(value as typeof paidFilter)}
 				>
 					<SelectTrigger className="w-40">
-						<SelectValue placeholder="Filter paid" />
+						<SelectValue placeholder={t("invoice.toolbar.filterPaid")} />
 					</SelectTrigger>
 					<SelectContent>
-						<SelectItem value="all">All</SelectItem>
-						<SelectItem value="true">Paid</SelectItem>
-						<SelectItem value="false">Unpaid</SelectItem>
+						<SelectItem value="all">{t("invoice.toolbar.all")}</SelectItem>
+						<SelectItem value="true">{t("invoice.toolbar.paid")}</SelectItem>
+						<SelectItem value="false">{t("invoice.toolbar.unpaid")}</SelectItem>
 					</SelectContent>
 				</Select>
 			</div>
@@ -56,12 +58,12 @@ const BillingInvoice = (): React.JSX.Element => {
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead>Invoice UID</TableHead>
-						<TableHead>Billing Period</TableHead>
-						<TableHead>Total Amount</TableHead>
-						<TableHead>Paid At</TableHead>
-						<TableHead>Used Credits</TableHead>
-						<TableHead>Details</TableHead>
+						<TableHead>{t("invoice.table.columns.invoiceUid")}</TableHead>
+						<TableHead>{t("invoice.table.columns.billingPeriod")}</TableHead>
+						<TableHead>{t("invoice.table.columns.totalAmount")}</TableHead>
+						<TableHead>{t("invoice.table.columns.paidAt")}</TableHead>
+						<TableHead>{t("invoice.table.columns.usedCredits")}</TableHead>
+						<TableHead>{t("invoice.table.columns.details")}</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
@@ -71,7 +73,7 @@ const BillingInvoice = (): React.JSX.Element => {
 								colSpan={6}
 								className="py-6 text-center text-muted-foreground"
 							>
-								No invoices found.
+								{t("invoice.table.empty")}
 							</TableCell>
 						</TableRow>
 					) : (
@@ -98,11 +100,11 @@ const BillingInvoice = (): React.JSX.Element => {
 						variant="outline"
 						onClick={() => setLimit((currentLimit) => currentLimit + 10)}
 					>
-						Load More
+						{t("invoice.table.loadMore")}
 					</Button>
 				) : (
 					<p className="text-sm text-muted-foreground">
-						You have reached the end of the table.
+						{t("invoice.table.endOfTable")}
 					</p>
 				)}
 			</div>

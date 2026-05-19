@@ -1,0 +1,239 @@
+import { useState, useMemo } from "react";
+import { useGetAdminUsers } from "@/features/general/hooks/use-get-admin-users";
+import { Input } from "@/components/shadcn/input";
+import { Button } from "@/components/shadcn/button";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/shadcn/select";
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/shadcn/table";
+import { CustomPagination } from "@/components/pagination/pagination";
+import { Search } from "lucide-react";
+import UserProfileDialog from "@/features/general/components/dialogs/user-profile-dialog";
+import UserOrganizationsDialog from "@/features/general/components/dialogs/user-organizations";
+import UserPermissionsDialog from "@/features/general/components/dialogs/user-permissions-dialog";
+
+const LIMIT = 10;
+
+const GeneralUsers = (): React.JSX.Element => {
+	const [currentPage, setCurrentPage] = useState(1);
+	const [searchInput, setSearchInput] = useState("");
+	const [searchQuery, setSearchQuery] = useState("");
+	const [enabledFilter, setEnabledFilter] = useState<string | undefined>();
+	const [emailVerifiedFilter, setEmailVerifiedFilter] = useState<
+		string | undefined
+	>();
+
+	const params = useMemo(
+		() => ({
+			limit: LIMIT,
+			offset: (currentPage - 1) * LIMIT,
+			q: searchQuery || undefined,
+		}),
+		[currentPage, searchQuery]
+	);
+
+	const { data: usersResponse } = useGetAdminUsers(params);
+
+	const filteredUsers = useMemo(() => {
+		// The response data should be an array based on the mock, but type says UserInfo
+		const users = Array.isArray(usersResponse?.data) ? usersResponse.data : [];
+		let filtered = [...users];
+
+		if (enabledFilter !== undefined) {
+			const isEnabled = enabledFilter === "true";
+			filtered = filtered.filter((u) => u.enabled === isEnabled);
+		}
+
+		if (emailVerifiedFilter !== undefined) {
+			const isVerified = emailVerifiedFilter === "true";
+			filtered = filtered.filter((u) => u.email_verified === isVerified);
+		}
+
+		return filtered;
+	}, [usersResponse?.data, enabledFilter, emailVerifiedFilter]);
+
+	const handlePageChange = (page: number) => {
+		setCurrentPage(page);
+	};
+
+	const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchInput(e.target.value);
+	};
+
+	const handleSearchClick = () => {
+		setSearchQuery(searchInput);
+		setCurrentPage(1);
+	};
+
+	return (
+		<div className="px-4 py-8">
+			<div className="space-y-4">
+				<h1 className="text-2xl font-bold">Users Management</h1>
+
+				<div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+					<div className="flex flex-1 gap-2 max-w-xl">
+						<div className="flex-1">
+							<label
+								htmlFor="search-input"
+								className="mb-2 block text-sm font-medium"
+							>
+								Search
+							</label>
+							<Input
+								id="search-input"
+								placeholder="Search by username or email..."
+								value={searchInput}
+								onChange={handleSearchInputChange}
+								className="w-full"
+							/>
+						</div>
+						<div className="flex items-end">
+							<Button
+								type="button"
+								size="sm"
+								className="gap-2"
+								onClick={handleSearchClick}
+							>
+								<Search className="h-4 w-4" />
+								Search
+							</Button>
+						</div>
+					</div>
+
+					<div className="flex gap-x-12 sm:w-auto">
+						<div className="flex-1 place-items-end sm:w-fit">
+							<label
+								htmlFor="status-filter"
+								className="mb-2 block text-sm font-medium"
+							>
+								Status
+							</label>
+							<Select value={enabledFilter} onValueChange={setEnabledFilter}>
+								<SelectTrigger id="status-filter" className="w-36">
+									<SelectValue placeholder="All status" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="true">Enabled</SelectItem>
+									<SelectItem value="false">Disabled</SelectItem>
+								</SelectContent>
+							</Select>
+						</div>
+
+						<div className="flex-1 place-items-end sm:w-fit">
+							<label
+								htmlFor="email-verified-filter"
+								className="mb-2 block text-sm font-medium"
+							>
+								Email Verified
+							</label>
+							<Select
+								value={emailVerifiedFilter}
+								onValueChange={setEmailVerifiedFilter}
+							>
+								<SelectTrigger id="email-verified-filter" className="w-36">
+									<SelectValue placeholder="All" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="true">Verified</SelectItem>
+									<SelectItem value="false">Not Verified</SelectItem>
+								</SelectContent>
+							</Select>
+						</div>
+					</div>
+				</div>
+
+				<div className="border space-y-4 rounded-lg">
+					<Table className="border-none">
+						<TableHeader>
+							<TableRow>
+								<TableHead>ID</TableHead>
+								<TableHead>Username</TableHead>
+								<TableHead>Full Name</TableHead>
+								<TableHead>Email</TableHead>
+								<TableHead>Status</TableHead>
+								<TableHead>Email Verified</TableHead>
+								<TableHead className="w-20">Actions</TableHead>
+							</TableRow>
+						</TableHeader>
+						<TableBody>
+							{filteredUsers.length > 0 ? (
+								filteredUsers.map((user) => (
+									<TableRow key={user.id}>
+										<TableCell className="font-mono text-xs">
+											{user.id}
+										</TableCell>
+										<TableCell>{user.username}</TableCell>
+										<TableCell>
+											{user.first_name && user.last_name
+												? `${user.first_name} ${user.last_name}`
+												: "—"}
+										</TableCell>
+										<TableCell>{user.email}</TableCell>
+										<TableCell>
+											<span
+												className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ${
+													user.enabled
+														? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+														: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+												}`}
+											>
+												{user.enabled ? "Active" : "Inactive"}
+											</span>
+										</TableCell>
+										<TableCell>
+											<span
+												className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ${
+													user.email_verified
+														? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+														: "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200"
+												}`}
+											>
+												{user.email_verified ? "Yes" : "No"}
+											</span>
+										</TableCell>
+										<TableCell>
+											<div className="flex gap-x-6">
+												<UserProfileDialog userId={user.id} />
+												<UserPermissionsDialog userId={user.id} />
+												<UserOrganizationsDialog userId={user.id} />
+											</div>
+										</TableCell>
+									</TableRow>
+								))
+							) : (
+								<TableRow>
+									<TableCell colSpan={7} className="py-8 text-center">
+										No users found
+									</TableCell>
+								</TableRow>
+							)}
+						</TableBody>
+					</Table>
+				</div>
+				{filteredUsers.length > 0 && (
+					<div className="flex justify-center px-4 py-4">
+						<CustomPagination
+							currentPage={currentPage}
+							limit={LIMIT}
+							totalElements={usersResponse?.total || 0}
+							onPageChange={handlePageChange}
+						/>
+					</div>
+				)}
+			</div>
+		</div>
+	);
+};
+
+export default GeneralUsers;

@@ -2,6 +2,18 @@
     "dashboard": {
         "billing": "Thanh toán"
     },
+    "organizations": {
+        "overview": "Tổng quan",
+        "permissions": "Quyền"
+    },
+    "projects": {
+        "overview": "Tổng quan",
+        "permissions": "Quyền"
+    },
+    "apiKeys": {
+        "overview": "Tổng quan",
+        "permissions": "Quyền"
+    },
     "billing": {
         "overview": "Tổng quan",
         "invoices": "Hóa đơn",

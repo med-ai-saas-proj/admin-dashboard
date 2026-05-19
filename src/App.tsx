@@ -17,6 +17,23 @@ import BillingCredit from "./features/billing/components/billing-credit";
 import BillingInvoice from "./features/billing/components/billing-invoice";
 import ChartDashboard from "./routes/chart-dashboard";
 import DashboardBilling from "./features/dashboard/components/dashboard-billing";
+import GeneralAdmin from "./routes/admin-dashboard-admin";
+import GeneralUsers from "./routes/admin-dashboard-users";
+import AdminOrganizations from "./routes/admin-organizations";
+import AdminOrganizationsOverview from "./features/admin-organizations/components/admin-organizations-overview";
+import AdminOrganizationDetails from "./routes/admin-organization-details";
+import AdminOrganizationDetailsUsers from "./features/admin-organization-details/components/admin-organization-details-users";
+import AdminOrganizationDetailsSettings from "./features/admin-organization-details/components/admin-organization-details-settings";
+import AdminOrganizationPermissions from "./features/admin-organizations/components/admin-organization-permissions";
+import AdminProjectsOrganization from "./features/admin-projects/components/admin-projects-organization";
+import AdminProjects from "./routes/admin-projects";
+import AdminProjectsPermissions from "./features/admin-projects/components/admin-projects-permissions";
+import AdminProjectDetails from "./routes/admin-project-details";
+import AdminProjectDetailsSettings from "./features/admin-project-details/components/admin-project-details-settings";
+import AdminProjectDetailsUsers from "./features/admin-project-details/components/admin-project-details-users";
+import AdminApiKeysPage from "./routes/admin-api-key";
+import AdminApiKeysPermissions from "./features/admin-api-keys/components/admin-api-keys-permissions";
+import AdminApiKeysOverview from "./features/admin-api-keys/components/admin-api-keys-overview";
 
 function App() {
 	return (
@@ -44,6 +61,10 @@ function App() {
 								</ProtectedRoute>
 							}
 						>
+							<Route path="admin-dashboard">
+								<Route path="admin" element={<GeneralAdmin />} />
+								<Route path="users" element={<GeneralUsers />} />
+							</Route>
 							<Route path="dashboard" element={<ChartDashboard />}>
 								<Route
 									index={true}
@@ -56,6 +77,20 @@ function App() {
 									index={true}
 									element={<Navigate to="billing" replace />}
 								/>
+								<Route path="organizations" element={<AdminOrganizations />}>
+									<Route
+										index={true}
+										element={<Navigate to="overview" replace />}
+									/>
+									<Route
+										path="overview"
+										element={<AdminOrganizationsOverview />}
+									/>
+									<Route
+										path="permissions"
+										element={<AdminOrganizationPermissions />}
+									/>
+								</Route>
 								<Route path="billing" element={<BillingDashboard />}>
 									<Route
 										index={true}
@@ -64,6 +99,55 @@ function App() {
 									<Route path="overview" element={<BillingOverview />} />
 									<Route path="invoices" element={<BillingInvoice />} />
 									<Route path="credits" element={<BillingCredit />} />
+								</Route>
+							</Route>
+							<Route
+								path="organizations/:orgId"
+								element={<AdminOrganizationDetails />}
+							>
+								{/* Redirects /organizations/123 to /organizations/123/users */}
+								<Route index element={<Navigate to="users" replace />} />
+
+								<Route
+									path="users"
+									element={<AdminOrganizationDetailsUsers />}
+								/>
+								<Route path="projects" element={<AdminProjects />}>
+									<Route index element={<Navigate to="overview" replace />} />
+									<Route
+										path="overview"
+										element={<AdminProjectsOrganization />}
+									/>
+									<Route
+										path="permissions"
+										element={<AdminProjectsPermissions />}
+									/>
+								</Route>
+								<Route
+									path="settings"
+									element={<AdminOrganizationDetailsSettings />}
+								/>
+
+								{/* projects/:projectId */}
+								<Route
+									path="projects/:projectId"
+									element={<AdminProjectDetails />}
+								>
+									<Route index element={<Navigate to="users" replace />} />
+									<Route path="users" element={<AdminProjectDetailsUsers />} />
+									<Route
+										path="settings"
+										element={<AdminProjectDetailsSettings />}
+									/>
+
+									<Route path="api-keys" element={<AdminApiKeysPage />}>
+										<Route index element={<Navigate to="overview" replace />} />
+										<Route path="overview" element={<AdminApiKeysOverview />} />
+										<Route
+											path="permissions"
+											element={<AdminApiKeysPermissions />}
+										/>
+									</Route>
 								</Route>
 							</Route>
 						</Route>

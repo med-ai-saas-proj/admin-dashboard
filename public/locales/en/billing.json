@@ -89,5 +89,27 @@
                 "failureReason": "Failure reason"
             }
         }
+    },
+    "invoice": {
+        "title": "Invoice",
+        "toolbar": {
+            "filterPaid": "Filter paid",
+            "all": "All",
+            "paid": "Paid",
+            "unpaid": "Unpaid"
+        },
+        "table": {
+            "columns": {
+                "invoiceUid": "Invoice UID",
+                "billingPeriod": "Billing Period",
+                "totalAmount": "Total Amount",
+                "paidAt": "Paid At",
+                "usedCredits": "Used Credits",
+                "details": "Details"
+            },
+            "empty": "No invoices found.",
+            "loadMore": "Load More",
+            "endOfTable": "You have reached the end of the table."
+        }
     }
 }
