@@ -7,12 +7,14 @@ interface DashboardTimeRangePickerProps {
 	defaultDate?: DateRange;
 	date?: DateRange;
 	onDateRangeChange?: (selectedDate: DateRange | undefined) => void;
+	className?: string;
 }
 
 const DashboardTimeRangePicker: React.FC<DashboardTimeRangePickerProps> = ({
 	defaultDate,
 	date,
 	onDateRangeChange,
+	className,
 }) => {
 	const { t, i18n } = useTranslation("dashboard");
 	const currentLocale = i18n.language || "en-US";
@@ -40,6 +42,7 @@ const DashboardTimeRangePicker: React.FC<DashboardTimeRangePickerProps> = ({
 			locale={currentLocale === "vi" ? "vi" : "en-US"}
 			defaultDate={defaultDate}
 			date={date}
+			className={className}
 		/>
 	);
 };

@@ -13,12 +13,28 @@ import type { CreditTransaction } from "../billing.type";
 import { useGetCreditTransactions } from "../hooks/use-get-credit-transactions";
 import AddCreditDialog from "./dialogs/add-credits-dialog";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
+import { useAdminOrganizationDetailsStore } from "@/features/admin-organization-details/store/admin-organization-details";
 
 const BillingCredit = (): React.JSX.Element => {
 	const { t } = useTranslation("billing");
-	const [limit, setLimit] = useState(10);
+	const { orgId } = useParams<{
+		orgId: string;
+	}>();
 
-	const params = useMemo(() => ({ offset: 0, limit }), [limit]);
+	const [limit, setLimit] = useState(10);
+	const storedOrganizationId = useAdminOrganizationDetailsStore(
+		(state) => state.organizationId
+	);
+
+	const params = useMemo(
+		() => ({
+			organizationId: orgId || storedOrganizationId || "",
+			offset: 0,
+			limit,
+		}),
+		[orgId, storedOrganizationId, limit]
+	);
 	const { data: creditTransactions } = useGetCreditTransactions(params);
 
 	const rows: CreditTransaction[] = creditTransactions?.data ?? [];

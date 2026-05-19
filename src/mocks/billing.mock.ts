@@ -15,7 +15,7 @@ const billingInvoicesUrl = new RegExp(
 );
 
 const billingCreditTransactionsUrl = new RegExp(
-	`^${escapeRegExp(API_ROUTES.MANAGEMENT.BILLING)}/credits/transactions(?:\\?.*)?$`
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.BILLING)}/credits/[^/]+/transactions(?:\\?.*)?$`
 );
 
 const billingTransactionsUrl = new RegExp(
@@ -45,9 +45,15 @@ const generateInvoice = (index: number): InvoiceRecord => {
 	const isPaid = index % 3 !== 0;
 	const amount = Mock.Random.float(25, 5000, 2, 2);
 
+	// Generate dates for the last 12 months
+	const monthsBack = index % 12;
+	const invoiceDate = new Date();
+	invoiceDate.setMonth(invoiceDate.getMonth() - monthsBack);
+	const billingPeriod = `${invoiceDate.getFullYear()}-${String(invoiceDate.getMonth() + 1).padStart(2, "0")}`;
+
 	return {
 		invoice_uid: `INV-${Mock.Random.string("upper", 8)}-${index + 1}`,
-		billing_period: Mock.Random.date("yyyy-MM"),
+		billing_period: billingPeriod,
 		total_amount: amount.toFixed(2),
 		paid_at: isPaid ? Mock.Random.datetime("yyyy-MM-dd HH:mm:ss") : "",
 		details: {
@@ -58,15 +64,27 @@ const generateInvoice = (index: number): InvoiceRecord => {
 };
 
 const generateCreditTransaction = (): CreditTransaction => {
-	const amount = Mock.Random.float(10, 1000, 2, 2);
-	const createdAt = Mock.Random.datetime("yyyy-MM-dd HH:mm:ss");
+	const amount = Mock.Random.float(50, 2500, 2, 2);
+
+	// Generate dates spread across the last 90 days
+	const daysBack = Mock.Random.integer(0, 90);
+	const createdAtDate = new Date();
+	createdAtDate.setDate(createdAtDate.getDate() - daysBack);
+	createdAtDate.setHours(
+		Mock.Random.integer(0, 23),
+		Mock.Random.integer(0, 59),
+		Mock.Random.integer(0, 59)
+	);
+	const createdAt = createdAtDate.toISOString().slice(0, 19).replace("T", " ");
 
 	return {
 		amount: amount.toFixed(2),
 		description: Mock.Random.pick([
 			"Manual credit top-up",
-			"Promotional credit",
-			"Billing adjustment",
+			"Promotional credit granted",
+			"Billing adjustment credit",
+			"Referral bonus credit",
+			"System credit adjustment",
 		]),
 		created_at: createdAt,
 	};
@@ -81,10 +99,9 @@ const transactionTypes: Transactions["type"][] = [
 ];
 
 const transactionStatuses: Transactions["status"][] = [
-	"SUCCESS",
-	"FAILED",
 	"PENDING",
-	"REFUNDED",
+	"CAPTURED",
+	"EXPIRED",
 ];
 
 const generateRecentDateIso = (maxDaysBack = 45): string => {
@@ -175,17 +192,27 @@ Mock.mock(billingInvoicesUrl, "get", (options: { url: string }) => {
 	const limit = Number(requestUrl.searchParams.get("limit") ?? 10);
 	const offset = Number(requestUrl.searchParams.get("offset") ?? 0);
 	const paid = requestUrl.searchParams.get("paid");
+	const fromDate = requestUrl.searchParams.get("from_date");
+	const toDate = requestUrl.searchParams.get("to_date");
 	const shouldReturnPaid = paid === null ? undefined : paid === "true";
 
 	const allInvoices = Array.from({ length: 20 }, (_, index) =>
 		generateInvoice(index)
 	);
-	const filteredInvoices =
-		shouldReturnPaid === undefined
-			? allInvoices
-			: allInvoices.filter(
-					(_, index) => (index % 3 !== 0) === shouldReturnPaid
-				);
+	const filteredInvoices = allInvoices.filter((invoice) => {
+		const matchesPaid =
+			shouldReturnPaid === undefined
+				? true
+				: (invoice.paid_at !== "") === shouldReturnPaid;
+
+		const matchesDateRange =
+			!fromDate && !toDate
+				? true
+				: invoice.billing_period >= (fromDate ?? "") &&
+					invoice.billing_period <= (toDate ?? "9999-99");
+
+		return matchesPaid && matchesDateRange;
+	});
 	const pagedInvoices = filteredInvoices.slice(offset, offset + limit);
 
 	return {

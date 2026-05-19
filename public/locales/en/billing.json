@@ -51,7 +51,9 @@
             "SUCCESS": "SUCCESS",
             "FAILED": "FAILED",
             "PENDING": "PENDING",
-            "REFUNDED": "REFUNDED"
+            "REFUNDED": "REFUNDED",
+            "EXPIRED": "EXPIRED",
+            "CAPTURED": "CAPTURED"
         },
         "typeOptions": {
             "ALL": "All types",

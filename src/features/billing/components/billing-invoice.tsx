@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { format, subDays } from "date-fns";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import type { DateRange } from "react-day-picker";
 
 import {
 	Table,
@@ -17,20 +19,40 @@ import {
 	SelectValue,
 } from "@/components/shadcn/select";
 import { Button } from "@/components/shadcn/button";
+import DashboardTimeRangePicker from "@/features/dashboard/components/dashboard-time-range-picker";
 
 import { useGetInvoices } from "../hooks/use-get-invoices";
 
 const BillingInvoice = (): React.JSX.Element => {
 	const { t } = useTranslation("billing");
+
 	const [paidFilter, setPaidFilter] = useState<"all" | "true" | "false">("all");
 	const [limit, setLimit] = useState(10);
+	const defaultDateRange = useMemo<DateRange>(
+		() => ({
+			from: subDays(new Date(), 30),
+			to: new Date(),
+		}),
+		[]
+	);
+	const [dateRange, setDateRange] = useState<DateRange | undefined>(
+		defaultDateRange
+	);
 
 	const paid = paidFilter === "all" ? undefined : paidFilter === "true";
+	const fromDate = dateRange?.from
+		? format(dateRange.from, "yyyy-MM-dd")
+		: undefined;
+	const toDate = dateRange?.from
+		? format(dateRange.to ?? dateRange.from, "yyyy-MM-dd")
+		: undefined;
 
 	const { data: invoices } = useGetInvoices({
 		offset: 0,
 		limit,
 		paid,
+		from_date: fromDate,
+		to_date: toDate,
 	});
 
 	const rows = invoices?.data ?? [];
@@ -39,7 +61,12 @@ const BillingInvoice = (): React.JSX.Element => {
 
 	return (
 		<div className="space-y-4">
-			<div className="flex items-center justify-end">
+			<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+				<DashboardTimeRangePicker
+					date={dateRange}
+					onDateRangeChange={setDateRange}
+					className="mx-0"
+				/>
 				<Select
 					value={paidFilter}
 					onValueChange={(value) => setPaidFilter(value as typeof paidFilter)}
@@ -63,7 +90,6 @@ const BillingInvoice = (): React.JSX.Element => {
 						<TableHead>{t("invoice.table.columns.totalAmount")}</TableHead>
 						<TableHead>{t("invoice.table.columns.paidAt")}</TableHead>
 						<TableHead>{t("invoice.table.columns.usedCredits")}</TableHead>
-						<TableHead>{t("invoice.table.columns.details")}</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
@@ -86,7 +112,6 @@ const BillingInvoice = (): React.JSX.Element => {
 								<TableCell>{invoice.total_amount}</TableCell>
 								<TableCell>{invoice.paid_at || "-"}</TableCell>
 								<TableCell>{invoice.used_credits}</TableCell>
-								<TableCell>{invoice.details.additionalProperty}</TableCell>
 							</TableRow>
 						))
 					)}

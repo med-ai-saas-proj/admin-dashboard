@@ -34,13 +34,7 @@ export type Transactions = {
 	transactionId: string;
 	amount: number; // Số tiền đã nạp (VD: 150000)
 	creditsAdded: number;
-	type:
-		| "TOPUP"
-		| "SUBSCRIPTION"
-		| "SUBSCRIPTION_FEE"
-		| "OVERAGE_FEE"
-		| "REFUND";
-	status: "SUCCESS" | "FAILED" | "PENDING" | "REFUNDED";
+	status: "CAPTURED" | "EXPIRED" | "PENDING" | "REFUNDED";
 	paymentMethod: string;
 	description: string;
 	errorMessage: string | null; // Sẽ có text nếu status là FAILED (VD: "Insufficient funds")

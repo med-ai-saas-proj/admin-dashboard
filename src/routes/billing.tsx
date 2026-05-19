@@ -1,6 +1,5 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/shadcn/tabs";
 import { useMenuLink } from "@/hooks/use-menu-link";
-import DashboardLayout from "@/layouts/dashboard-layout";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const BillingDashboard = () => {
@@ -12,7 +11,7 @@ const BillingDashboard = () => {
 		location.pathname.split("/").pop() || billingLinks[0].value;
 
 	return (
-		<DashboardLayout pageTitle="Billing">
+		<>
 			<h2 className="text-2xl font-bold mb-4">Billing</h2>
 			<Tabs value={currentTab} onValueChange={(value) => navigate(value)}>
 				<div className="border-b w-full">
@@ -26,7 +25,7 @@ const BillingDashboard = () => {
 				</div>
 			</Tabs>
 			<Outlet />
-		</DashboardLayout>
+		</>
 	);
 };
 
