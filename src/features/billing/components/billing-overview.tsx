@@ -12,6 +12,9 @@ import TransactionsToolbar, {
 	type TransactionStatusFilter,
 } from "./overview/transactions-toolbar";
 import type { DateRange } from "react-day-picker";
+import { useGetCreditsOrganization } from "../hooks/use-get-credits-organization";
+import { useParams } from "react-router-dom";
+import { useAdminOrganizationDetailsStore } from "@/features/admin-organization-details/store/admin-organization-details";
 
 type BillingOverviewFilterForm = {
 	search: string;
@@ -23,6 +26,13 @@ const PAGE_SIZE = 20;
 
 const BillingOverview = (): React.JSX.Element => {
 	const { t: tCommon } = useTranslation("common");
+	const params = useParams<{
+		orgId: string;
+	}>();
+	const storedOrganizationId = useAdminOrganizationDetailsStore(
+		(state) => state.organizationId
+	);
+
 	const { copy } = useCopyToClipboard();
 	const [currentPage, setCurrentPage] = useState(1);
 
@@ -75,8 +85,14 @@ const BillingOverview = (): React.JSX.Element => {
 		isLoading,
 		isError,
 	} = useGetTransactions(queryParams);
+	const { data: availableCredits } = useGetCreditsOrganization({
+		organizationId: storedOrganizationId ?? params.orgId ?? "",
+	});
 
-	const rows = transactionData?.data ?? [];
+	const rows = (transactionData?.data ?? []).map((transaction) => ({
+		...transaction,
+		creditsAdded: availableCredits?.amount ?? 0,
+	}));
 	const total = transactionData?.total ?? 0;
 
 	const handleCopyTransactionId = async (transactionId: string) => {

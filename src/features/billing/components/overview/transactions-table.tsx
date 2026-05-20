@@ -81,6 +81,7 @@ const TransactionsTable = ({
 							{t("overview.table.columns.amount")}
 						</TableHead>
 						<TableHead>{t("overview.table.columns.status")}</TableHead>
+						<TableHead>{t("overview.table.columns.credits")}</TableHead>
 						<TableHead>{t("overview.table.columns.reason")}</TableHead>
 						<TableHead className="text-right">
 							{t("overview.table.columns.action")}
@@ -142,6 +143,12 @@ const TransactionsTable = ({
 										}).format(Number(transaction.amount ?? 0))}
 									</TableCell>
 									<TableCell>{renderStatus(transaction.status)}</TableCell>
+									<TableCell className="text-left font-medium text-emerald-600">
+										+
+										{Number(transaction.creditsAdded ?? 0).toLocaleString(
+											currentLocale
+										)}
+									</TableCell>
 									<TableCell className="max-w-56 truncate text-destructive">
 										{transaction.status === "EXPIRED"
 											? failureReason || transaction.description || "-"

@@ -156,8 +156,6 @@ const DashboardBilling = (): React.JSX.Element => {
 
 		return transactions.data.map((tx) => ({
 			date: tx.createdAt.toLocaleString().slice(0, 10), // Extract YYYY-MM-DD from ISO string
-			subscriptionFee: tx.type === "SUBSCRIPTION_FEE" ? Number(tx.amount) : 0,
-			topup: tx.type === "TOPUP" ? Number(tx.amount) : 0,
 		}));
 	}, [transactions]);
 

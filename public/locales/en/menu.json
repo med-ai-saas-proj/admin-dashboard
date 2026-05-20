@@ -17,6 +17,7 @@
     "billing": {
         "overview": "Overview",
         "invoices": "Invoices",
-        "credits": "Credits"
+        "credits": "Credits",
+        "aggregate": "Aggregate"
     }
 }

@@ -47,20 +47,17 @@ export const API_ROUTES = {
 			`management/${API_VERSION}/projects`,
 			BASE_API_URL
 		).toString(),
-		BILLING: new URL(
-			`management/${API_VERSION}/admin`,
-			BASE_API_URL
-		).toString(),
+		BILLING: new URL(`${API_VERSION}/billing/admin`, BASE_API_URL).toString(),
 		ADMIN_ORGANIZATION: new URL(
-			`management/${API_VERSION}/admin/organizations`,
+			`${API_VERSION}/admin/organizations`,
 			BASE_API_URL
 		).toString(),
 		ADMIN_PROJECTS: new URL(
-			`management/${API_VERSION}/admin/projects`,
+			`${API_VERSION}/admin/projects`,
 			BASE_API_URL
 		).toString(),
 		ADMIN_API_KEYS: new URL(
-			`management/${API_VERSION}/admin/api-keys`,
+			`${API_VERSION}/admin/api-keys`,
 			BASE_API_URL
 		).toString(),
 	},

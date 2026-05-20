@@ -34,6 +34,7 @@ import AdminProjectDetailsUsers from "./features/admin-project-details/component
 import AdminApiKeysPage from "./routes/admin-api-key";
 import AdminApiKeysPermissions from "./features/admin-api-keys/components/admin-api-keys-permissions";
 import AdminApiKeysOverview from "./features/admin-api-keys/components/admin-api-keys-overview";
+import BillingAggregate from "./features/billing/components/billing-aggregate";
 
 function App() {
 	return (
@@ -75,7 +76,7 @@ function App() {
 							<Route path="management">
 								<Route
 									index={true}
-									element={<Navigate to="billing" replace />}
+									element={<Navigate to="organizations" replace />}
 								/>
 								<Route path="organizations" element={<AdminOrganizations />}>
 									<Route
@@ -106,6 +107,7 @@ function App() {
 									<Route path="overview" element={<BillingOverview />} />
 									<Route path="invoices" element={<BillingInvoice />} />
 									<Route path="credits" element={<BillingCredit />} />
+									<Route path="aggregate" element={<BillingAggregate />} />
 								</Route>
 								<Route
 									path="users"
