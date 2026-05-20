@@ -24,11 +24,44 @@
                 "trigger": "Thêm tín dụng",
                 "submit": "Thêm tín dụng"
             }
+        },
+        "invoiceActions": {
+            "viewDetails": "Xem chi tiết",
+            "markAsPaid": "Đánh dấu đã thanh toán",
+            "markAsRefunded": "Đánh dấu đã hoàn tiền"
+        },
+        "invoiceDetails": {
+            "title": "Chi tiết hóa đơn",
+            "description": "Xem lại thông tin hóa đơn trước khi thực hiện thao tác.",
+            "fields": {
+                "invoiceUid": "Mã hóa đơn",
+                "billingPeriod": "Kỳ thanh toán",
+                "totalAmount": "Tổng tiền",
+                "paidAt": "Đã thanh toán lúc",
+                "usedCredits": "Credits đã dùng"
+            }
+        },
+        "invoiceStatus": {
+            "labels": {
+                "invoiceUid": "Mã hóa đơn",
+                "billingPeriod": "Kỳ thanh toán",
+                "totalAmount": "Tổng tiền"
+            },
+            "paid": {
+                "title": "Đánh dấu hóa đơn đã thanh toán",
+                "description": "Thao tác này sẽ cập nhật trạng thái hóa đơn thành đã thanh toán.",
+                "confirm": "Đánh dấu đã thanh toán"
+            },
+            "refunded": {
+                "title": "Đánh dấu hóa đơn đã hoàn tiền",
+                "description": "Thao tác này sẽ cập nhật trạng thái hóa đơn thành đã hoàn tiền.",
+                "confirm": "Đánh dấu đã hoàn tiền"
+            }
         }
     },
     "creditTransactions": {
         "columns": {
-            "amount": "Số tiền",
+            "amount": "Số tiền (USD)",
             "description": "Mô tả",
             "createdAt": "Thời gian tạo"
         },
@@ -107,7 +140,7 @@
                 "totalAmount": "Tổng số tiền",
                 "paidAt": "Ngày thanh toán",
                 "usedCredits": "Credits sử dụng",
-                "details": "Chi tiết"
+                "actions": "Hành động"
             },
             "empty": "Không tìm thấy hóa đơn nào.",
             "loadMore": "Tải thêm",

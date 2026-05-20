@@ -11,6 +11,23 @@ export type Invoice = {
 	used_credits: string;
 };
 
+export type InvoiceDetails = {
+	invoice_uid: string;
+	billing_period: string;
+	total_amount: string;
+	paid_at: string;
+	details: {
+		additionalProperty: string;
+	};
+	used_credits: string;
+	line_items: {
+		description: string;
+		amount: string;
+		project_uuid: string;
+		project_name: string;
+	}[];
+};
+
 export type AddCredits = {
 	amount: string;
 };
@@ -43,6 +60,7 @@ export type Transactions = {
 };
 
 export type Invoices = PaginatedResponse<Invoice[]>;
+export type InvoiceDetailsResponse = ApiResponse<InvoiceDetails>;
 export type AddCreditsResponse = PaginatedResponse<AddCredits>;
 export type CreditTransactions = PaginatedResponse<CreditTransaction[]>;
 export type LifetimeValueResponse = ApiResponse<LifetimeValue>;
