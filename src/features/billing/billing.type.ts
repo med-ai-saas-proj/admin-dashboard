@@ -47,16 +47,26 @@ export type LifetimeValue = {
 	lastPaymentDate: Date; // Rất quan trọng để biết tổ chức này còn "Active buyer" không
 };
 
-export type Transactions = {
-	transactionId: string;
-	amount: number; // Số tiền đã nạp (VD: 150000)
-	creditsAdded: number;
+// export type Transactions = {
+// 	transactionId: string;
+// 	amount: number; // Số tiền đã nạp (VD: 150000)
+// 	creditsAdded: number;
+// 	status: "CAPTURED" | "EXPIRED" | "PENDING" | "REFUNDED";
+// 	paymentMethod: string;
+// 	description: string;
+// 	errorMessage: string | null; // Sẽ có text nếu status là FAILED (VD: "Insufficient funds")
+// 	createdAt: string | Date;
+// 	invoiceId: string; // Link tới hóa đơn tương ứng (nếu có)
+// };
+
+export type Transaction = {
+	transaction_uid: string;
+	amount: string;
+	project_uid: string;
+	captured_at: string;
 	status: "CAPTURED" | "EXPIRED" | "PENDING" | "REFUNDED";
-	paymentMethod: string;
-	description: string;
-	errorMessage: string | null; // Sẽ có text nếu status là FAILED (VD: "Insufficient funds")
-	createdAt: string | Date;
-	invoiceId: string; // Link tới hóa đơn tương ứng (nếu có)
+	description?: string;
+	errorMessage?: string | null;
 };
 
 export type Invoices = PaginatedResponse<Invoice[]>;
@@ -64,4 +74,4 @@ export type InvoiceDetailsResponse = ApiResponse<InvoiceDetails>;
 export type AddCreditsResponse = PaginatedResponse<AddCredits>;
 export type CreditTransactions = PaginatedResponse<CreditTransaction[]>;
 export type LifetimeValueResponse = ApiResponse<LifetimeValue>;
-export type TransactionsResponse = PaginatedResponse<Transactions[]>;
+export type TransactionsResponse = PaginatedResponse<Transaction[]>;

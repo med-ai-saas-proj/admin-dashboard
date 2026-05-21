@@ -105,6 +105,7 @@
                 "credits": "Credits cộng",
                 "status": "Trạng thái",
                 "reason": "Lý do",
+                "projectUid": "UID dự án",
                 "action": "Thao tác"
             },
             "loading": "Đang tải giao dịch...",
@@ -116,6 +117,7 @@
             "description": "Xem chi tiết giao dịch trước khi xử lý yêu cầu hỗ trợ.",
             "fields": {
                 "transactionId": "Mã giao dịch",
+                "projectUid": "UID dự án",
                 "type": "Loại",
                 "status": "Trạng thái",
                 "amount": "Số tiền",

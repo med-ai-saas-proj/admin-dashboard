@@ -105,6 +105,7 @@
                 "credits": "Credits",
                 "status": "Status",
                 "reason": "Reason",
+                "projectUid": "Project UID",
                 "action": "Action"
             },
             "loading": "Loading transactions...",
@@ -116,6 +117,7 @@
             "description": "Inspect transaction details before handling support requests.",
             "fields": {
                 "transactionId": "Transaction ID",
+                "projectUid": "Project UID",
                 "type": "Type",
                 "status": "Status",
                 "amount": "Amount",
