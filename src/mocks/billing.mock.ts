@@ -6,7 +6,7 @@ import type {
 	InvoiceDetails,
 	CreditTransaction,
 	LifetimeValue,
-	Transactions,
+	Transaction,
 } from "@/features/billing/billing.type";
 
 const escapeRegExp = (value: string) =>
@@ -112,42 +112,31 @@ const generateCreditTransaction = (): CreditTransaction => {
 	};
 };
 
-const transactionStatuses: Transactions["status"][] = [
+const transactionStatuses: Transaction["status"][] = [
 	"PENDING",
 	"CAPTURED",
 	"EXPIRED",
 ];
 
-const generateRecentDateIso = (maxDaysBack = 45): string => {
-	const date = new Date();
-	const daysBack = Mock.Random.integer(0, maxDaysBack);
-	date.setDate(date.getDate() - daysBack);
-	date.setHours(
+const generateTransaction = (index: number): Transaction => {
+	const status = Mock.Random.pick(transactionStatuses);
+	const amount = Mock.Random.float(25, 2500, 2, 2);
+	const createdAtDate = new Date();
+	createdAtDate.setDate(createdAtDate.getDate() - Mock.Random.integer(0, 45));
+	createdAtDate.setHours(
 		Mock.Random.integer(0, 23),
 		Mock.Random.integer(0, 59),
 		Mock.Random.integer(0, 59),
 		0
 	);
-
-	return date.toISOString();
-};
-
-const generateTransaction = (index: number): Transactions => {
-	const status = Mock.Random.pick(transactionStatuses);
-	const creditsAdded = Mock.Random.integer(5000, 250000);
-	const amount = Mock.Random.float(25, 2500, 2, 2);
+	const capturedAt = createdAtDate.toISOString();
 
 	return {
-		transactionId: `TXN-${Mock.Random.string("upper", 6)}-${index + 1}`,
-		amount: Number(amount.toFixed(2)),
-		creditsAdded,
+		transaction_uid: `TXN-${Mock.Random.string("upper", 6)}-${index + 1}`,
+		amount: amount.toFixed(2),
+		project_uid: `PRJ-${Mock.Random.string("upper", 6)}-${index + 1}`,
+		captured_at: capturedAt,
 		status,
-		paymentMethod: Mock.Random.pick([
-			"Visa",
-			"Mastercard",
-			"Amex",
-			"Bank transfer",
-		]),
 		description: Mock.Random.pick([
 			"Top-up processed successfully",
 			"Monthly subscription charged",
@@ -156,24 +145,20 @@ const generateTransaction = (index: number): Transactions => {
 			"Refund issued for failed charge",
 		]),
 		errorMessage:
-			status === "FAILED"
+			status === "EXPIRED"
 				? Mock.Random.pick([
 						"Card declined",
 						"Insufficient funds",
 						"Payment gateway timeout",
 					])
 				: null,
-		createdAt: generateRecentDateIso(),
-		invoiceId: Mock.Random.bool()
-			? `INV-${Mock.Random.string("upper", 6)}-${index + 1}`
-			: "",
 	};
 };
 
 const transactions = Array.from({ length: 48 }, (_, index) =>
 	generateTransaction(index)
 ).sort((left, right) =>
-	String(right.createdAt).localeCompare(String(left.createdAt))
+	String(right.captured_at).localeCompare(String(left.captured_at))
 );
 
 const creditTransactions = Array.from({ length: 20 }, () =>
@@ -351,10 +336,10 @@ Mock.mock(billingTransactionsUrl, "get", (options: { url: string }) => {
 	const endDate = requestUrl.searchParams.get("end_date");
 
 	const filteredTransactions = transactions.filter((transaction) => {
-		const transactionDay = String(transaction.createdAt).slice(0, 10);
+		const transactionDay = String(transaction.captured_at).slice(0, 10);
 		const matchesStatus = status ? transaction.status === status : true;
 		const matchesTransactionId = transactionId
-			? transaction.transactionId.toLowerCase().includes(transactionId)
+			? transaction.transaction_uid.toLowerCase().includes(transactionId)
 			: true;
 		const matchesStartDate = startDate ? transactionDay >= startDate : true;
 		const matchesEndDate = endDate ? transactionDay <= endDate : true;

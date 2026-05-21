@@ -6,12 +6,12 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/shadcn/dialog";
-import type { Transactions } from "@/features/billing/billing.type";
+import type { Transaction } from "@/features/billing/billing.type";
 import type React from "react";
 import { useTranslation } from "react-i18next";
 
 type TransactionReceiptDialogProps = {
-	transaction: Transactions;
+	transaction: Transaction;
 	triggerElement: React.ReactNode;
 };
 
@@ -21,9 +21,7 @@ const TransactionReceiptDialog = ({
 }: TransactionReceiptDialogProps): React.JSX.Element => {
 	const { t, i18n } = useTranslation("billing");
 	const currentLocale = i18n.language === "vi" ? "vi-VN" : "en-US";
-	const createdAt = new Date(transaction.createdAt);
-	const errorMessage =
-		(transaction as { errorMessage?: string | null }).errorMessage ?? "-";
+	const createdAt = new Date(transaction.captured_at);
 
 	return (
 		<Dialog>
@@ -41,14 +39,18 @@ const TransactionReceiptDialog = ({
 						<p className="text-muted-foreground text-xs">
 							{t("overview.receiptDialog.fields.transactionId")}
 						</p>
-						<p className="font-medium break-all">{transaction.transactionId}</p>
+						<p className="font-medium break-all">
+							{transaction.transaction_uid}
+						</p>
 					</div>
 					<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
 						<div className="rounded-md border p-3">
 							<p className="text-muted-foreground text-xs">
-								{t("overview.receiptDialog.fields.type")}
+								{t("overview.receiptDialog.fields.projectUid")}
 							</p>
-							<p className="font-medium">{transaction.type}</p>
+							<p className="font-medium break-all">
+								{transaction.project_uid || "-"}
+							</p>
 						</div>
 						<div className="rounded-md border p-3">
 							<p className="text-muted-foreground text-xs">
@@ -77,22 +79,6 @@ const TransactionReceiptDialog = ({
 									: createdAt.toLocaleString(currentLocale)}
 							</p>
 						</div>
-					</div>
-					<div className="rounded-md border p-3">
-						<p className="text-muted-foreground text-xs">
-							{t("overview.receiptDialog.fields.invoiceRef")}
-						</p>
-						<p className="font-medium break-all">
-							{transaction.invoiceId || "-"}
-						</p>
-					</div>
-					<div className="rounded-md border p-3">
-						<p className="text-muted-foreground text-xs">
-							{t("overview.receiptDialog.fields.failureReason")}
-						</p>
-						<p className="text-destructive break-all">
-							{transaction.status === "FAILED" ? errorMessage : "-"}
-						</p>
 					</div>
 				</div>
 			</DialogContent>

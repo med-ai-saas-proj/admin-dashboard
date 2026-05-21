@@ -6,13 +6,13 @@ import { useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { useGetTransactions } from "../hooks/use-get-transactions";
+import { useGetCreditsOrganization } from "../hooks/use-get-credits-organization";
 import type { TransactionsParams } from "../services/get-transactions";
 import TransactionsTable from "./overview/transactions-table";
 import TransactionsToolbar, {
 	type TransactionStatusFilter,
 } from "./overview/transactions-toolbar";
 import type { DateRange } from "react-day-picker";
-import { useGetCreditsOrganization } from "../hooks/use-get-credits-organization";
 import { useParams } from "react-router-dom";
 import { useAdminOrganizationDetailsStore } from "@/features/admin-organization-details/store/admin-organization-details";
 
@@ -85,14 +85,11 @@ const BillingOverview = (): React.JSX.Element => {
 		isLoading,
 		isError,
 	} = useGetTransactions(queryParams);
-	const { data: availableCredits } = useGetCreditsOrganization({
-		organizationId: storedOrganizationId ?? params.orgId ?? "",
+	const { data: organizationCredits } = useGetCreditsOrganization({
+		organizationId: storedOrganizationId ?? params.orgId ?? null,
 	});
 
-	const rows = (transactionData?.data ?? []).map((transaction) => ({
-		...transaction,
-		creditsAdded: availableCredits?.amount ?? 0,
-	}));
+	const rows = transactionData?.data ?? [];
 	const total = transactionData?.total ?? 0;
 
 	const handleCopyTransactionId = async (transactionId: string) => {
@@ -136,6 +133,7 @@ const BillingOverview = (): React.JSX.Element => {
 				rows={rows}
 				isLoading={isLoading}
 				isError={isError}
+				organizationCredits={organizationCredits?.amount ?? 0}
 				onCopyTransactionId={handleCopyTransactionId}
 			/>
 

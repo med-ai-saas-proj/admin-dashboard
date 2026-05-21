@@ -186,7 +186,7 @@ const BillingInvoice = (): React.JSX.Element => {
 											variant="secondary"
 											size="sm"
 											onClick={() => setPaidInvoice(toInvoiceDetails(invoice))}
-											disabled={invoice.paid_at}
+											disabled={!!invoice.paid_at}
 										>
 											<CircleCheckBig className="h-4 w-4" />
 											{t("dialogs.invoiceActions.markAsPaid")}

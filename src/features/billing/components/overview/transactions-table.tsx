@@ -8,16 +8,17 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/shadcn/table";
-import type { Transactions } from "@/features/billing/billing.type";
+import type { Transaction } from "@/features/billing/billing.type";
 import { CopyIcon, EyeIcon } from "lucide-react";
 import type React from "react";
 import { useTranslation } from "react-i18next";
 import TransactionReceiptDialog from "./transaction-receipt-dialog";
 
 type TransactionsTableProps = {
-	rows: Transactions[];
+	rows: Transaction[];
 	isLoading: boolean;
 	isError: boolean;
+	organizationCredits: number;
 	onCopyTransactionId: (transactionId: string) => void;
 };
 
@@ -28,12 +29,13 @@ const TransactionsTable = ({
 	rows,
 	isLoading,
 	isError,
+	organizationCredits,
 	onCopyTransactionId,
 }: TransactionsTableProps): React.JSX.Element => {
 	const { t, i18n } = useTranslation("billing");
 	const currentLocale = i18n.language;
 
-	const renderStatus = (status: Transactions["status"]) => {
+	const renderStatus = (status: Transaction["status"]) => {
 		switch (status) {
 			case "CAPTURED":
 				return (
@@ -82,7 +84,7 @@ const TransactionsTable = ({
 						</TableHead>
 						<TableHead>{t("overview.table.columns.status")}</TableHead>
 						<TableHead>{t("overview.table.columns.credits")}</TableHead>
-						<TableHead>{t("overview.table.columns.reason")}</TableHead>
+						<TableHead>{t("overview.table.columns.projectUid")}</TableHead>
 						<TableHead className="text-right">
 							{t("overview.table.columns.action")}
 						</TableHead>
@@ -91,7 +93,7 @@ const TransactionsTable = ({
 				<TableBody>
 					{isLoading ? (
 						<TableRow>
-							<TableCell colSpan={8} className="py-8">
+							<TableCell colSpan={7} className="py-8">
 								<div className="flex items-center justify-center gap-2 text-muted-foreground">
 									<Spinner />
 									<span>{t("overview.table.loading")}</span>
@@ -101,7 +103,7 @@ const TransactionsTable = ({
 					) : isError ? (
 						<TableRow>
 							<TableCell
-								colSpan={8}
+								colSpan={7}
 								className="py-6 text-center text-destructive"
 							>
 								{t("overview.table.error")}
@@ -110,7 +112,7 @@ const TransactionsTable = ({
 					) : rows.length === 0 ? (
 						<TableRow>
 							<TableCell
-								colSpan={8}
+								colSpan={7}
 								className="py-6 text-center text-muted-foreground"
 							>
 								{t("overview.table.empty")}
@@ -118,23 +120,17 @@ const TransactionsTable = ({
 						</TableRow>
 					) : (
 						rows.map((transaction) => {
-							const createdAt = new Date(transaction.createdAt);
-							const failureReason = (
-								transaction as {
-									errorMessage?: string | null;
-									description?: string;
-								}
-							).errorMessage;
+							const createdAt = new Date(transaction.captured_at);
 
 							return (
-								<TableRow key={transaction.transactionId}>
+								<TableRow key={transaction.transaction_uid}>
 									<TableCell>
 										{Number.isNaN(createdAt.getTime())
 											? "-"
 											: createdAt.toLocaleString(currentLocale)}
 									</TableCell>
 									<TableCell className="text-muted-foreground text-xs font-medium">
-										{transaction.transactionId}
+										{transaction.transaction_uid}
 									</TableCell>
 									<TableCell className="text-center font-medium">
 										{new Intl.NumberFormat(currentLocale, {
@@ -145,14 +141,12 @@ const TransactionsTable = ({
 									<TableCell>{renderStatus(transaction.status)}</TableCell>
 									<TableCell className="text-left font-medium text-emerald-600">
 										+
-										{Number(transaction.creditsAdded ?? 0).toLocaleString(
+										{Number(organizationCredits ?? 0).toLocaleString(
 											currentLocale
 										)}
 									</TableCell>
-									<TableCell className="max-w-56 truncate text-destructive">
-										{transaction.status === "EXPIRED"
-											? failureReason || transaction.description || "-"
-											: "-"}
+									<TableCell className="max-w-56 truncate text-muted-foreground">
+										{transaction.project_uid || "-"}
 									</TableCell>
 									<TableCell>
 										<div className="flex items-center justify-end gap-1">
@@ -169,7 +163,7 @@ const TransactionsTable = ({
 												variant="ghost"
 												size="icon-sm"
 												onClick={() =>
-													onCopyTransactionId(transaction.transactionId)
+													onCopyTransactionId(transaction.transaction_uid)
 												}
 											>
 												<CopyIcon className="size-4" />
