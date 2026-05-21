@@ -34,7 +34,8 @@ import AdminProjectDetailsUsers from "./features/admin-project-details/component
 import AdminApiKeysPage from "./routes/admin-api-key";
 import AdminApiKeysPermissions from "./features/admin-api-keys/components/admin-api-keys-permissions";
 import AdminApiKeysOverview from "./features/admin-api-keys/components/admin-api-keys-overview";
-import BillingAggregate from "./features/billing/components/billing-aggregate";
+import DashboardAggregateOrganization from "./features/dashboard/components/dashboard-aggregate-organization";
+import DashboardAggregateProjects from "./features/dashboard/components/dashboard-aggregate-project";
 
 function App() {
 	return (
@@ -107,7 +108,14 @@ function App() {
 									<Route path="overview" element={<BillingOverview />} />
 									<Route path="invoices" element={<BillingInvoice />} />
 									<Route path="credits" element={<BillingCredit />} />
-									<Route path="aggregate" element={<BillingAggregate />} />
+									<Route
+										path="aggregate-organization"
+										element={<DashboardAggregateOrganization />}
+									/>
+									<Route
+										path="aggregate-projects"
+										element={<DashboardAggregateProjects />}
+									/>
 								</Route>
 								<Route
 									path="users"
