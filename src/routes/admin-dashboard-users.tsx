@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { useGetAdminUsers } from "@/features/general/hooks/use-get-admin-users";
 import { Input } from "@/components/shadcn/input";
 import { Button } from "@/components/shadcn/button";
+import { useTranslation } from "react-i18next";
 import {
 	Select,
 	SelectContent,
@@ -26,6 +27,7 @@ import UserPermissionsDialog from "@/features/general/components/dialogs/user-pe
 const LIMIT = 10;
 
 const GeneralUsers = (): React.JSX.Element => {
+	const { t } = useTranslation("admin-dashboard");
 	const [currentPage, setCurrentPage] = useState(1);
 	const [searchInput, setSearchInput] = useState("");
 	const [searchQuery, setSearchQuery] = useState("");
@@ -79,7 +81,7 @@ const GeneralUsers = (): React.JSX.Element => {
 	return (
 		<div className="px-4 py-8">
 			<div className="space-y-4">
-				<h1 className="text-2xl font-bold">Users Management</h1>
+				<h1 className="text-2xl font-bold">{t("admin.users.title")}</h1>
 
 				<div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
 					<div className="flex flex-1 gap-2 max-w-xl">
@@ -88,11 +90,11 @@ const GeneralUsers = (): React.JSX.Element => {
 								htmlFor="search-input"
 								className="mb-2 block text-sm font-medium"
 							>
-								Search
+								{t("admin.users.search.label")}
 							</label>
 							<Input
 								id="search-input"
-								placeholder="Search by username or email..."
+								placeholder={t("admin.users.search.placeholder")}
 								value={searchInput}
 								onChange={handleSearchInputChange}
 								className="w-full"
@@ -106,7 +108,7 @@ const GeneralUsers = (): React.JSX.Element => {
 								onClick={handleSearchClick}
 							>
 								<Search className="h-4 w-4" />
-								Search
+								{t("admin.users.button.search")}
 							</Button>
 						</div>
 					</div>
@@ -117,15 +119,21 @@ const GeneralUsers = (): React.JSX.Element => {
 								htmlFor="status-filter"
 								className="mb-2 block text-sm font-medium"
 							>
-								Status
+								{t("admin.users.filters.status")}
 							</label>
 							<Select value={enabledFilter} onValueChange={setEnabledFilter}>
 								<SelectTrigger id="status-filter" className="w-36">
-									<SelectValue placeholder="All status" />
+									<SelectValue
+										placeholder={t("admin.users.filters.status_placeholder")}
+									/>
 								</SelectTrigger>
 								<SelectContent>
-									<SelectItem value="true">Enabled</SelectItem>
-									<SelectItem value="false">Disabled</SelectItem>
+									<SelectItem value="true">
+										{t("admin.users.filters.enabled")}
+									</SelectItem>
+									<SelectItem value="false">
+										{t("admin.users.filters.disabled")}
+									</SelectItem>
 								</SelectContent>
 							</Select>
 						</div>
@@ -135,18 +143,26 @@ const GeneralUsers = (): React.JSX.Element => {
 								htmlFor="email-verified-filter"
 								className="mb-2 block text-sm font-medium"
 							>
-								Email Verified
+								{t("admin.users.filters.email_verified")}
 							</label>
 							<Select
 								value={emailVerifiedFilter}
 								onValueChange={setEmailVerifiedFilter}
 							>
 								<SelectTrigger id="email-verified-filter" className="w-36">
-									<SelectValue placeholder="All" />
+									<SelectValue
+										placeholder={t(
+											"admin.users.filters.email_verified_placeholder"
+										)}
+									/>
 								</SelectTrigger>
 								<SelectContent>
-									<SelectItem value="true">Verified</SelectItem>
-									<SelectItem value="false">Not Verified</SelectItem>
+									<SelectItem value="true">
+										{t("admin.users.filters.verified")}
+									</SelectItem>
+									<SelectItem value="false">
+										{t("admin.users.filters.not_verified")}
+									</SelectItem>
 								</SelectContent>
 							</Select>
 						</div>
@@ -157,13 +173,15 @@ const GeneralUsers = (): React.JSX.Element => {
 					<Table className="border-none">
 						<TableHeader>
 							<TableRow>
-								<TableHead>ID</TableHead>
-								<TableHead>Username</TableHead>
-								<TableHead>Full Name</TableHead>
-								<TableHead>Email</TableHead>
-								<TableHead>Status</TableHead>
-								<TableHead>Email Verified</TableHead>
-								<TableHead className="w-20">Actions</TableHead>
+								<TableHead>{t("admin.users.table.id")}</TableHead>
+								<TableHead>{t("admin.users.table.username")}</TableHead>
+								<TableHead>{t("admin.users.table.full_name")}</TableHead>
+								<TableHead>{t("admin.users.table.email")}</TableHead>
+								<TableHead>{t("admin.users.table.status")}</TableHead>
+								<TableHead>{t("admin.users.table.email_verified")}</TableHead>
+								<TableHead className="w-20">
+									{t("admin.users.table.actions")}
+								</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
@@ -188,7 +206,9 @@ const GeneralUsers = (): React.JSX.Element => {
 														: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
 												}`}
 											>
-												{user.enabled ? "Active" : "Inactive"}
+												{user.enabled
+													? t("admin.users.table.active")
+													: t("admin.users.table.inactive")}
 											</span>
 										</TableCell>
 										<TableCell>
@@ -199,7 +219,9 @@ const GeneralUsers = (): React.JSX.Element => {
 														: "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200"
 												}`}
 											>
-												{user.email_verified ? "Yes" : "No"}
+												{user.email_verified
+													? t("admin.users.table.yes")
+													: t("admin.users.table.no")}
 											</span>
 										</TableCell>
 										<TableCell>
@@ -214,7 +236,7 @@ const GeneralUsers = (): React.JSX.Element => {
 							) : (
 								<TableRow>
 									<TableCell colSpan={7} className="py-8 text-center">
-										No users found
+										{t("admin.users.table.no_users")}
 									</TableCell>
 								</TableRow>
 							)}
