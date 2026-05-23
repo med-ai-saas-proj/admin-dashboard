@@ -10,7 +10,7 @@ export const getAdminUserOrganizations = async (
 	params: AdminUserOrganizationsParams
 ) => {
 	const response = await apiClient.get<UserOrganizationListResponse>(
-		`${API_ROUTES.ADMIN_DASHBOARD.ADMIN}/user-organizations`,
+		`${API_ROUTES.MANAGEMENT.ADMIN}/user-organizations`,
 		{ params }
 	);
 	return response.data;

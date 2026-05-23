@@ -23,9 +23,6 @@ export const API_ROUTES = {
 			BASE_API_URL
 		).toString(),
 	},
-	ADMIN_DASHBOARD: {
-		ADMIN: new URL(`${API_VERSION}/admin`, BASE_API_URL).toString(),
-	},
 	MANAGEMENT: {
 		API_KEYS: new URL(
 			`management/${API_VERSION}/api-keys`,
@@ -47,17 +44,21 @@ export const API_ROUTES = {
 			`management/${API_VERSION}/projects`,
 			BASE_API_URL
 		).toString(),
-		BILLING: new URL(`${API_VERSION}/billing/admin`, BASE_API_URL).toString(),
+		ADMIN: new URL(`/management/${API_VERSION}/admin`, BASE_API_URL).toString(),
+		BILLING: new URL(
+			`/management/${API_VERSION}/billing/admin`,
+			BASE_API_URL
+		).toString(),
 		ADMIN_ORGANIZATION: new URL(
-			`${API_VERSION}/admin/organizations`,
+			`/management/${API_VERSION}/admin/organizations`,
 			BASE_API_URL
 		).toString(),
 		ADMIN_PROJECTS: new URL(
-			`${API_VERSION}/admin/projects`,
+			`/management/${API_VERSION}/admin/projects`,
 			BASE_API_URL
 		).toString(),
 		ADMIN_API_KEYS: new URL(
-			`${API_VERSION}/admin/api-keys`,
+			`/management/${API_VERSION}/admin/api-keys`,
 			BASE_API_URL
 		).toString(),
 	},

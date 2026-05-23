@@ -11,11 +11,11 @@ const escapeRegExp = (value: string) =>
 	value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const adminMeUrl = new RegExp(
-	`^${escapeRegExp(API_ROUTES.ADMIN_DASHBOARD.ADMIN)}/me(?:\\?.*)?$`
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.ADMIN)}/me(?:\\?.*)?$`
 );
 
 const adminSummaryUrl = new RegExp(
-	`^${escapeRegExp(API_ROUTES.ADMIN_DASHBOARD.ADMIN)}/summary(?:\\?.*)?$`
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.ADMIN)}/summary(?:\\?.*)?$`
 );
 
 const adminMe: AdminMe = {
@@ -41,7 +41,7 @@ Mock.mock(adminSummaryUrl, "get", () => {
 
 // --- Users list (paginated)
 const usersUrl = new RegExp(
-	`^${escapeRegExp(API_ROUTES.ADMIN_DASHBOARD.ADMIN)}/users(?:\\?.*)?$`
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.ADMIN)}/users(?:\\?.*)?$`
 );
 
 const sampleUsers = Array.from({ length: 12 }, (_, i) => ({
@@ -79,7 +79,7 @@ Mock.mock(usersUrl, "get", (options: { url: string }) => {
 
 // --- User organizations
 const userOrgsUrl = new RegExp(
-	`^${escapeRegExp(API_ROUTES.ADMIN_DASHBOARD.ADMIN)}/user-organizations(?:\\?.*)?$`
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.ADMIN)}/user-organizations(?:\\?.*)?$`
 );
 
 const sampleOrgs = [
@@ -97,7 +97,7 @@ Mock.mock(userOrgsUrl, "get", () => {
 
 // --- User profile
 const userProfileUrl = new RegExp(
-	`^${escapeRegExp(API_ROUTES.ADMIN_DASHBOARD.ADMIN)}/user-profiles/[^/]+(?:\\?.*)?$`
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.ADMIN)}/user-profiles/[^/]+(?:\\?.*)?$`
 );
 
 Mock.mock(userProfileUrl, "get", (options: { url: string }) => {
@@ -134,7 +134,7 @@ Mock.mock(userProfileUrl, "get", (options: { url: string }) => {
 
 // --- User permissions
 const userPermissionsUrl = new RegExp(
-	`^${escapeRegExp(API_ROUTES.ADMIN_DASHBOARD.ADMIN)}/user-permissions/[^/]+(?:\\?.*)?$`
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.ADMIN)}/user-permissions/[^/]+(?:\\?.*)?$`
 );
 
 const sampleUserPermissions: Record<string, UserPermissions> = {

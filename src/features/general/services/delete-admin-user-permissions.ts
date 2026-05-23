@@ -9,6 +9,6 @@ export const deleteAdminUserPermissions = async ({
 	userId,
 }: DeleteAdminUserPermissionsParams): Promise<void> => {
 	await apiClient.delete(
-		`${API_ROUTES.ADMIN_DASHBOARD.ADMIN}/user-permissions/${userId}`
+		`${API_ROUTES.MANAGEMENT.ADMIN}/user-permissions/${userId}`
 	);
 };
