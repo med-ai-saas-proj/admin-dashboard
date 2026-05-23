@@ -44,13 +44,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 			},
 		],
 		user: userInfo,
-		dashboard: [
-			{
-				name: t("dashboard.billing.title"),
-				url: "/dashboard/billing",
-				icon: CreditCard,
-			},
-		],
+		// dashboard: [
+		// 	{
+		// 		name: t("dashboard.billing.title"),
+		// 		url: "/dashboard/billing",
+		// 		icon: CreditCard,
+		// 	},
+		// ],
 		adminDashboard: [
 			{
 				name: t("adminDashboard.admin.title"),
@@ -122,7 +122,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 				<TeamSwitcher teams={data.teams} />
 			</SidebarHeader>
 			<SidebarContent>
-				<NavProjects projects={data.dashboard} label={t("dashboard.label")} />
+				{/* <NavProjects
+                    projects={data.dashboard}
+                    label={t("dashboard.label")}
+                /> */}
 				<NavProjects
 					projects={data.adminDashboard}
 					label={t("adminDashboard.label")}

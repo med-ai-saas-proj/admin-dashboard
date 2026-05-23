@@ -15,8 +15,8 @@ import BillingDashboard from "./routes/billing";
 import BillingOverview from "./features/billing/components/billing-overview";
 import BillingCredit from "./features/billing/components/billing-credit";
 import BillingInvoice from "./features/billing/components/billing-invoice";
-import ChartDashboard from "./routes/chart-dashboard";
-import DashboardBilling from "./features/dashboard/components/dashboard-billing";
+// import ChartDashboard from "./routes/chart-dashboard";
+// import DashboardBilling from "./features/dashboard/components/dashboard-billing";
 import GeneralAdmin from "./routes/admin-dashboard-admin";
 import GeneralUsers from "./routes/admin-dashboard-users";
 import AdminOrganizations from "./routes/admin-organizations";
@@ -36,6 +36,7 @@ import AdminApiKeysPermissions from "./features/admin-api-keys/components/admin-
 import AdminApiKeysOverview from "./features/admin-api-keys/components/admin-api-keys-overview";
 import DashboardAggregateOrganization from "./features/dashboard/components/dashboard-aggregate-organization";
 import DashboardAggregateProjects from "./features/dashboard/components/dashboard-aggregate-project";
+import ComingSoonPage from "./layouts/coming-soon";
 
 function App() {
 	return (
@@ -67,13 +68,13 @@ function App() {
 								<Route path="admin" element={<GeneralAdmin />} />
 								<Route path="users" element={<GeneralUsers />} />
 							</Route>
-							<Route path="dashboard" element={<ChartDashboard />}>
+							{/* <Route path="dashboard" element={<ChartDashboard />}>
 								<Route
 									index={true}
 									element={<Navigate to="billing" replace />}
 								/>
 								<Route path="billing" element={<DashboardBilling />} />
-							</Route>
+							</Route> */}
 							<Route path="management">
 								<Route
 									index={true}
@@ -161,7 +162,7 @@ function App() {
 							</Route>
 						</Route>
 
-						<Route path="*" element={<Navigate to="/" replace />} />
+						<Route path="*" element={<ComingSoonPage />} />
 					</Routes>
 				</BrowserRouter>
 			</KeycloakProvider>

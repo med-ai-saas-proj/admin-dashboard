@@ -10,6 +10,8 @@ import type adminOrganizationEN from "../public.locales/en/admin-organization.js
 import type adminProjectEN from "../public.locales/en/admin-project.json";
 import type adminApiKeyEN from "../public.locales/en/admin-api-key.json";
 import type dialogEN from "../public.locales/en/dialog.json";
+import type adminDashboardEN from "../public.locales/en/admin-dashboard.json";
+import type comingSoonEN from "../public.locales/en/coming-soon.json";
 
 declare module "i18next" {
 	interface CustomTypeOptions {
@@ -26,6 +28,8 @@ declare module "i18next" {
 			"admin-project": typeof adminProjectEN;
 			"admin-api-key": typeof adminApiKeyEN;
 			dialog: typeof dialogEN;
+			"admin-dashboard": typeof adminDashboardEN;
+			"coming-soon": typeof comingSoonEN;
 		};
 	}
 }

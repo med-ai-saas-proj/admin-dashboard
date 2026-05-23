@@ -1,0 +1,53 @@
+{
+    "admin": {
+        "general": {
+            "title": "General Admin Information",
+            "description": "Overview of your admin account and key metrics",
+            "labels": {
+                "id": "ID",
+                "username": "Username",
+                "email": "Email"
+            },
+            "summary": {
+                "organizations": "Organizations",
+                "projects": "Projects",
+                "api_keys": "API Keys",
+                "users": "Users"
+            }
+        },
+        "users": {
+            "title": "Users Management",
+            "search": {
+                "label": "Search",
+                "placeholder": "Search by username or email..."
+            },
+            "button": {
+                "search": "Search"
+            },
+            "filters": {
+                "status": "Status",
+                "status_placeholder": "All status",
+                "enabled": "Enabled",
+                "disabled": "Disabled",
+                "email_verified": "Email Verified",
+                "email_verified_placeholder": "All",
+                "verified": "Verified",
+                "not_verified": "Not Verified"
+            },
+            "table": {
+                "id": "ID",
+                "username": "Username",
+                "full_name": "Full Name",
+                "email": "Email",
+                "status": "Status",
+                "email_verified": "Email Verified",
+                "actions": "Actions",
+                "active": "Active",
+                "inactive": "Inactive",
+                "yes": "Yes",
+                "no": "No",
+                "no_users": "No users found"
+            }
+        }
+    }
+}

@@ -1,0 +1,53 @@
+{
+    "admin": {
+        "general": {
+            "title": "Thông tin quản trị chung",
+            "description": "Tổng quan về tài khoản quản trị và các chỉ số chính",
+            "labels": {
+                "id": "ID",
+                "username": "Tên đăng nhập",
+                "email": "Email"
+            },
+            "summary": {
+                "organizations": "Tổ chức",
+                "projects": "Dự án",
+                "api_keys": "Khóa API",
+                "users": "Người dùng"
+            }
+        },
+        "users": {
+            "title": "Quản lý người dùng",
+            "search": {
+                "label": "Tìm kiếm",
+                "placeholder": "Tìm theo tên đăng nhập hoặc email..."
+            },
+            "button": {
+                "search": "Tìm"
+            },
+            "filters": {
+                "status": "Trạng thái",
+                "status_placeholder": "Tất cả",
+                "enabled": "Đã kích hoạt",
+                "disabled": "Đã vô hiệu",
+                "email_verified": "Email đã xác thực",
+                "email_verified_placeholder": "Tất cả",
+                "verified": "Đã xác thực",
+                "not_verified": "Chưa xác thực"
+            },
+            "table": {
+                "id": "ID",
+                "username": "Tên đăng nhập",
+                "full_name": "Họ và tên",
+                "email": "Email",
+                "status": "Trạng thái",
+                "email_verified": "Email đã xác thực",
+                "actions": "Hành động",
+                "active": "Hoạt động",
+                "inactive": "Không hoạt động",
+                "yes": "Có",
+                "no": "Không",
+                "no_users": "Không tìm thấy người dùng"
+            }
+        }
+    }
+}
