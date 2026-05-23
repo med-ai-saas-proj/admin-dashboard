@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 const AdminOrganizationPermissions = (): React.JSX.Element => {
 	const { t } = useTranslation("admin-organization");
 	const { data: permissionsData } = useGetAdminOrganizationPermissions();
-	const permissions = permissionsData?.data?.permissions || [];
+	const permissions = permissionsData?.results?.permissions || [];
 
 	return (
 		<Card className="w-full max-w-lg border border-slate-200 mx-auto shadow hover:shadow-lg transition-all duration-1000">

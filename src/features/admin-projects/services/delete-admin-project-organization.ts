@@ -1,4 +1,5 @@
 import { API_ROUTES } from "@/config/api-routes";
+import { toApiResponse } from "@/lib/response";
 import apiClient from "@/query/api-client";
 import type { DeleteAdminProjectOrganizationResponse } from "../types/admin-projects";
 
@@ -13,5 +14,5 @@ export const deleteAdminProjectOrganization = async ({
 		await apiClient.delete<DeleteAdminProjectOrganizationResponse>(
 			`${API_ROUTES.MANAGEMENT.ADMIN_PROJECTS}/${projectId}`
 		);
-	return response.data;
+	return toApiResponse(response.data);
 };

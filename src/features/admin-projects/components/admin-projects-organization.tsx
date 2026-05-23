@@ -59,7 +59,7 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 	const [selectedProject, setSelectedProject] =
 		useState<AdminProjectOrganization | null>(null);
 
-	const projects = data?.data ?? [];
+	const projects = data?.results ?? [];
 
 	const filteredProjects = useMemo(() => {
 		return projects.filter((project) => {

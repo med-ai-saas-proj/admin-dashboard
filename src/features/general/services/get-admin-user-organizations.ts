@@ -1,4 +1,5 @@
 import { API_ROUTES } from "@/config/api-routes";
+import { toApiResponse } from "@/lib/response";
 import apiClient from "@/query/api-client";
 import type { UserOrganizationListResponse } from "../types/admin";
 
@@ -10,8 +11,8 @@ export const getAdminUserOrganizations = async (
 	params: AdminUserOrganizationsParams
 ) => {
 	const response = await apiClient.get<UserOrganizationListResponse>(
-		`${API_ROUTES.MANAGEMENT.ADMIN}/user-organizations`,
+		`${API_ROUTES.MANAGEMENT.ADMIN}/users/${params.userId}/organizations`,
 		{ params }
 	);
-	return response.data;
+	return toApiResponse(response.data);
 };

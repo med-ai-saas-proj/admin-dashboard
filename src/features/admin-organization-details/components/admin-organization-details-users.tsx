@@ -56,7 +56,7 @@ const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 		await refetch();
 	};
 
-	const users: AdminUserOrganization[] = data?.data ?? [];
+	const users: AdminUserOrganization[] = data?.results ?? [];
 	const total = data?.total ?? 0;
 
 	return (
@@ -64,8 +64,9 @@ const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 			{organizationInfo && (
 				<h1 className="text-2xl font-bold">
 					{t("users.title")}{" "}
-					{organizationInfo.data.name || t("details.labels.organizationName")} (
-					{organizationId})
+					{organizationInfo.results.name ||
+						t("details.labels.organizationName")}{" "}
+					({organizationId})
 				</h1>
 			)}
 			<div className="mb-4 flex gap-2 items-center">

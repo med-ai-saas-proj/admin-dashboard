@@ -28,7 +28,7 @@ const ViewInvoiceDetailsDialog = ({
 	const { t } = useTranslation("billing");
 	const { t: tCommon } = useTranslation("common");
 
-	const invoice: InvoiceDetails | null = invoiceResponse?.data ?? null;
+	const invoice: InvoiceDetails | null = invoiceResponse?.results ?? null;
 
 	const fields = invoice
 		? [

@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 const AdminApiKeysPermissions = (): React.JSX.Element => {
 	const { t } = useTranslation("admin-api-key");
 	const { data: permissionsData } = useGetAdminApiKeyPermissions();
-	const permissions = permissionsData?.data || [];
+	const permissions = permissionsData?.results || [];
 
 	return (
 		<Card className="w-full max-w-lg border border-slate-200 mx-auto shadow hover:shadow-lg transition-all duration-300">

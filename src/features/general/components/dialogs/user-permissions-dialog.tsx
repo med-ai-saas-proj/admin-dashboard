@@ -10,16 +10,20 @@ import {
 } from "@/components/shadcn/dialog";
 import { Button } from "@/components/shadcn/button";
 import { Checkbox } from "@/components/shadcn/checkbox";
-import { useGetAdminUserPermissions } from "../../hooks/use-get-admin-user-permissions";
 import { useUpdateAdminUserPermissions } from "../../hooks/use-update-admin-user-permissions";
+import type { UserProfileInfo } from "../../types/admin";
 
 const ORGANIZATION_PERMISSION_OPTIONS = ["ORG_READ", "ORG_WRITE"];
 const PROJECT_PERMISSION_OPTIONS = ["PROJECT_READ", "PROJECT_WRITE"];
 
 const UserPermissionsDialog = ({
 	userId,
+	permissions,
+	isProfileLoading,
 }: {
 	userId: string;
+	permissions?: UserProfileInfo["permissions"];
+	isProfileLoading?: boolean;
 }): React.JSX.Element => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [organizationPermissions, setOrganizationPermissions] = useState<
@@ -27,17 +31,12 @@ const UserPermissionsDialog = ({
 	>([]);
 	const [projectPermissions, setProjectPermissions] = useState<string[]>([]);
 
-	const { data: permissionsData, isLoading } = useGetAdminUserPermissions({
-		userId,
-	});
 	const { mutateAsync: updatePermissions, isPending: isUpdating } =
 		useUpdateAdminUserPermissions();
 
-	const initialPermissions = permissionsData?.data;
+	const initialPermissions = permissions;
 	const currentProjectId = useMemo(() => {
-		return (
-			initialPermissions?.project_permissions?.[0]?.project_id ?? "proj_001"
-		);
+		return initialPermissions?.project_permissions?.[0]?.id ?? "proj_001";
 	}, [initialPermissions]);
 
 	useEffect(() => {
@@ -104,7 +103,7 @@ const UserPermissionsDialog = ({
 				<h2 className="text-lg font-semibold">User Permissions</h2>
 				<p className="text-sm text-muted-foreground">User ID: {userId}</p>
 
-				{isLoading ? (
+				{isProfileLoading ? (
 					<p className="text-sm text-muted-foreground">
 						Loading permissions...
 					</p>
@@ -173,7 +172,10 @@ const UserPermissionsDialog = ({
 							Cancel
 						</Button>
 					</DialogClose>
-					<Button onClick={handleUpdate} disabled={isUpdating || isLoading}>
+					<Button
+						onClick={handleUpdate}
+						disabled={isUpdating || isProfileLoading}
+					>
 						{isUpdating ? "Updating..." : "Update"}
 					</Button>
 				</DialogFooter>

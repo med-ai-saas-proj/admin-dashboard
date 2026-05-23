@@ -24,6 +24,40 @@ import UserProfileDialog from "@/features/general/components/dialogs/user-profil
 import UserOrganizationsDialog from "@/features/general/components/dialogs/user-organizations";
 import UserPermissionsDialog from "@/features/general/components/dialogs/user-permissions-dialog";
 import { Label } from "@/components/shadcn/label";
+import { useGetAdminUserProfile } from "@/features/general/hooks/use-get-admin-user-profile";
+
+const UserActionDialogs = ({
+	userId,
+}: {
+	userId: string;
+}): React.JSX.Element => {
+	const { data: profileData, isLoading: isProfileLoading } =
+		useGetAdminUserProfile({
+			userId,
+		});
+
+	const profile = profileData?.results;
+
+	return (
+		<div className="flex gap-x-6">
+			<UserProfileDialog
+				userId={userId}
+				profile={profile}
+				isProfileLoading={isProfileLoading}
+			/>
+			<UserPermissionsDialog
+				userId={userId}
+				permissions={profile?.permissions}
+				isProfileLoading={isProfileLoading}
+			/>
+			<UserOrganizationsDialog
+				username={profile?.username || userId}
+				organizations={profile?.organizations}
+				isProfileLoading={isProfileLoading}
+			/>
+		</div>
+	);
+};
 
 const LIMIT = 10;
 
@@ -50,7 +84,9 @@ const GeneralUsers = (): React.JSX.Element => {
 
 	const filteredUsers = useMemo(() => {
 		// The response data should be an array based on the mock, but type says UserInfo
-		const users = Array.isArray(usersResponse?.data) ? usersResponse.data : [];
+		const users = Array.isArray(usersResponse?.results)
+			? usersResponse.results
+			: [];
 		let filtered = [...users];
 
 		if (enabledFilter !== undefined) {
@@ -64,7 +100,7 @@ const GeneralUsers = (): React.JSX.Element => {
 		}
 
 		return filtered;
-	}, [usersResponse?.data, enabledFilter, emailVerifiedFilter]);
+	}, [usersResponse?.results, enabledFilter, emailVerifiedFilter]);
 
 	const handlePageChange = (page: number) => {
 		setCurrentPage(page);
@@ -226,11 +262,7 @@ const GeneralUsers = (): React.JSX.Element => {
 											</span>
 										</TableCell>
 										<TableCell>
-											<div className="flex gap-x-6">
-												<UserProfileDialog userId={user.id} />
-												<UserPermissionsDialog userId={user.id} />
-												<UserOrganizationsDialog userId={user.id} />
-											</div>
+											<UserActionDialogs userId={user.id} />
 										</TableCell>
 									</TableRow>
 								))

@@ -47,7 +47,7 @@ export const useUpdateAdminApiKey = (projectId: string) => {
 
 						return {
 							...old,
-							data: (old.data ?? []).map((item) =>
+							results: (old.results ?? []).map((item) =>
 								item.api_key_uuid === updated.apiKeyId
 									? {
 											...item,

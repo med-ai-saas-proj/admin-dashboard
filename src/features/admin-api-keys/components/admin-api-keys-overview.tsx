@@ -56,7 +56,7 @@ const AdminApiKeysOverview = (): React.JSX.Element => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const limit = 10;
 
-	const apiKeys = data?.data ?? [];
+	const apiKeys = data?.results ?? [];
 
 	const filtered = useMemo(() => {
 		return apiKeys.filter((k: any) => {

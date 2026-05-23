@@ -222,13 +222,13 @@ Mock.mock(billingInvoiceDetailsUrl, "get", (options: { url: string }) => {
 	if (!invoice) {
 		return {
 			success: false,
-			data: null,
+			results: null,
 		};
 	}
 
 	return {
 		success: true,
-		data: invoice,
+		results: invoice,
 	};
 });
 
@@ -239,7 +239,7 @@ Mock.mock(billingInvoiceMarkPaidUrl, "post", (options: { url: string }) => {
 
 	return {
 		success: !!invoice,
-		data: invoice,
+		results: invoice,
 	};
 });
 
@@ -250,7 +250,7 @@ Mock.mock(billingInvoiceMarkPaidUrl, "put", (options: { url: string }) => {
 
 	return {
 		success: !!invoice,
-		data: invoice,
+		results: invoice,
 	};
 });
 
@@ -261,7 +261,7 @@ Mock.mock(billingInvoiceRefundUrl, "post", (options: { url: string }) => {
 
 	return {
 		success: !!invoice,
-		data: invoice,
+		results: invoice,
 	};
 });
 
@@ -292,7 +292,7 @@ Mock.mock(billingInvoicesUrl, "get", (options: { url: string }) => {
 
 	return {
 		success: true,
-		data: pagedInvoices.map(toInvoiceSummary),
+		results: pagedInvoices.map(toInvoiceSummary),
 		total: filteredInvoices.length,
 		offset,
 		limit,
@@ -307,7 +307,7 @@ Mock.mock(billingCreditTransactionsUrl, "get", (options: { url: string }) => {
 
 	return {
 		success: true,
-		data: pagedTransactions,
+		results: pagedTransactions,
 		total: creditTransactions.length,
 		offset,
 		limit,
@@ -356,7 +356,7 @@ Mock.mock(billingTransactionsUrl, "get", (options: { url: string }) => {
 
 	return {
 		success: true,
-		data: pagedTransactions,
+		results: pagedTransactions,
 		total: filteredTransactions.length,
 		offset,
 		limit,
@@ -380,7 +380,7 @@ Mock.mock(billingCreditsUrl, "post", (options: { body?: string }) => {
 
 	return {
 		success: true,
-		data: {
+		results: {
 			amount: newTransaction.amount,
 		},
 	};
@@ -389,6 +389,6 @@ Mock.mock(billingCreditsUrl, "post", (options: { body?: string }) => {
 Mock.mock(billingLifetimeValueUrl, "get", () => {
 	return {
 		success: true,
-		data: lifetimeValueData,
+		results: lifetimeValueData,
 	};
 });

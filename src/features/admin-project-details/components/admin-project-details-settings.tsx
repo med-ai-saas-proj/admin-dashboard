@@ -21,7 +21,7 @@ const AdminProjectDetailsSettings = (): React.JSX.Element => {
 	const { data: settingsData } = useGetAdminProjectSettings({ projectId });
 	const { t } = useTranslation("admin-project");
 
-	const settings = settingsData;
+	const settings = settingsData?.results;
 
 	return (
 		<div className="space-y-12">

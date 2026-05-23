@@ -31,14 +31,14 @@ export const useDeleteAdminOrganization = () => {
 					(old) => {
 						const prev = old ?? {
 							success: true,
-							data: [],
+							results: [],
 							total: 0,
 							offset: 0,
 							limit: 10,
 						};
 						return {
 							...prev,
-							data: (prev.data ?? []).filter(
+							results: (prev.results ?? []).filter(
 								(item) => item.org_id !== params.organization_id
 							),
 							total: Math.max(0, (prev.total ?? 1) - 1),

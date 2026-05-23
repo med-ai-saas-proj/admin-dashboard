@@ -34,7 +34,7 @@ export const useCreateAdminApiKey = () => {
 
 						const newApiKey: AdminApiKeyResponse = {
 							success: true,
-							data: {
+							results: {
 								api_key_uuid: "temp-id",
 								project_uuid: credentials.projectId,
 								name: credentials.name,
@@ -48,7 +48,7 @@ export const useCreateAdminApiKey = () => {
 
 						return {
 							...old,
-							data: [...old.data, newApiKey.data],
+							results: [...old.results, newApiKey.results],
 						};
 					}
 				);

@@ -105,7 +105,7 @@ const AddCreditDialog = ({ triggerElement }: AddCreditDialogProps) => {
 			{
 				onSuccess: (data) => {
 					toast(
-						`${tDialog("billing.credit.successMessage", { amount: data.data.amount })}`
+						`${tDialog("billing.credit.successMessage", { amount: data.results.amount })}`
 					);
 					setOpenDialog(false);
 				},

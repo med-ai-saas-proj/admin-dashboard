@@ -47,7 +47,7 @@ export const useCreateAdminProjectOrganization = () => {
 					(old) => {
 						const prev = old ?? {
 							success: true,
-							data: [],
+							results: [],
 							total: 0,
 							offset: 0,
 							limit: 10,
@@ -55,7 +55,7 @@ export const useCreateAdminProjectOrganization = () => {
 
 						return {
 							...prev,
-							data: [optimistic, ...(prev.data ?? [])],
+							results: [optimistic, ...(prev.results ?? [])],
 							total: (prev.total ?? 0) + 1,
 						};
 					}
@@ -67,7 +67,7 @@ export const useCreateAdminProjectOrganization = () => {
 					organizationQueryKey,
 					{
 						success: true,
-						data: [optimistic],
+						results: [optimistic],
 						total: 1,
 						offset: 0,
 						limit: 10,
