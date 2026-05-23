@@ -43,7 +43,7 @@ const AdminProjectDetailsUsersPage = (): React.JSX.Element => {
 		setQ(inputQ.trim() || undefined);
 	};
 
-	const users: AdminProjectUser[] = data?.data ?? [];
+	const users: AdminProjectUser[] = data?.results ?? [];
 	const total = data?.total ?? 0;
 
 	return (

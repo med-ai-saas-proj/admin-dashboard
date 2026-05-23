@@ -31,16 +31,16 @@ export const useDeleteAdminUserPermissions = () => {
 
 			queryClient.setQueryData<UserPermissionsResponse>(permissionsQueryKey, {
 				success: true,
-				data: emptyPermissions,
+				results: emptyPermissions,
 			});
 
-			if (previousProfile?.data) {
+			if (previousProfile?.results) {
 				queryClient.setQueryData<UserProfileResponse>(profileQueryKey, {
 					success: true,
-					data: {
-						...previousProfile.data,
+					results: {
+						...previousProfile.results,
 						permissions: {
-							...previousProfile.data.permissions,
+							...previousProfile.results.permissions,
 							organization_permissions: [],
 							effective_organization_permissions: [],
 							project_permissions: [],

@@ -37,10 +37,10 @@ const DashboardAggregateProjects = () => {
 	// Extract project UIDs
 	const projectUids = useMemo(
 		() =>
-			(projectsData?.data as AdminProjectOrganization[] | undefined)?.map(
+			(projectsData?.results as AdminProjectOrganization[] | undefined)?.map(
 				(project) => project.project_uuid
 			) ?? [],
-		[projectsData?.data]
+		[projectsData?.results]
 	);
 
 	// Fetching Aggregate Projects Data
@@ -66,11 +66,11 @@ const DashboardAggregateProjects = () => {
 
 	const normalizedAggregateData = useMemo(
 		() =>
-			(aggregateProjectsData?.data ?? []).map((item) => ({
+			(aggregateProjectsData?.results ?? []).map((item) => ({
 				...item,
 				total_amount: Number(item.total_amount),
 			})),
-		[aggregateProjectsData?.data]
+		[aggregateProjectsData?.results]
 	);
 
 	const totalExpenditureTrendChartConfig = {
@@ -120,20 +120,20 @@ const DashboardAggregateProjects = () => {
 	// KPI Card
 	const totalSpentKPIData = useMemo(
 		() =>
-			aggregateProjectsData?.data?.reduce(
+			aggregateProjectsData?.results?.reduce(
 				(acc, bucket) => acc + Number(bucket.total_amount),
 				0
 			) ?? 0,
-		[aggregateProjectsData?.data]
+		[aggregateProjectsData?.results]
 	);
 
 	const totalTransactionCountKPIData = useMemo(
 		() =>
-			aggregateProjectsData?.data?.reduce(
+			aggregateProjectsData?.results?.reduce(
 				(acc, bucket) => acc + bucket.transaction_count,
 				0
 			) ?? 0,
-		[aggregateProjectsData?.data]
+		[aggregateProjectsData?.results]
 	);
 
 	return (

@@ -66,7 +66,7 @@ export type AggregateParams = {
 
 export type Aggregate = {
 	success: boolean;
-	data: {
+	results: {
 		period_bucket: string;
 		transaction_count: number;
 		total_amount: string;

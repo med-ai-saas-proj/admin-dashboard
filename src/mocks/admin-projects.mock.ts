@@ -63,7 +63,7 @@ Mock.mock(projectsUrl, "get", (options: { url: string }) => {
 
 	return {
 		success: true,
-		data: paged,
+		results: paged,
 		total: filtered.length,
 		offset,
 		limit,
@@ -91,14 +91,14 @@ Mock.mock(projectsUrl, "post", (options: { url: string; body?: string }) => {
 
 	return {
 		success: true,
-		data: created,
+		results: created,
 	};
 });
 
 Mock.mock(projectsPermissionsUrl, "get", () => {
 	return {
 		success: true,
-		data: {
+		results: {
 			permissions: samplePermissions,
 		},
 	};
@@ -139,7 +139,7 @@ Mock.mock(projectItemUrl, "put", (options: { url: string; body?: string }) => {
 
 	return {
 		success: true,
-		data: updated,
+		results: updated,
 	};
 });
 
@@ -163,7 +163,7 @@ Mock.mock(projectItemUrl, "delete", (options: { url: string }) => {
 
 	return {
 		success: true,
-		data: {
+		results: {
 			id: projectId,
 			archived: true,
 		},

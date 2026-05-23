@@ -1,6 +1,6 @@
 export interface ApiResponse<T> {
 	success: boolean;
-	data: T;
+	results: T;
 }
 
 export interface PaginatedResponse<T> extends ApiResponse<T> {
@@ -8,3 +8,25 @@ export interface PaginatedResponse<T> extends ApiResponse<T> {
 	offset: number;
 	limit: number;
 }
+
+export const isApiResponse = <T>(value: unknown): value is ApiResponse<T> => {
+	return (
+		typeof value === "object" &&
+		value !== null &&
+		"success" in value &&
+		"results" in value
+	);
+};
+
+export const toApiResponse = <T>(
+	payload: ApiResponse<T> | T
+): ApiResponse<T> => {
+	if (isApiResponse<T>(payload)) {
+		return payload;
+	}
+
+	return {
+		success: true,
+		results: payload,
+	};
+};

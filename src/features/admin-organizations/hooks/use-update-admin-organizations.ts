@@ -31,14 +31,14 @@ export const useUpdateAdminOrganization = () => {
 					(old) => {
 						const prev = old ?? {
 							success: true,
-							data: [],
+							results: [],
 							total: 0,
 							offset: 0,
 							limit: 10,
 						};
 						return {
 							...prev,
-							data: (prev.data ?? []).map((item) =>
+							results: (prev.results ?? []).map((item) =>
 								item.org_id === updated.organization_id
 									? { ...item, name: updated.name }
 									: item

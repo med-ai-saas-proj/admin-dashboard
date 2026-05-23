@@ -47,7 +47,7 @@ const samplePermissions: AdminOrganizationPermissions = {
 Mock.mock(permissionsUrl, "get", () => {
 	return {
 		success: true,
-		data: samplePermissions,
+		results: samplePermissions,
 	};
 });
 
@@ -70,7 +70,7 @@ Mock.mock(orgsUrl, "get", (options: { url: string }) => {
 
 	return {
 		success: true,
-		data: paged,
+		results: paged,
 		total: filtered.length,
 		offset,
 		limit,
@@ -84,7 +84,7 @@ Mock.mock(orgDetailUrl, "get", (options: { url: string }) => {
 
 	return {
 		success: true,
-		data: org ? [org] : [],
+		results: org ? [org] : [],
 	};
 });
 
@@ -101,7 +101,7 @@ Mock.mock(orgsUrl, "post", (options: { body?: string }) => {
 
 	return {
 		success: true,
-		data: [newOrg],
+		results: [newOrg],
 	};
 });
 
@@ -118,13 +118,13 @@ Mock.mock(orgDetailUrl, "put", (options: { url: string; body?: string }) => {
 		};
 		return {
 			success: true,
-			data: [sampleOrgs[idx]],
+			results: [sampleOrgs[idx]],
 		};
 	}
 
 	return {
 		success: false,
-		data: [],
+		results: [],
 	};
 });
 
@@ -144,13 +144,13 @@ Mock.mock(orgDetailUrl, "delete", (options: { url: string }) => {
 
 	return {
 		success: true,
-		data: deleteResponse,
+		results: deleteResponse,
 	};
 });
 
 Mock.mock(permissionsUrl, "get", () => {
 	return {
 		success: true,
-		data: samplePermissions,
+		results: samplePermissions,
 	};
 });

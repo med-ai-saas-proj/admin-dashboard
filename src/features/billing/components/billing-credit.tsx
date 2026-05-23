@@ -37,7 +37,7 @@ const BillingCredit = (): React.JSX.Element => {
 	);
 	const { data: creditTransactions } = useGetCreditTransactions(params);
 
-	const rows: CreditTransaction[] = creditTransactions?.data ?? [];
+	const rows: CreditTransaction[] = creditTransactions?.results ?? [];
 	const total = creditTransactions?.total ?? 0;
 	const hasMore = rows.length < total;
 

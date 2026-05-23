@@ -1,4 +1,5 @@
 import { API_ROUTES } from "@/config/api-routes";
+import { toApiResponse } from "@/lib/response";
 import apiClient from "@/query/api-client";
 import type { AdminOrganizationsResponse } from "../types/admin-organizations";
 
@@ -15,5 +16,5 @@ export const createAdminOrganization = async (
 		API_ROUTES.MANAGEMENT.ADMIN_ORGANIZATION,
 		credentials
 	);
-	return response.data;
+	return toApiResponse(response.data);
 };

@@ -7,7 +7,7 @@ import {
 	updateAdminProjectSettings,
 	type UpdateAdminProjectSettingsCredentials,
 } from "../services/update-admin-project-settings";
-import type { AdminProjectDetailsSettings } from "../types/admin-project-details";
+import type { AdminProjectDetailsSettingsResponse } from "../types/admin-project-details";
 
 export const useUpdateAdminProjectSettings = () => {
 	const queryClient = useQueryClient();
@@ -25,21 +25,32 @@ export const useUpdateAdminProjectSettings = () => {
 			const previous = queryClient.getQueriesData({
 				queryKey: ["admin-project-settings"],
 				exact: false,
-			}) as Array<[QueryKey, AdminProjectDetailsSettings | undefined]>;
+			}) as Array<[QueryKey, AdminProjectDetailsSettingsResponse | undefined]>;
 
 			previous.forEach(([key]) => {
-				queryClient.setQueryData<AdminProjectDetailsSettings | undefined>(
-					key,
-					(old) => {
-						if (!old) return old;
-
+				queryClient.setQueryData<
+					AdminProjectDetailsSettingsResponse | undefined
+				>(key, (old) => {
+					if (!old) {
 						return {
-							...old,
-							rate_limit: credentials.rate_limit ?? old.rate_limit,
-							spending_limit: credentials.spending_limit ?? old.spending_limit,
+							success: true,
+							results: {
+								rate_limit: credentials.rate_limit ?? 0,
+								spending_limit: credentials.spending_limit ?? 0,
+							},
 						};
 					}
-				);
+
+					return {
+						...old,
+						results: {
+							...old.results,
+							rate_limit: credentials.rate_limit ?? old.results.rate_limit,
+							spending_limit:
+								credentials.spending_limit ?? old.results.spending_limit,
+						},
+					};
+				});
 			});
 
 			return { previous };

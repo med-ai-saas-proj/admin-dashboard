@@ -72,25 +72,25 @@ const DashboardBilling = (): React.JSX.Element => {
 				{
 					id: "Lifetime Revenue",
 					title: "lifetimeRevenue",
-					value: lifetimeValue.data.lifetimeRevenue,
+					value: lifetimeValue.results.lifetimeRevenue,
 					format: "currency",
 				},
 				{
 					id: "Total Successful Transactions",
 					title: "totalSuccessfulTransactions",
-					value: lifetimeValue.data.totalSuccessfulTransactions,
+					value: lifetimeValue.results.totalSuccessfulTransactions,
 					format: "compact",
 				},
 				{
 					id: "Total Refunded Amount",
 					title: "totalRefundedAmount",
-					value: lifetimeValue.data.totalRefundedAmount,
+					value: lifetimeValue.results.totalRefundedAmount,
 					format: "currency",
 				},
 				{
 					id: "Current Outstanding Balance",
 					title: "currentOutstandingBalance",
-					value: lifetimeValue.data.currentOutstandingBalance,
+					value: lifetimeValue.results.currentOutstandingBalance,
 					format: "currency",
 				},
 			] as StatCardData[];
@@ -154,7 +154,7 @@ const DashboardBilling = (): React.JSX.Element => {
 	const normalizedTransactionsData = useMemo(() => {
 		if (!transactions) return [];
 
-		return transactions.data.map((tx) => ({
+		return transactions.results.map((tx) => ({
 			date: tx.createdAt.toLocaleString().slice(0, 10), // Extract YYYY-MM-DD from ISO string
 		}));
 	}, [transactions]);

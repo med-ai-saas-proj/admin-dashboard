@@ -32,14 +32,14 @@ export const useDeleteAdminProjectOrganization = () => {
 					(old) => {
 						const prev = old ?? {
 							success: true,
-							data: [],
+							results: [],
 							total: 0,
 							offset: 0,
 							limit: 10,
 						};
 						return {
 							...prev,
-							data: prev.data.map((item) => {
+							results: prev.results.map((item) => {
 								if (item.project_uuid === params.projectId) {
 									item.archived = true;
 								}

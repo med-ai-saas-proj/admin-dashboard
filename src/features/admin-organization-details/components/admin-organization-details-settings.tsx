@@ -31,15 +31,16 @@ const AdminOrganizationDetailsSettings = (): React.JSX.Element => {
 	);
 	const { t } = useTranslation("admin-organization");
 
-	const settings = settingsData?.data;
+	const settings = settingsData?.results;
 
 	return (
 		<div className="space-y-12">
 			{organizationInfo && (
 				<h1 className="text-2xl font-bold">
 					{t("settings.title")}{" "}
-					{organizationInfo.data.name || t("details.labels.organizationName")} (
-					{organizationId})
+					{organizationInfo.results.name ||
+						t("details.labels.organizationName")}{" "}
+					({organizationId})
 				</h1>
 			)}
 			<div className="max-w-4xl mx-auto flex items-start justify-center gap-x-4">

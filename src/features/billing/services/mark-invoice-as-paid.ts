@@ -1,4 +1,5 @@
 import { API_ROUTES } from "@/config/api-routes";
+import { toApiResponse } from "@/lib/response";
 import apiClient from "@/query/api-client";
 
 export type MarkInvoiceAsPaidCredentials = {
@@ -11,5 +12,5 @@ export const markInvoiceAsPaid = async ({
 	const response = await apiClient.put<null>(
 		`${API_ROUTES.MANAGEMENT.BILLING}/invoices/${invoiceId}/mark_paid`
 	);
-	return response.data;
+	return toApiResponse(response.data);
 };

@@ -70,7 +70,7 @@ Mock.mock(usersUrl, "get", (options: { url: string }) => {
 
 	return {
 		success: true,
-		data: paged,
+		results: paged,
 		total: filtered.length,
 		offset,
 		limit,
@@ -91,7 +91,7 @@ Mock.mock(userOrgsUrl, "get", () => {
 	// echo back organizations for the provided userId (if any)
 	return {
 		success: true,
-		data: sampleOrgs,
+		results: sampleOrgs,
 	};
 });
 
@@ -128,7 +128,7 @@ Mock.mock(userProfileUrl, "get", (options: { url: string }) => {
 
 	return {
 		success: true,
-		data: profile,
+		results: profile,
 	};
 });
 
@@ -172,7 +172,7 @@ Mock.mock(userPermissionsUrl, "get", (options: { url: string }) => {
 
 	return {
 		success: true,
-		data: permissions,
+		results: permissions,
 	};
 });
 
@@ -192,7 +192,7 @@ Mock.mock(
 
 		return {
 			success: true,
-			data: permissions,
+			results: permissions,
 		};
 	}
 );

@@ -1,4 +1,5 @@
 import { API_ROUTES } from "@/config/api-routes";
+import { toApiResponse } from "@/lib/response";
 import apiClient from "@/query/api-client";
 import type { AdminOrganizationSettingsResponse } from "../types/admin-organization-details";
 
@@ -20,5 +21,5 @@ export const updateAdminOrganizationSettings = async (
 			// extra: params.extra,
 		}
 	);
-	return response.data;
+	return toApiResponse(response.data);
 };

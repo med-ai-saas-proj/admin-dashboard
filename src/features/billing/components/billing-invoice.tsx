@@ -78,7 +78,7 @@ const BillingInvoice = (): React.JSX.Element => {
 		to_date: toDate,
 	});
 
-	const rows = invoices?.data ?? [];
+	const rows = invoices?.results ?? [];
 	const total = invoices?.total ?? 0;
 	const hasMore = rows.length < total;
 
@@ -174,7 +174,7 @@ const BillingInvoice = (): React.JSX.Element => {
 											onClick={() =>
 												setDetailsInvoiceResponse({
 													success: true,
-													data: toInvoiceDetails(invoice),
+													results: toInvoiceDetails(invoice),
 												})
 											}
 										>

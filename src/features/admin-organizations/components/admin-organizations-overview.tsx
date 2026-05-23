@@ -50,7 +50,7 @@ const AdminOrganizationsOverview = (): React.JSX.Element => {
 		offset,
 		q: searchQuery || undefined,
 	});
-	const organizations = data?.data || [];
+	const organizations = data?.results || [];
 	const totalElements = data?.total ?? 0;
 
 	const handleSearch = () => {

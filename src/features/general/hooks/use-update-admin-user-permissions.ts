@@ -26,16 +26,16 @@ export const useUpdateAdminUserPermissions = () => {
 
 			queryClient.setQueryData<UserPermissionsResponse>(permissionsQueryKey, {
 				success: true,
-				data: permissions,
+				results: permissions,
 			});
 
-			if (previousProfile?.data) {
+			if (previousProfile?.results) {
 				queryClient.setQueryData<UserProfileResponse>(profileQueryKey, {
 					success: true,
-					data: {
-						...previousProfile.data,
+					results: {
+						...previousProfile.results,
 						permissions: {
-							...previousProfile.data.permissions,
+							...previousProfile.results.permissions,
 							organization_permissions: permissions.organization_permissions,
 							project_permissions: permissions.project_permissions.map(
 								(projectPermission) => ({
