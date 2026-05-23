@@ -10,7 +10,7 @@ export const getAdminUserPermissions = async (
 	params: AdminUserPermissionsParams
 ) => {
 	const response = await apiClient.get<UserPermissionsResponse>(
-		`${API_ROUTES.ADMIN_DASHBOARD.ADMIN}/user-permissions/${params.userId}`
+		`${API_ROUTES.MANAGEMENT.ADMIN}/user-permissions/${params.userId}`
 	);
 	return response.data;
 };

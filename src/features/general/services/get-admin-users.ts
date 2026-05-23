@@ -10,7 +10,7 @@ export type AdminUserParams = {
 
 export const getAdminUsers = async (params: AdminUserParams) => {
 	const response = await apiClient.get<UserListResponse>(
-		`${API_ROUTES.ADMIN_DASHBOARD.ADMIN}/users`,
+		`${API_ROUTES.MANAGEMENT.ADMIN}/users`,
 		{ params }
 	);
 	return response.data;

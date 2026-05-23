@@ -23,6 +23,7 @@ import { Search } from "lucide-react";
 import UserProfileDialog from "@/features/general/components/dialogs/user-profile-dialog";
 import UserOrganizationsDialog from "@/features/general/components/dialogs/user-organizations";
 import UserPermissionsDialog from "@/features/general/components/dialogs/user-permissions-dialog";
+import { Label } from "@/components/shadcn/label";
 
 const LIMIT = 10;
 
@@ -86,12 +87,12 @@ const GeneralUsers = (): React.JSX.Element => {
 				<div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
 					<div className="flex flex-1 gap-2 max-w-xl">
 						<div className="flex-1">
-							<label
+							<Label
 								htmlFor="search-input"
 								className="mb-2 block text-sm font-medium"
 							>
 								{t("admin.users.search.label")}
-							</label>
+							</Label>
 							<Input
 								id="search-input"
 								placeholder={t("admin.users.search.placeholder")}
@@ -139,12 +140,12 @@ const GeneralUsers = (): React.JSX.Element => {
 						</div>
 
 						<div className="flex-1 place-items-end sm:w-fit">
-							<label
+							<Label
 								htmlFor="email-verified-filter"
 								className="mb-2 block text-sm font-medium"
 							>
 								{t("admin.users.filters.email_verified")}
-							</label>
+							</Label>
 							<Select
 								value={emailVerifiedFilter}
 								onValueChange={setEmailVerifiedFilter}

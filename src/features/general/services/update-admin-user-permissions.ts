@@ -12,7 +12,7 @@ export const updateAdminUserPermissions = async ({
 	permissions,
 }: UpdateAdminUserPermissionsParams): Promise<UserPermissions> => {
 	const response = await apiClient.put<UserPermissions>(
-		`${API_ROUTES.ADMIN_DASHBOARD.ADMIN}/user-permissions/${userId}`,
+		`${API_ROUTES.MANAGEMENT.ADMIN}/user-permissions/${userId}`,
 		permissions
 	);
 	return response.data;

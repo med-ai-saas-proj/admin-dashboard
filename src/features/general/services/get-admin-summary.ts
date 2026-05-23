@@ -4,7 +4,7 @@ import type { AdminSummary } from "../types/admin";
 
 export const getAdminSummary = async () => {
 	const response = await apiClient.get<AdminSummary>(
-		`${API_ROUTES.ADMIN_DASHBOARD.ADMIN}/summary`
+		`${API_ROUTES.MANAGEMENT.ADMIN}/dashboard/summary`
 	);
 	return response.data;
 };
