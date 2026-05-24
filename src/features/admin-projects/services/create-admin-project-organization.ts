@@ -22,7 +22,7 @@ export const createAdminProjectOrganization = async ({
 		},
 		{
 			params: {
-				organizationId,
+				org_id: organizationId,
 			},
 		}
 	);

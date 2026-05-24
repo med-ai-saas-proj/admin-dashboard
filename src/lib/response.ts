@@ -5,8 +5,8 @@ export interface ApiResponse<T> {
 
 export interface PaginatedResponse<T> extends ApiResponse<T> {
 	total: number;
-	offset: number;
-	limit: number;
+	offset?: number;
+	limit?: number;
 }
 
 export const isApiResponse = <T>(value: unknown): value is ApiResponse<T> => {

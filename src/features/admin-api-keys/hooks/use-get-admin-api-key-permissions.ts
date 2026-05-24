@@ -5,6 +5,12 @@ import type { AdminApiKeyPermissionsResponse } from "../types/admin-api-keys";
 export const useGetAdminApiKeyPermissions = () => {
 	return useQuery<AdminApiKeyPermissionsResponse>({
 		queryKey: ["admin-api-key-permissions"],
-		queryFn: () => getApiKeyPermissions(),
+		queryFn: async () => {
+			const response = await getApiKeyPermissions();
+			return {
+				...response,
+				total: response.results.length,
+			};
+		},
 	});
 };
