@@ -56,10 +56,10 @@ const AdminApiKeysOverview = (): React.JSX.Element => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const limit = 10;
 
-	const apiKeys = data?.results ?? [];
+	const apiKeys = Array.isArray(data?.results) ? data.results : [];
 
 	const filtered = useMemo(() => {
-		return apiKeys.filter((k: any) => {
+		return apiKeys.filter((k: AdminApiKey) => {
 			const matchesSearch =
 				!searchTerm ||
 				k.api_key_uuid.toLowerCase().includes(searchTerm.toLowerCase()) ||

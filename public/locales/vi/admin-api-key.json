@@ -52,8 +52,12 @@
             "labels": {
                 "name": "Tên",
                 "description": "Mô Tả",
-                "permissions": "Quyền (cách nhau bằng dấu phẩy)",
+                "permissions": "Quyền",
                 "disabled": "Bị Tắt"
+            },
+            "permissions": {
+                "loading": "Đang tải quyền...",
+                "empty": "Không có quyền nào khả dụng"
             }
         },
         "buttons": {

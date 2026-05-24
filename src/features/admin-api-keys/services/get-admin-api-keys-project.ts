@@ -1,5 +1,4 @@
 import { API_ROUTES } from "@/config/api-routes";
-import { toApiResponse } from "@/lib/response";
 import apiClient from "@/query/api-client";
 import type { AdminApiKeysResponse } from "../types/admin-api-keys";
 
@@ -27,5 +26,5 @@ export const getAdminApiKeysProject = async ({
 			},
 		}
 	);
-	return toApiResponse(response.data);
+	return response.data;
 };
