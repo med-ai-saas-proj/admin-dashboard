@@ -28,3 +28,7 @@ export type UpdateAdminProjectOrganizationResponse =
 	ApiResponse<AdminProjectOrganization>;
 export type DeleteAdminProjectOrganizationResponse =
 	ApiResponse<DeleteAdminProjectOrganization>;
+export type ArchiveAdminProjectOrganizationResponse =
+	ApiResponse<DeleteAdminProjectOrganization>;
+export type UnArchiveAdminProjectOrganizationResponse =
+	ApiResponse<DeleteAdminProjectOrganization>;
