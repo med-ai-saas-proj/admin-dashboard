@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Eye, Pencil, Search, Trash2 } from "lucide-react";
+import { Archive, Eye, RotateCcw, Search, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import { useTranslation } from "react-i18next";
@@ -31,8 +31,8 @@ import { useAdminOrganizationDetailsStore } from "@/features/admin-organization-
 import type { AdminProjectOrganization } from "@/features/admin-projects/types/admin-projects";
 import {
 	CreateAdminProjectDialog,
+	ArchiveAdminProjectDialog,
 	ViewDetailsAdminProjectDialog,
-	UpdateAdminProjectDialog,
 	DeleteAdminProjectDialog,
 } from "./dialogs";
 
@@ -54,7 +54,7 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 		"all" | "archived" | "active"
 	>("all");
 	const [viewDetailsDialogOpen, setViewDetailsDialogOpen] = useState(false);
-	const [updateDialogOpen, setUpdateDialogOpen] = useState(false);
+	const [archiveDialogOpen, setArchiveDialogOpen] = useState(false);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [selectedProject, setSelectedProject] =
 		useState<AdminProjectOrganization | null>(null);
@@ -93,9 +93,9 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 		setViewDetailsDialogOpen(true);
 	};
 
-	const handleOpenUpdate = (project: AdminProjectOrganization) => {
+	const handleOpenArchive = (project: AdminProjectOrganization) => {
 		setSelectedProject(project);
-		setUpdateDialogOpen(true);
+		setArchiveDialogOpen(true);
 	};
 
 	const handleOpenDelete = (project: AdminProjectOrganization) => {
@@ -217,13 +217,19 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 														<Button
 															variant="ghost"
 															size="icon"
-															onClick={() => handleOpenUpdate(project)}
+															onClick={() => handleOpenArchive(project)}
 														>
-															<Pencil className="h-4 w-4" />
+															{project.archived ? (
+																<RotateCcw className="h-4 w-4" />
+															) : (
+																<Archive className="h-4 w-4" />
+															)}
 														</Button>
 													</TooltipTrigger>
 													<TooltipContent>
-														{t("overview.actions.edit")}
+														{project.archived
+															? t("overview.actions.restore")
+															: t("overview.actions.archive")}
 													</TooltipContent>
 												</Tooltip>
 												<Tooltip>
@@ -256,9 +262,9 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 				project={selectedProject}
 			/>
 
-			<UpdateAdminProjectDialog
-				open={updateDialogOpen}
-				onOpenChange={setUpdateDialogOpen}
+			<ArchiveAdminProjectDialog
+				open={archiveDialogOpen}
+				onOpenChange={setArchiveDialogOpen}
 				project={selectedProject}
 			/>
 

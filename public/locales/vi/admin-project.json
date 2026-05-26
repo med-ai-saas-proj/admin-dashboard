@@ -37,6 +37,8 @@
         "actions": {
             "view": "Xem chi tiết",
             "edit": "Chỉnh Sửa",
+            "archive": "Lưu Trữ",
+            "restore": "Khôi Phục",
             "delete": "Xóa"
         }
     },
@@ -108,6 +110,46 @@
         "messages": {
             "success": "Dự án được lưu trữ thành công",
             "error": "Không thể lưu trữ dự án",
+            "noProjectSelected": "Không có dự án nào được chọn"
+        }
+    },
+    "archive": {
+        "dialog": {
+            "title": "Lưu Trữ Dự Án",
+            "description": "Bạn có chắc chắn muốn lưu trữ dự án này không? Dự án sẽ không còn xuất hiện trong danh sách đang hoạt động."
+        },
+        "labels": {
+            "project": "Dự Án",
+            "uuid": "UUID"
+        },
+        "buttons": {
+            "cancel": "Hủy",
+            "archive": "Lưu Trữ Dự Án",
+            "archiving": "Đang Lưu Trữ..."
+        },
+        "messages": {
+            "success": "Dự án được lưu trữ thành công",
+            "error": "Không thể lưu trữ dự án",
+            "noProjectSelected": "Không có dự án nào được chọn"
+        }
+    },
+    "unarchive": {
+        "dialog": {
+            "title": "Khôi Phục Dự Án",
+            "description": "Bạn có chắc chắn muốn khôi phục dự án này không? Dự án sẽ quay lại danh sách đang hoạt động."
+        },
+        "labels": {
+            "project": "Dự Án",
+            "uuid": "UUID"
+        },
+        "buttons": {
+            "cancel": "Hủy",
+            "restore": "Khôi Phục Dự Án",
+            "restoring": "Đang Khôi Phục..."
+        },
+        "messages": {
+            "success": "Dự án được khôi phục thành công",
+            "error": "Không thể khôi phục dự án",
             "noProjectSelected": "Không có dự án nào được chọn"
         }
     },
