@@ -47,6 +47,45 @@
                 "yes": "Có",
                 "no": "Không",
                 "no_users": "Không tìm thấy người dùng"
+            },
+            "details": {
+                "fallback": {
+                    "organizationInfo": "Thông tin tổ chức không có sẵn",
+                    "organizationPermissions": "Quyền tổ chức không có sẵn",
+                    "projectPermissions": "Quyền dự án không có sẵn"
+                }
+            },
+            "profile": {
+                "trigger": {
+                    "view_details": "Xem chi tiết"
+                },
+                "dialog": {
+                    "title_with_username": "Hồ sơ của {{username}}",
+                    "title_with_user_id": "Hồ sơ người dùng {{userId}}"
+                },
+                "loading": "Đang tải hồ sơ...",
+                "status": {
+                    "active": "Hoạt động",
+                    "inactive": "Không hoạt động",
+                    "verified": "Đã xác thực",
+                    "unverified": "Chưa xác thực"
+                },
+                "sections": {
+                    "organization_information": "Thông tin tổ chức",
+                    "organization_permissions": "Quyền tổ chức",
+                    "project_permissions": "Quyền dự án"
+                },
+                "empty": {
+                    "organization_information": "Không có thông tin tổ chức.",
+                    "organization_permissions": "Không có quyền tổ chức.",
+                    "project_permissions": "Không có quyền dự án."
+                },
+                "labels": {
+                    "project_id": "ID dự án:"
+                },
+                "buttons": {
+                    "cancel": "Hủy"
+                }
             }
         }
     }

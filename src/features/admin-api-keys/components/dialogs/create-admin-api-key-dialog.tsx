@@ -23,7 +23,7 @@ const createSchema = z.object({
 	name: z.string().min(1, "Name is required"),
 	description: z.string().optional().or(z.literal("")),
 	permissions: z.array(z.string()).default([]),
-	disabled: z.boolean().optional(),
+	// disabled: z.boolean().optional(),
 });
 
 type CreateForm = z.input<typeof createSchema>;
@@ -56,7 +56,7 @@ export const CreateAdminApiKeyDialog = ({
 			name: "",
 			description: "",
 			permissions: [],
-			disabled: false,
+			// disabled: false,
 		},
 	});
 
@@ -179,7 +179,7 @@ export const CreateAdminApiKeyDialog = ({
 						</div>
 					</div>
 
-					<div className="flex items-center gap-2">
+					{/* <div className="flex items-center gap-2">
 						<Controller
 							control={control}
 							name="disabled"
@@ -191,7 +191,7 @@ export const CreateAdminApiKeyDialog = ({
 							)}
 						/>
 						<span className="text-sm">{t("create.form.labels.disabled")}</span>
-					</div>
+					</div> */}
 
 					<DialogFooter>
 						<DialogClose asChild>
