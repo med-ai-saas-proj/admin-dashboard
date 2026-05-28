@@ -100,7 +100,12 @@
             "labels": {
                 "name": "Name",
                 "description": "Description",
+                "permissions": "Permissions",
                 "disabled": "Disabled"
+            },
+            "permissions": {
+                "loading": "Loading permissions...",
+                "empty": "No permissions available"
             }
         },
         "buttons": {

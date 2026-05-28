@@ -54,6 +54,7 @@ export const useUpdateAdminApiKey = (projectId: string) => {
 											name: updated.name,
 											description: updated.description,
 											permissions: updated.permissions,
+											disabled: updated.disabled,
 										}
 									: item
 							),

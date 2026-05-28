@@ -36,7 +36,7 @@ const UserPermissionsDialog = ({
 
 	const initialPermissions = permissions;
 	const currentProjectId = useMemo(() => {
-		return initialPermissions?.project_permissions?.[0]?.id ?? "proj_001";
+		return initialPermissions?.project_permissions?.[0]?.id ?? "";
 	}, [initialPermissions]);
 
 	useEffect(() => {
