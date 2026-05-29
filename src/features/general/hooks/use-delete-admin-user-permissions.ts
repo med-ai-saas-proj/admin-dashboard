@@ -29,12 +29,9 @@ export const useDeleteAdminUserPermissions = () => {
 					success: true,
 					results: {
 						...previousPermissions.results,
-						permissions: {
-							...previousPermissions.results.permissions,
-							organization_permissions: [],
-							effective_organization_permissions: [],
-							project_permissions: [],
-						},
+						organization_permissions: [],
+						effective_organization_permissions: [],
+						project_permissions: [],
 					},
 				});
 			}
