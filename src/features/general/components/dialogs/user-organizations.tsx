@@ -49,10 +49,15 @@ const UserOrganizationsDialog = ({
 				) : (
 					<ul className="space-y-2">
 						{userOrganizations.map((org) => (
-							<li key={org.id} className="border rounded-md p-3 bg-slate-50">
+							<li
+								key={org.org_id}
+								className="border rounded-md p-3 bg-slate-50"
+							>
 								<p className="font-medium">{org.name}</p>
 								<div className="flex items-center gap-x-2 mt-2">
-									<p className="text-sm text-muted-foreground">ID: {org.id}</p>
+									<p className="text-sm text-muted-foreground">
+										ID: {org.org_id}
+									</p>
 									<div className="border h-4" />
 									<p className="text-sm text-muted-foreground">
 										Alias: {org.alias}
