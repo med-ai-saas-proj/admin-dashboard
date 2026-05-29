@@ -8,7 +8,7 @@ export const useGetAdminUserPermissions = (
 	params: AdminUserPermissionsParams
 ) => {
 	const query = useQuery({
-		queryKey: ["admin-user-permissions", params],
+		queryKey: ["admin-user-permissions", { userId: params.userId }],
 		queryFn: () => getAdminUserPermissions(params),
 	});
 

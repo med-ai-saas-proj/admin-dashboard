@@ -25,6 +25,7 @@ import UserOrganizationsDialog from "@/features/general/components/dialogs/user-
 import UserPermissionsDialog from "@/features/general/components/dialogs/user-permissions-dialog";
 import { Label } from "@/components/shadcn/label";
 import { useGetAdminUserProfile } from "@/features/general/hooks/use-get-admin-user-profile";
+import type { UserInfo } from "@/features/general/types/admin";
 
 const UserActionDialogs = ({
 	userId,
@@ -45,11 +46,7 @@ const UserActionDialogs = ({
 				profile={profile}
 				isProfileLoading={isProfileLoading}
 			/>
-			<UserPermissionsDialog
-				userId={userId}
-				permissions={profile?.permissions}
-				isProfileLoading={isProfileLoading}
-			/>
+			<UserPermissionsDialog userId={userId} />
 			<UserOrganizationsDialog
 				username={profile?.username || userId}
 				organizations={profile?.organizations}
@@ -87,7 +84,7 @@ const GeneralUsers = (): React.JSX.Element => {
 		const users = Array.isArray(usersResponse?.results)
 			? usersResponse.results
 			: [];
-		let filtered = [...users];
+		let filtered = [...users] as UserInfo[];
 
 		if (enabledFilter !== undefined) {
 			const isEnabled = enabledFilter === "true";
@@ -223,10 +220,10 @@ const GeneralUsers = (): React.JSX.Element => {
 						</TableHeader>
 						<TableBody>
 							{filteredUsers.length > 0 ? (
-								filteredUsers.map((user) => (
-									<TableRow key={user.id}>
+								filteredUsers.map((user: UserInfo) => (
+									<TableRow key={user.user_id}>
 										<TableCell className="font-mono text-xs">
-											{user.id}
+											{user.user_id}
 										</TableCell>
 										<TableCell>{user.username}</TableCell>
 										<TableCell>
@@ -262,7 +259,7 @@ const GeneralUsers = (): React.JSX.Element => {
 											</span>
 										</TableCell>
 										<TableCell>
-											<UserActionDialogs userId={user.id} />
+											<UserActionDialogs userId={user.user_id} />
 										</TableCell>
 									</TableRow>
 								))

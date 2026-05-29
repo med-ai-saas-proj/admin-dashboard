@@ -9,7 +9,7 @@ export type AdminUserPermissionsParams = {
 
 export const getAdminUserPermissions = async (
 	params: AdminUserPermissionsParams
-) => {
+): Promise<UserPermissionsResponse> => {
 	const response = await apiClient.get<UserPermissionsResponse>(
 		`${API_ROUTES.MANAGEMENT.ADMIN}/users/${params.userId}/permissions`
 	);

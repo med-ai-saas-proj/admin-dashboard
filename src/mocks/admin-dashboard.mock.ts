@@ -4,7 +4,8 @@ import { API_ROUTES } from "@/config/api-routes";
 import type {
 	AdminMe,
 	AdminSummary,
-	UserPermissions,
+	UpdateAdminUserPermissionsRequest,
+	UserProfileInfo,
 } from "@/features/general/types/admin";
 
 const escapeRegExp = (value: string) =>
@@ -100,31 +101,39 @@ const userProfileUrl = new RegExp(
 	`^${escapeRegExp(API_ROUTES.MANAGEMENT.ADMIN)}/user-profiles/[^/]+(?:\\?.*)?$`
 );
 
+const createMockProfile = (userId: string): UserProfileInfo => ({
+	user_id: userId,
+	username: `profile_${userId}`,
+	email: `${userId}@example.com`,
+	first_name: "First",
+	last_name: "Last",
+	enabled: true,
+	email_verified: true,
+	organizations: sampleOrgs,
+	permissions: {
+		organization_permissions: ["ORG_READ", "ORG_WRITE"],
+		effective_organization_permissions: ["ORG_READ"],
+		project_permissions: [
+			{
+				project_uuid: "proj_001",
+				permissions: ["PROJECT_READ"],
+				effective_permissions: ["PROJECT_READ"],
+			},
+		],
+	},
+});
+
+const sampleUserProfiles: Record<string, UserProfileInfo> = {
+	user_001: createMockProfile("user_001"),
+	user_002: createMockProfile("user_002"),
+};
+
 Mock.mock(userProfileUrl, "get", (options: { url: string }) => {
 	const parts = options.url.split("/");
 	const userId = parts[parts.length - 1].split("?")[0];
 
-	const profile = {
-		id: userId,
-		username: `profile_${userId}`,
-		email: `${userId}@example.com`,
-		first_name: "First",
-		last_name: "Last",
-		enabled: true,
-		email_verified: true,
-		organizations: sampleOrgs,
-		permissions: {
-			organization_permissions: ["ORG_READ", "ORG_WRITE"],
-			effective_organization_permissions: ["ORG_READ"],
-			project_permissions: [
-				{
-					id: "proj_001",
-					permissions: ["PROJECT_READ"],
-					effective_permissions: ["PROJECT_READ"],
-				},
-			],
-		},
-	};
+	const profile = sampleUserProfiles[userId] ?? createMockProfile(userId);
+	sampleUserProfiles[userId] = profile;
 
 	return {
 		success: true,
@@ -134,29 +143,8 @@ Mock.mock(userProfileUrl, "get", (options: { url: string }) => {
 
 // --- User permissions
 const userPermissionsUrl = new RegExp(
-	`^${escapeRegExp(API_ROUTES.MANAGEMENT.ADMIN)}/user-permissions/[^/]+(?:\\?.*)?$`
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.ADMIN)}/users/[^/]+/permissions(?:\\?.*)?$`
 );
-
-const sampleUserPermissions: Record<string, UserPermissions> = {
-	user_001: {
-		organization_permissions: ["ORG_READ", "ORG_WRITE"],
-		project_permissions: [
-			{
-				project_id: "proj_001",
-				permissions: ["PROJECT_READ"],
-			},
-		],
-	},
-	user_002: {
-		organization_permissions: ["ORG_READ"],
-		project_permissions: [
-			{
-				project_id: "proj_002",
-				permissions: ["PROJECT_READ", "PROJECT_WRITE"],
-			},
-		],
-	},
-};
 
 const getUserIdFromUrl = (url: string) => {
 	const parts = url.split("/");
@@ -165,14 +153,12 @@ const getUserIdFromUrl = (url: string) => {
 
 Mock.mock(userPermissionsUrl, "get", (options: { url: string }) => {
 	const userId = getUserIdFromUrl(options.url);
-	const permissions = sampleUserPermissions[userId] ?? {
-		organization_permissions: ["ORG_READ"],
-		project_permissions: [],
-	};
+	const profile = sampleUserProfiles[userId] ?? createMockProfile(userId);
+	sampleUserProfiles[userId] = profile;
 
 	return {
 		success: true,
-		results: permissions,
+		results: profile,
 	};
 });
 
@@ -182,24 +168,52 @@ Mock.mock(
 	(options: { url: string; body?: string }) => {
 		const userId = getUserIdFromUrl(options.url);
 		const permissions = options.body
-			? (JSON.parse(options.body) as UserPermissions)
+			? (JSON.parse(options.body) as UpdateAdminUserPermissionsRequest)
 			: {
 					organization_permissions: [],
 					project_permissions: [],
 				};
 
-		sampleUserPermissions[userId] = permissions;
+		const previousProfile =
+			sampleUserProfiles[userId] ?? createMockProfile(userId);
+		const updatedProfile: UserProfileInfo = {
+			...previousProfile,
+			permissions: {
+				...previousProfile.permissions,
+				organization_permissions: permissions.organization_permissions,
+				effective_organization_permissions:
+					permissions.organization_permissions,
+				project_permissions: permissions.project_permissions.map(
+					(projectPermission) => ({
+						project_uuid: projectPermission.project_uuid,
+						permissions: projectPermission.permissions,
+						effective_permissions: projectPermission.permissions,
+					})
+				),
+			},
+		};
+
+		sampleUserProfiles[userId] = updatedProfile;
 
 		return {
 			success: true,
-			results: permissions,
+			results: updatedProfile,
 		};
 	}
 );
 
 Mock.mock(userPermissionsUrl, "delete", (options: { url: string }) => {
 	const userId = getUserIdFromUrl(options.url);
-	delete sampleUserPermissions[userId];
+	const previousProfile =
+		sampleUserProfiles[userId] ?? createMockProfile(userId);
+	sampleUserProfiles[userId] = {
+		...previousProfile,
+		permissions: {
+			organization_permissions: [],
+			effective_organization_permissions: [],
+			project_permissions: [],
+		},
+	};
 
 	return {
 		success: true,

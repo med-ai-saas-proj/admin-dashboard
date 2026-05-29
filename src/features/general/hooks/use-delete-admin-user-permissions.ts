@@ -24,15 +24,20 @@ export const useDeleteAdminUserPermissions = () => {
 			const previousProfile =
 				queryClient.getQueryData<UserProfileResponse>(profileQueryKey);
 
-			const emptyPermissions = {
-				organization_permissions: [],
-				project_permissions: [],
-			};
-
-			queryClient.setQueryData<UserPermissionsResponse>(permissionsQueryKey, {
-				success: true,
-				results: emptyPermissions,
-			});
+			if (previousPermissions?.results) {
+				queryClient.setQueryData<UserPermissionsResponse>(permissionsQueryKey, {
+					success: true,
+					results: {
+						...previousPermissions.results,
+						permissions: {
+							...previousPermissions.results.permissions,
+							organization_permissions: [],
+							effective_organization_permissions: [],
+							project_permissions: [],
+						},
+					},
+				});
+			}
 
 			if (previousProfile?.results) {
 				queryClient.setQueryData<UserProfileResponse>(profileQueryKey, {
@@ -69,6 +74,14 @@ export const useDeleteAdminUserPermissions = () => {
 				context.profileQueryKey,
 				context.previousProfile
 			);
+		},
+		onSettled: async (_data, _error, { userId }) => {
+			await queryClient.invalidateQueries({
+				queryKey: ["admin-user-permissions", { userId }],
+			});
+			await queryClient.invalidateQueries({
+				queryKey: ["admin-user-profile", { userId }],
+			});
 		},
 		mutationFn: (params: DeleteAdminUserPermissionsParams) =>
 			deleteAdminUserPermissions(params),
