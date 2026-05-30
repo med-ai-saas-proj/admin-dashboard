@@ -18,8 +18,11 @@ import { useGetAdminOrganizationUsers } from "../hooks/use-get-admin-organizatio
 import type { AdminUserOrganization } from "@/features/admin-organization-details/types/admin-organization-details";
 import { useParams } from "react-router-dom";
 import { useGetAdminOrganizationDetails } from "@/features/admin-organizations/hooks/use-get-admin-organizations-details";
+import UpdateUserPermissionsInOrganizationDialog from "./dialogs/update-user-permissions-in-organization-dialog";
+import UserProfileDialog from "@/features/general/components/dialogs/user-profile-dialog";
 
 const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
+	const { t } = useTranslation("admin-organization");
 	const { orgId } = useParams<{ orgId: string }>();
 	const organizationId =
 		orgId ?? useAdminOrganizationDetailsStore.getState().organizationId ?? "";
@@ -30,8 +33,6 @@ const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 	const [limit] = useState<number>(10);
 
 	const offset = (currentPage - 1) * limit;
-
-	const { t } = useTranslation("admin-organization");
 
 	const { data: organizationInfo } = useGetAdminOrganizationDetails(
 		{
@@ -105,15 +106,22 @@ const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 								<TableHead>{t("users.table.headers.id")}</TableHead>
 								<TableHead>{t("users.table.headers.username")}</TableHead>
 								<TableHead>{t("users.table.headers.email")}</TableHead>
+								<TableHead>{t("users.table.headers.actions")}</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
-							{users.map((u: AdminUserOrganization, index: number) => (
-								<TableRow key={u.id}>
+							{users.map((user: AdminUserOrganization, index: number) => (
+								<TableRow key={user.id}>
 									<TableCell>{offset + index + 1}</TableCell>
-									<TableCell>{u.id}</TableCell>
-									<TableCell>{u.username ?? "-"}</TableCell>
-									<TableCell>{u.email ?? "-"}</TableCell>
+									<TableCell>{user.id}</TableCell>
+									<TableCell>{user.username ?? "-"}</TableCell>
+									<TableCell>{user.email ?? "-"}</TableCell>
+									<TableCell className="space-x-4">
+										<UserProfileDialog userId={user.id} />
+										<UpdateUserPermissionsInOrganizationDialog
+											userId={user.id}
+										/>
+									</TableCell>
 								</TableRow>
 							))}
 						</TableBody>

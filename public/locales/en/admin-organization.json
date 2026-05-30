@@ -162,7 +162,8 @@
                 "number": "#",
                 "id": "ID",
                 "username": "Username",
-                "email": "Email"
+                "email": "Email",
+                "actions": "Actions"
             },
             "empty": {
                 "withSearch": "No users found matching your search",
