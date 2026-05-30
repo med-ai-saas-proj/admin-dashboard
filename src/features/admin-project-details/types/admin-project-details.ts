@@ -11,8 +11,14 @@ export type AdminProjectDetailsSettings = {
 	spending_limit: number;
 };
 
+export type UpdateUserPermissionsInProject = {
+	permissions: string[];
+};
+
 export type AdminProjectDetailsUsersResponse = PaginatedResponse<
 	AdminProjectDetailsUsers[]
 >;
 export type AdminProjectDetailsSettingsResponse =
 	ApiResponse<AdminProjectDetailsSettings>;
+export type UpdateUserPermissionsInProjectResponse =
+	ApiResponse<UpdateUserPermissionsInProject>;

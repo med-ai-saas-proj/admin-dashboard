@@ -111,7 +111,9 @@ const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 								<TableHead>{t("users.table.headers.id")}</TableHead>
 								<TableHead>{t("users.table.headers.username")}</TableHead>
 								<TableHead>{t("users.table.headers.email")}</TableHead>
-								<TableHead>{t("users.table.headers.actions")}</TableHead>
+								<TableHead className="text-right">
+									{t("users.table.headers.actions")}
+								</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
@@ -121,7 +123,7 @@ const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 									<TableCell>{user.id}</TableCell>
 									<TableCell>{user.username ?? "-"}</TableCell>
 									<TableCell>{user.email ?? "-"}</TableCell>
-									<TableCell className="space-x-4">
+									<TableCell className="space-x-4 text-right">
 										<Tooltip>
 											<TooltipTrigger asChild>
 												<span>

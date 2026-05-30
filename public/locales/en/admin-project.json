@@ -220,10 +220,23 @@
             "loading": "Loading..."
         },
         "table": {
+            "headers": {
+                "actions": "Actions"
+            },
             "empty": {
                 "withSearch": "No users found matching your search",
                 "noData": "No users"
             }
+        },
+        "tooltips": {
+            "view_profile": "View profile",
+            "update_permissions": "Update permissions"
+        },
+        "permissionsDialog": {
+            "title": "User Permissions",
+            "username": "UserName: {{username}}",
+            "cancel": "Cancel",
+            "save": "Save changes"
         }
     },
     "permissions": {
