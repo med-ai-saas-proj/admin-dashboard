@@ -162,7 +162,8 @@
                 "number": "#",
                 "id": "ID",
                 "username": "Tên Người Dùng",
-                "email": "Email"
+                "email": "Email",
+                "actions": "Hành Động"
             },
             "empty": {
                 "withSearch": "Không tìm thấy người dùng nào phù hợp với tìm kiếm của bạn",
