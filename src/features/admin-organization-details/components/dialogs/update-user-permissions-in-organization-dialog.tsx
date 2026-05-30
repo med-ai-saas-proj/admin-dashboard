@@ -8,6 +8,7 @@ import {
 } from "@/components/shadcn/dialog";
 import { Button } from "@/components/shadcn/button";
 import { Label } from "@/components/shadcn/label";
+import { useTranslation } from "react-i18next";
 import { useGetAdminOrganizationPermissions } from "@/features/admin-organizations/hooks/use-get-admin-organization-permissions";
 import { useGetAdminUserProfile } from "@/features/general/hooks/use-get-admin-user-profile";
 import { KeyRound } from "lucide-react";
@@ -22,6 +23,7 @@ const UpdateUserPermissionsInOrganizationDialog = ({
 }: {
 	userId: string;
 }): React.JSX.Element => {
+	const { t } = useTranslation("admin-organization");
 	const params = useParams<{ orgId: string }>();
 	const organizationId =
 		params.orgId ??
@@ -75,9 +77,9 @@ const UpdateUserPermissionsInOrganizationDialog = ({
 			<DialogTrigger asChild>
 				<button
 					type="button"
-					aria-label="View permissions"
+					aria-label={t("users.tooltips.update_permissions")}
 					className="hover:text-primary transition-colors"
-					title="View permissions"
+					title={t("users.tooltips.update_permissions")}
 				>
 					<KeyRound className="h-4 w-4" />
 				</button>
@@ -85,9 +87,14 @@ const UpdateUserPermissionsInOrganizationDialog = ({
 
 			<DialogContent className="sm:max-w-3xl">
 				<div className="mb-4">
-					<h2 className="text-lg font-semibold mb-2">User Permissions</h2>
+					<h2 className="text-lg font-semibold mb-2">
+						{t("users.permissionsDialog.title", "User Permissions")}
+					</h2>
 					<p className="text-sm text-muted-foreground">
-						UserName: {userProfile?.username}
+						{t("users.permissionsDialog.username", {
+							defaultValue: "UserName: {{username}}",
+							username: userProfile?.username,
+						})}
 					</p>
 				</div>
 				<div className="max-h-128 overflow-y-auto space-y-4">
@@ -111,10 +118,12 @@ const UpdateUserPermissionsInOrganizationDialog = ({
 				</div>
 				<DialogFooter>
 					<DialogClose asChild>
-						<Button variant="outline">Cancel</Button>
+						<Button variant="outline">
+							{t("users.permissionsDialog.cancel", "Cancel")}
+						</Button>
 					</DialogClose>
 					<Button type="button" onClick={handleUpdatePermissions}>
-						Save changes
+						{t("users.permissionsDialog.save", "Save changes")}
 					</Button>
 				</DialogFooter>
 			</DialogContent>

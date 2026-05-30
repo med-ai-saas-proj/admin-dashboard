@@ -20,6 +20,11 @@ import { useParams } from "react-router-dom";
 import { useGetAdminOrganizationDetails } from "@/features/admin-organizations/hooks/use-get-admin-organizations-details";
 import UpdateUserPermissionsInOrganizationDialog from "./dialogs/update-user-permissions-in-organization-dialog";
 import UserProfileDialog from "@/features/general/components/dialogs/user-profile-dialog";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "@/components/shadcn/tooltip";
 
 const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 	const { t } = useTranslation("admin-organization");
@@ -117,10 +122,29 @@ const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 									<TableCell>{user.username ?? "-"}</TableCell>
 									<TableCell>{user.email ?? "-"}</TableCell>
 									<TableCell className="space-x-4">
-										<UserProfileDialog userId={user.id} />
-										<UpdateUserPermissionsInOrganizationDialog
-											userId={user.id}
-										/>
+										<Tooltip>
+											<TooltipTrigger asChild>
+												<span>
+													<UserProfileDialog userId={user.id} />
+												</span>
+											</TooltipTrigger>
+											<TooltipContent>
+												{t("users.tooltips.view_profile")}
+											</TooltipContent>
+										</Tooltip>
+
+										<Tooltip>
+											<TooltipTrigger asChild>
+												<span>
+													<UpdateUserPermissionsInOrganizationDialog
+														userId={user.id}
+													/>
+												</span>
+											</TooltipTrigger>
+											<TooltipContent>
+												{t("users.tooltips.update_permissions")}
+											</TooltipContent>
+										</Tooltip>
 									</TableCell>
 								</TableRow>
 							))}

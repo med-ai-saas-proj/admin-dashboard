@@ -175,6 +175,16 @@
         },
         "status": {
             "loading": "Đang Tải..."
+        },
+        "permissionsDialog": {
+            "title": "Quyền người dùng",
+            "username": "Tên người dùng: {{username}}",
+            "cancel": "Hủy",
+            "save": "Lưu thay đổi"
+        },
+        "tooltips": {
+            "view_profile": "Xem hồ sơ",
+            "update_permissions": "Cập nhật quyền"
         }
     },
     "common": {
