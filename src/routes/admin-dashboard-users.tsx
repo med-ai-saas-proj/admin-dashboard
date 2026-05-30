@@ -22,7 +22,7 @@ import { CustomPagination } from "@/components/pagination/pagination";
 import { Search } from "lucide-react";
 import UserProfileDialog from "@/features/general/components/dialogs/user-profile-dialog";
 import UserOrganizationsDialog from "@/features/general/components/dialogs/user-organizations";
-import UserPermissionsDialog from "@/features/general/components/dialogs/user-permissions-dialog";
+// import UserPermissionsDialog from "@/features/general/components/dialogs/user-permissions-dialog";
 import { Label } from "@/components/shadcn/label";
 import { useGetAdminUserProfile } from "@/features/general/hooks/use-get-admin-user-profile";
 import type { UserInfo } from "@/features/general/types/admin";
@@ -46,7 +46,7 @@ const UserActionDialogs = ({
 				profile={profile}
 				isProfileLoading={isProfileLoading}
 			/>
-			<UserPermissionsDialog userId={userId} />
+			{/* <UserPermissionsDialog userId={userId} /> */}
 			<UserOrganizationsDialog
 				username={profile?.username || userId}
 				organizations={profile?.organizations}
