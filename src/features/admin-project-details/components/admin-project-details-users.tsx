@@ -13,8 +13,15 @@ import {
 	TableRow,
 } from "@/components/shadcn/table";
 import { CustomPagination } from "@/components/pagination/pagination";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "@/components/shadcn/tooltip";
+import UserProfileDialog from "@/features/general/components/dialogs/user-profile-dialog";
 import { useGetAdminProjectUsers } from "../hooks/use-get-admin-project-users";
 import { useAdminProjectDetailsStore } from "../store/admin-project-details";
+import UpdateUserPermissionsInProjectDialog from "./dialogs/update-user-permissions-in-project-dialog";
 import type { AdminProjectDetailsUsers as AdminProjectUser } from "../types/admin-project-details";
 
 const AdminProjectDetailsUsersPage = (): React.JSX.Element => {
@@ -88,6 +95,11 @@ const AdminProjectDetailsUsersPage = (): React.JSX.Element => {
 								<TableHead>ID</TableHead>
 								<TableHead>Username</TableHead>
 								<TableHead>Email</TableHead>
+								<TableHead className="text-right">
+									{t("users.table.headers.actions", {
+										defaultValue: "Actions",
+									})}
+								</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
@@ -97,6 +109,35 @@ const AdminProjectDetailsUsersPage = (): React.JSX.Element => {
 									<TableCell>{user.id}</TableCell>
 									<TableCell>{user.username ?? "-"}</TableCell>
 									<TableCell>{user.email ?? "-"}</TableCell>
+									<TableCell className="space-x-4 text-right">
+										<Tooltip>
+											<TooltipTrigger asChild>
+												<span>
+													<UserProfileDialog userId={user.id} />
+												</span>
+											</TooltipTrigger>
+											<TooltipContent>
+												{t("users.tooltips.view_profile", {
+													defaultValue: "View profile",
+												})}
+											</TooltipContent>
+										</Tooltip>
+
+										<Tooltip>
+											<TooltipTrigger asChild>
+												<span>
+													<UpdateUserPermissionsInProjectDialog
+														userId={user.id}
+													/>
+												</span>
+											</TooltipTrigger>
+											<TooltipContent>
+												{t("users.tooltips.update_permissions", {
+													defaultValue: "Update permissions",
+												})}
+											</TooltipContent>
+										</Tooltip>
+									</TableCell>
 								</TableRow>
 							))}
 						</TableBody>
