@@ -25,6 +25,42 @@ import {
 	TooltipContent,
 	TooltipTrigger,
 } from "@/components/shadcn/tooltip";
+import { useGetAdminUserProfile } from "@/features/general/hooks/use-get-admin-user-profile";
+
+const UserPermissionsListInOrganization = ({
+	userId,
+}: {
+	userId: string;
+}): React.JSX.Element => {
+	const { data: profileData } = useGetAdminUserProfile({
+		userId,
+	});
+	const profile = profileData?.results;
+	const isTop3Permissions =
+		profile && profile?.permissions.organization_permissions.length <= 3;
+	const permissions = isTop3Permissions
+		? profile?.permissions.organization_permissions
+		: profile?.permissions.organization_permissions.slice(0, 3);
+
+	return (
+		<div>
+			{permissions?.map((perm) => (
+				<span
+					key={perm}
+					className="inline-block bg-muted text-muted-foreground ring-0.5 text-xs px-2 py-1 rounded-md mr-2"
+				>
+					{perm}
+				</span>
+			))}
+			{!isTop3Permissions && (
+				<span className="text-xs text-muted-foreground">
+					+{profile && profile?.permissions.organization_permissions.length - 3}{" "}
+					more
+				</span>
+			)}
+		</div>
+	);
+};
 
 const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 	const { t } = useTranslation("admin-organization");
@@ -111,6 +147,7 @@ const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 								<TableHead>{t("users.table.headers.id")}</TableHead>
 								<TableHead>{t("users.table.headers.username")}</TableHead>
 								<TableHead>{t("users.table.headers.email")}</TableHead>
+								<TableHead>{t("users.table.headers.permissions")}</TableHead>
 								<TableHead className="text-right">
 									{t("users.table.headers.actions")}
 								</TableHead>
@@ -123,6 +160,9 @@ const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 									<TableCell>{user.id}</TableCell>
 									<TableCell>{user.username ?? "-"}</TableCell>
 									<TableCell>{user.email ?? "-"}</TableCell>
+									<TableCell>
+										<UserPermissionsListInOrganization userId={user.id} />
+									</TableCell>
 									<TableCell className="space-x-4 text-right">
 										<Tooltip>
 											<TooltipTrigger asChild>
