@@ -40,6 +40,10 @@
             "archive": "Lưu Trữ",
             "restore": "Khôi Phục",
             "delete": "Xóa"
+        },
+        "status": {
+            "active": "Hoạt Động",
+            "archived": "Đã Lưu Trữ"
         }
     },
     "create": {
@@ -221,6 +225,8 @@
         },
         "table": {
             "headers": {
+                "username": "Tên người dùng",
+                "permissions": "Quyền",
                 "actions": "Hành Động"
             },
             "empty": {
