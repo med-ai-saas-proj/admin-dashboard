@@ -163,6 +163,7 @@
                 "id": "ID",
                 "username": "Tên Người Dùng",
                 "email": "Email",
+                "permissions": "Quyền",
                 "actions": "Hành Động"
             },
             "empty": {
@@ -188,6 +189,10 @@
         }
     },
     "common": {
-        "notAvailable": "Không Có"
+        "notAvailable": "Không Có",
+        "toast": {
+            "success": "Cập nhật quyền thành công",
+            "error": "Không thể cập nhật quyền"
+        }
     }
 }

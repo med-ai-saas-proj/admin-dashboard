@@ -30,6 +30,8 @@ const UpdateUserPermissionsInOrganizationDialog = ({
 		useAdminOrganizationDetailsStore.getState().organizationId ??
 		"";
 
+	const [openDialog, setOpenDialog] = useState(false);
+
 	const { data: allPermissionsInCurrentOrganizationData } =
 		useGetAdminOrganizationPermissions();
 	const { data: userProfileData } = useGetAdminUserProfile({ userId });
@@ -58,7 +60,7 @@ const UpdateUserPermissionsInOrganizationDialog = ({
 		});
 	};
 
-	const handleUpdatePermissions = () => {
+	const handleUpdatePermissions = async () => {
 		updatePermissions(
 			{
 				userId,
@@ -66,14 +68,18 @@ const UpdateUserPermissionsInOrganizationDialog = ({
 			},
 			{
 				onSuccess: () => {
-					toast.success("Permissions updated successfully");
+					toast.success(t("common.toast.success"));
+					setOpenDialog(false);
+				},
+				onError: () => {
+					toast.error(t("common.toast.error"));
 				},
 			}
 		);
 	};
 
 	return (
-		<Dialog>
+		<Dialog open={openDialog} onOpenChange={setOpenDialog}>
 			<DialogTrigger asChild>
 				<button
 					type="button"

@@ -163,6 +163,7 @@
                 "id": "ID",
                 "username": "Username",
                 "email": "Email",
+                "permissions": "Permissions",
                 "actions": "Actions"
             },
             "empty": {
@@ -188,6 +189,10 @@
         }
     },
     "common": {
-        "notAvailable": "N/A"
+        "notAvailable": "N/A",
+        "toast": {
+            "success": "Permissions updated successfully",
+            "error": "Failed to update permissions"
+        }
     }
 }
