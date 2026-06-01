@@ -23,6 +23,46 @@ import { useGetAdminProjectUsers } from "../hooks/use-get-admin-project-users";
 import { useAdminProjectDetailsStore } from "../store/admin-project-details";
 import UpdateUserPermissionsInProjectDialog from "./dialogs/update-user-permissions-in-project-dialog";
 import type { AdminProjectDetailsUsers as AdminProjectUser } from "../types/admin-project-details";
+import { useGetAdminUserProfile } from "@/features/general/hooks/use-get-admin-user-profile";
+
+const UserPermissionsListInProject = ({
+	userId,
+}: {
+	userId: string;
+}): React.JSX.Element => {
+	const { data: profileData } = useGetAdminUserProfile({
+		userId,
+	});
+	const profile = profileData?.results;
+	const projectPermissions = profile?.permissions.project_permissions.flatMap(
+		(perm) => perm.permissions
+	);
+	const isTop3Permissions =
+		projectPermissions && projectPermissions.length <= 3;
+	const permissions = isTop3Permissions
+		? projectPermissions
+		: profile?.permissions.project_permissions
+				.flatMap((perm) => perm.permissions)
+				.slice(0, 3);
+
+	return (
+		<div>
+			{permissions?.map((perm) => (
+				<span
+					key={perm}
+					className="inline-block bg-muted text-muted-foreground ring-0.5 text-xs px-2 py-1 rounded-md mr-2"
+				>
+					{perm}
+				</span>
+			))}
+			{!isTop3Permissions && (
+				<span className="text-xs text-muted-foreground">
+					+{projectPermissions && projectPermissions.length - 3} more
+				</span>
+			)}
+		</div>
+	);
+};
 
 const AdminProjectDetailsUsersPage = (): React.JSX.Element => {
 	const params = useParams<{ projectId: string }>();
@@ -93,8 +133,9 @@ const AdminProjectDetailsUsersPage = (): React.JSX.Element => {
 							<TableRow>
 								<TableHead>#</TableHead>
 								<TableHead>ID</TableHead>
-								<TableHead>Username</TableHead>
+								<TableHead>{t("users.table.headers.username")}</TableHead>
 								<TableHead>Email</TableHead>
+								<TableHead>{t("users.table.headers.permissions")}</TableHead>
 								<TableHead className="text-right">
 									{t("users.table.headers.actions", {
 										defaultValue: "Actions",
@@ -109,6 +150,9 @@ const AdminProjectDetailsUsersPage = (): React.JSX.Element => {
 									<TableCell>{user.id}</TableCell>
 									<TableCell>{user.username ?? "-"}</TableCell>
 									<TableCell>{user.email ?? "-"}</TableCell>
+									<TableCell>
+										<UserPermissionsListInProject userId={user.id} />
+									</TableCell>
 									<TableCell className="space-x-4 text-right">
 										<Tooltip>
 											<TooltipTrigger asChild>

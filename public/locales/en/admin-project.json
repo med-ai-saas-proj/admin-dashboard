@@ -40,6 +40,10 @@
             "archive": "Archive",
             "restore": "Restore",
             "delete": "Delete"
+        },
+        "status": {
+            "active": "Active",
+            "archived": "Archived"
         }
     },
     "create": {
@@ -221,6 +225,8 @@
         },
         "table": {
             "headers": {
+                "username": "Username",
+                "permissions": "Permissions",
                 "actions": "Actions"
             },
             "empty": {
@@ -246,6 +252,10 @@
         }
     },
     "common": {
-        "notAvailable": "-"
+        "notAvailable": "-",
+        "toast": {
+            "updatePermissionsSuccess": "Permissions updated successfully",
+            "updatePermissionsError": "Failed to update permissions"
+        }
     }
 }

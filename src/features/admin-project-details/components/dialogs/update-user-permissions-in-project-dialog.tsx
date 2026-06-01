@@ -28,6 +28,8 @@ const UpdateUserPermissionsInProjectDialog = ({
 	const projectId =
 		params.projectId ?? useAdminProjectDetailsStore.getState().projectId ?? "";
 
+	const [openDialog, setOpenDialog] = useState(false);
+
 	const { data: allPermissionsInCurrentProjectData } =
 		useGetAdminProjectsPermissions();
 	const { data: userProfileData } = useGetAdminUserProfile({ userId });
@@ -71,14 +73,26 @@ const UpdateUserPermissionsInProjectDialog = ({
 			},
 			{
 				onSuccess: () => {
-					toast.success("Permissions updated successfully");
+					toast.success(
+						t("common.toast.updatePermissionsSuccess", {
+							defaultValue: "Permissions updated successfully",
+						})
+					);
+					setOpenDialog(false);
+				},
+				onError: () => {
+					toast.error(
+						t("common.toast.updatePermissionsError", {
+							defaultValue: "Failed to update permissions",
+						})
+					);
 				},
 			}
 		);
 	};
 
 	return (
-		<Dialog>
+		<Dialog open={openDialog} onOpenChange={setOpenDialog}>
 			<DialogTrigger asChild>
 				<button
 					type="button"
