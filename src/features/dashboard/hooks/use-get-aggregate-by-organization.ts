@@ -10,7 +10,9 @@ export const useGetAggregateByOrganization = (params: AggregateParams) => {
 			params.periodEnd,
 			params.period,
 			params.periodScale,
+			params.organizationId,
 		],
 		queryFn: () => getAggregateByOrganization(params),
+		enabled: !!params.organizationId,
 	});
 };

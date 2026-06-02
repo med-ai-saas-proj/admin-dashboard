@@ -19,6 +19,7 @@ import { useUpdateAdminApiKey } from "../../hooks/use-update-admin-api-key";
 import { useGetAdminApiKeyPermissions } from "../../hooks/use-get-admin-api-key-permissions";
 import type { AdminApiKey } from "../../types/admin-api-keys";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 
 const updateSchema = z.object({
 	name: z.string().min(1, "Name is required"),
@@ -82,13 +83,26 @@ const UpdateAdminApiKeyDialog = ({
 	const onSubmit = async (values: UpdateFormOutput) => {
 		if (!apiKey) return;
 
-		await updateMutation.mutateAsync({
-			apiKeyId: apiKey.api_key_uuid,
-			name: values.name,
-			description: values.description || "",
-			permissions: values.permissions ?? [],
-			disabled: values.disabled,
-		});
+		await updateMutation.mutateAsync(
+			{
+				apiKeyId: apiKey.api_key_uuid,
+				name: values.name,
+				description: values.description || "",
+				permissions: values.permissions ?? [],
+				disabled: values.disabled,
+			},
+			{
+				onSuccess: () => {
+					toast.success(t("common.toast.updateSuccess"));
+				},
+				onError: () => {
+					toast.error(t("common.toast.error"));
+				},
+				onSettled: () => {
+					reset();
+				},
+			}
+		);
 
 		onOpenChange(false);
 	};
