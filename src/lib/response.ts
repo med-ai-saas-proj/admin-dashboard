@@ -30,3 +30,32 @@ export const toApiResponse = <T>(
 		results: payload,
 	};
 };
+
+export interface ApiBillingResponse<T> {
+	success: boolean;
+	data: T;
+}
+
+export const isApiBillingResponse = <T>(
+	value: unknown
+): value is ApiBillingResponse<T> => {
+	return (
+		typeof value === "object" &&
+		value !== null &&
+		"success" in value &&
+		"data" in value
+	);
+};
+
+export const toApiBillingResponse = <T>(
+	payload: ApiBillingResponse<T> | T
+): ApiBillingResponse<T> => {
+	if (isApiBillingResponse<T>(payload)) {
+		return payload;
+	}
+
+	return {
+		success: true,
+		data: payload,
+	};
+};

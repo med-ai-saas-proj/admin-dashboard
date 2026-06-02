@@ -1,17 +1,19 @@
-import { useMutation } from "@tanstack/react-query";
-import { query_client } from "@/query/query-client";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
 	addCredits,
 	type AddCreditsCredentials,
 } from "../services/add-credits";
 
 export const useAddCredits = () => {
+	const queryClient = useQueryClient();
+
 	return useMutation({
-		mutationKey: ["addC-credits"],
+		mutationKey: ["add-credits"],
 		mutationFn: (credentials: AddCreditsCredentials) => addCredits(credentials),
 		onSuccess: async () => {
-			await query_client.invalidateQueries({
-				queryKey: ["creditTransactions"],
+			await queryClient.invalidateQueries({
+				queryKey: ["credit-transactions"],
+				exact: false,
 			});
 		},
 	});
