@@ -1,6 +1,7 @@
 import { API_ROUTES } from "@/config/api-routes";
 import apiClient from "@/query/api-client";
-import type { AddCreditsResponse } from "../billing.type";
+import type { AddCredits } from "../billing.type";
+import { toApiBillingResponse } from "@/lib/response";
 
 export type AddCreditsCredentials = {
 	organizationId: string;
@@ -12,7 +13,7 @@ export type AddCreditsCredentials = {
 };
 
 export const addCredits = async (credentials: AddCreditsCredentials) => {
-	const response = await apiClient.post<AddCreditsResponse>(
+	const response = await apiClient.post<AddCredits>(
 		`${API_ROUTES.MANAGEMENT.BILLING}/credits`,
 		{
 			org_id: credentials.organizationId,
@@ -20,5 +21,6 @@ export const addCredits = async (credentials: AddCreditsCredentials) => {
 			description: credentials.description,
 		}
 	);
-	return response.data;
+
+	return toApiBillingResponse(response.data);
 };

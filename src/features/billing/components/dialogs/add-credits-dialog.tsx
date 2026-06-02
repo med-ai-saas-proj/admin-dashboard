@@ -91,7 +91,7 @@ const AddCreditDialog = ({ triggerElement }: AddCreditDialogProps) => {
 		[amountInput]
 	);
 
-	const onSubmit = (data: AddCreditFormData) => {
+	const onSubmit = async (data: AddCreditFormData) => {
 		if (!amountValidation.success) {
 			return;
 		}
@@ -105,7 +105,7 @@ const AddCreditDialog = ({ triggerElement }: AddCreditDialogProps) => {
 			{
 				onSuccess: (data) => {
 					toast(
-						`${tDialog("billing.credit.successMessage", { amount: data.results.amount })}`
+						`${tDialog("billing.credit.successMessage", { amount: data.data.amount })}`
 					);
 					setOpenDialog(false);
 				},

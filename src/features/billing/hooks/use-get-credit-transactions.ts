@@ -6,7 +6,7 @@ import {
 
 export const useGetCreditTransactions = (params: CreditTransactionParams) => {
 	return useQuery({
-		queryKey: ["creditTransactions", params],
+		queryKey: ["credit-transactions", params],
 		queryFn: () => getCreditTransactions(params),
 		placeholderData: (previousData) => previousData,
 	});

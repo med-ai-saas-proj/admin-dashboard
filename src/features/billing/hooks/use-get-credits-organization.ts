@@ -8,7 +8,7 @@ export const useGetCreditsOrganization = ({
 	organizationId,
 }: CreditsOrganizationParams) => {
 	return useQuery({
-		queryKey: ["creditsOrganization", organizationId],
+		queryKey: ["credits-organization", organizationId],
 		queryFn: () => getCreditsOrganization({ organizationId }),
 		enabled: !!organizationId,
 	});
