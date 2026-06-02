@@ -8,10 +8,9 @@ import { useGetAggregateByProjects } from "../hooks/use-get-aggregate-by-project
 import type { ChartConfig } from "@/components/shadcn/chart";
 import type { ChartConfiguration } from "../dashboard.type";
 import { useChartTimePickerStore } from "../store/chart-time-picker";
-import { useQuery } from "@tanstack/react-query";
 import { useAdminOrganizationDetailsStore } from "@/features/admin-organization-details/store/admin-organization-details";
-import { getAdminProjectsOrganization } from "@/features/admin-projects/services/get-admin-projects-organization";
 import type { AdminProjectOrganization } from "@/features/admin-projects/types/admin-projects";
+import { useGetAdminProjectsOrganization } from "@/features/admin-projects/hooks/use-get-admin-projects-organization";
 
 const DashboardAggregateProjects = () => {
 	const { t } = useTranslation("dashboard");
@@ -23,15 +22,9 @@ const DashboardAggregateProjects = () => {
 		useAdminOrganizationDetailsStore((state) => state.organizationId) || "";
 
 	// Fetch organization projects
-	const { data: projectsData } = useQuery({
-		queryKey: ["organization-projects", organizationId],
-		queryFn: () =>
-			getAdminProjectsOrganization({
-				organizationId,
-				offset: 0,
-				limit: 100,
-			}),
-		enabled: !!organizationId,
+	const { data: projectsData } = useGetAdminProjectsOrganization({
+		organizationId,
+		limit: 1000,
 	});
 
 	// Extract project UIDs

@@ -1,7 +1,7 @@
 import type { ApiResponse, PaginatedResponse } from "@/lib/response";
 
 export type AdminMe = {
-	id: string;
+	user_id: string;
 	username: string | null;
 	email: string | null;
 };

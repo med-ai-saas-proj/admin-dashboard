@@ -8,13 +8,20 @@ import { useGetAggregateByOrganization } from "../hooks/use-get-aggregate-by-org
 import type { ChartConfig } from "@/components/shadcn/chart";
 import type { ChartConfiguration } from "../dashboard.type";
 import { useChartTimePickerStore } from "../store/chart-time-picker";
+import { useAdminOrganizationDetailsStore } from "@/features/admin-organization-details/store/admin-organization-details";
+import { useParams } from "react-router-dom";
 
 const DashboardAggregateOrganization = () => {
 	const { t } = useTranslation("dashboard");
+	const { orgId } = useParams<{ orgId: string }>();
+
 	const startDate = useChartTimePickerStore((state) => state.startDate);
 	const endDate = useChartTimePickerStore((state) => state.endDate);
 	const selectedPeriod = useChartTimePickerStore((state) => state.period);
 	const scale = useChartTimePickerStore((state) => state.scale);
+	const storedOrganizationId = useAdminOrganizationDetailsStore(
+		(state) => state.organizationId
+	);
 
 	// Fetching Aggregate Organization Data
 	const aggregateParams = useMemo(() => {
@@ -30,8 +37,9 @@ const DashboardAggregateOrganization = () => {
 			periodEnd: periodEndExclusive.toISOString(),
 			period: selectedPeriod,
 			periodScale: scale,
+			organizationId: orgId || storedOrganizationId || "",
 		};
-	}, [startDate, endDate, selectedPeriod, scale]);
+	}, [startDate, endDate, selectedPeriod, scale, orgId, storedOrganizationId]);
 
 	const { data: aggregateOrganizationData } =
 		useGetAggregateByOrganization(aggregateParams);

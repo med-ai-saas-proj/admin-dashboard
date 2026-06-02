@@ -62,6 +62,7 @@ export type AggregateParams = {
 	periodEnd: string; // ISO date string
 	period: AggregatePeriod;
 	periodScale: number;
+	organizationId?: string;
 };
 
 export type Aggregate = {
