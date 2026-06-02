@@ -27,6 +27,8 @@ import {
 	DeleteAdminOrganizationDialog,
 	ViewDetailsAdminOrganizationDialog,
 } from "./dialogs";
+import { itemVariants } from "@/lib/animations";
+import { motion } from "framer-motion";
 
 const AdminOrganizationsOverview = (): React.JSX.Element => {
 	const { t } = useTranslation("admin-organization");
@@ -75,7 +77,12 @@ const AdminOrganizationsOverview = (): React.JSX.Element => {
 	}, []);
 
 	return (
-		<div className="space-y-4">
+		<motion.div
+			className="space-y-4"
+			variants={itemVariants}
+			initial="hidden"
+			animate="visible"
+		>
 			{/* Header with Search and Create Button */}
 			<div className="flex gap-3 items-center justify-between">
 				<div className="flex-1 flex items-center gap-x-2 max-w-xl">
@@ -231,7 +238,7 @@ const AdminOrganizationsOverview = (): React.JSX.Element => {
 				onOpenChange={setDeleteDialogOpen}
 				organization={selectedOrganization}
 			/>
-		</div>
+		</motion.div>
 	);
 };
 

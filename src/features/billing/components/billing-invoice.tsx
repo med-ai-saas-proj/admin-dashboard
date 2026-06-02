@@ -32,6 +32,8 @@ import ViewInvoiceDetailsDialog from "./dialogs/view-invoice-details-dialog";
 import { useGetInvoices } from "../hooks/use-get-invoices";
 import { useMarkInvoiceAsPaid } from "../hooks/use-mark-invoice-as-paid";
 import { useMarkInvoiceAsRefunded } from "../hooks/use-mark-invoice-as-refunded";
+import { itemVariants } from "@/lib/animations";
+import { motion } from "framer-motion";
 
 const BillingInvoice = (): React.JSX.Element => {
 	const { t } = useTranslation("billing");
@@ -110,7 +112,12 @@ const BillingInvoice = (): React.JSX.Element => {
 	};
 
 	return (
-		<div className="space-y-4">
+		<motion.div
+			className="space-y-4"
+			variants={itemVariants}
+			initial="hidden"
+			animate="visible"
+		>
 			<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
 				<DashboardTimeRangePicker
 					date={dateRange}
@@ -269,7 +276,7 @@ const BillingInvoice = (): React.JSX.Element => {
 				confirmVariant="default"
 				leadingIcon={<RotateCcw className="h-4 w-4" />}
 			/>
-		</div>
+		</motion.div>
 	);
 };
 

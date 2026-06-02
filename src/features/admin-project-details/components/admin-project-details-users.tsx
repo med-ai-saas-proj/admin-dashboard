@@ -24,6 +24,8 @@ import { useAdminProjectDetailsStore } from "../store/admin-project-details";
 import UpdateUserPermissionsInProjectDialog from "./dialogs/update-user-permissions-in-project-dialog";
 import type { AdminProjectDetailsUsers as AdminProjectUser } from "../types/admin-project-details";
 import { useGetAdminUserProfile } from "@/features/general/hooks/use-get-admin-user-profile";
+import { itemVariants } from "@/lib/animations";
+import { motion } from "framer-motion";
 
 const UserPermissionsListInProject = ({
 	userId,
@@ -99,95 +101,97 @@ const AdminProjectDetailsUsersPage = (): React.JSX.Element => {
 				{t("users.title")} {projectId ? `(${projectId})` : ""}
 			</h1>
 
-			<div className="mb-4 flex items-center gap-2">
-				<Input
-					placeholder={t("users.search.placeholder")}
-					value={inputQ}
-					onChange={(e) => setInputQ(e.target.value)}
-					className="max-w-sm"
-				/>
-				<Button onClick={handleSearch} variant="default" size="sm">
-					{t("users.buttons.search")}
-				</Button>
-				{isFetching && (
-					<div className="text-sm text-muted-foreground">
-						{t("users.status.loading")}
-					</div>
-				)}
-			</div>
+			<motion.div variants={itemVariants} initial="hidden" animate="visible">
+				<div className="mb-4 flex items-center gap-2">
+					<Input
+						placeholder={t("users.search.placeholder")}
+						value={inputQ}
+						onChange={(e) => setInputQ(e.target.value)}
+						className="max-w-sm"
+					/>
+					<Button onClick={handleSearch} variant="default" size="sm">
+						{t("users.buttons.search")}
+					</Button>
+					{isFetching && (
+						<div className="text-sm text-muted-foreground">
+							{t("users.status.loading")}
+						</div>
+					)}
+				</div>
 
-			<div className="border rounded-lg overflow-hidden">
-				{isLoading ? (
-					<div className="flex justify-center items-center py-8">
-						<Spinner className="h-6 w-6" />
-					</div>
-				) : users.length === 0 ? (
-					<div className="flex justify-center items-center py-8 text-muted-foreground">
-						{q
-							? t("users.table.empty.withSearch")
-							: t("users.table.empty.noData")}
-					</div>
-				) : (
-					<Table>
-						<TableHeader>
-							<TableRow>
-								<TableHead>#</TableHead>
-								<TableHead>ID</TableHead>
-								<TableHead>{t("users.table.headers.username")}</TableHead>
-								<TableHead>Email</TableHead>
-								<TableHead>{t("users.table.headers.permissions")}</TableHead>
-								<TableHead className="text-right">
-									{t("users.table.headers.actions", {
-										defaultValue: "Actions",
-									})}
-								</TableHead>
-							</TableRow>
-						</TableHeader>
-						<TableBody>
-							{users.map((user, index) => (
-								<TableRow key={user.id}>
-									<TableCell>{offset + index + 1}</TableCell>
-									<TableCell>{user.id}</TableCell>
-									<TableCell>{user.username ?? "-"}</TableCell>
-									<TableCell>{user.email ?? "-"}</TableCell>
-									<TableCell>
-										<UserPermissionsListInProject userId={user.id} />
-									</TableCell>
-									<TableCell className="space-x-4 text-right">
-										<Tooltip>
-											<TooltipTrigger asChild>
-												<span>
-													<UserProfileDialog userId={user.id} />
-												</span>
-											</TooltipTrigger>
-											<TooltipContent>
-												{t("users.tooltips.view_profile", {
-													defaultValue: "View profile",
-												})}
-											</TooltipContent>
-										</Tooltip>
-
-										<Tooltip>
-											<TooltipTrigger asChild>
-												<span>
-													<UpdateUserPermissionsInProjectDialog
-														userId={user.id}
-													/>
-												</span>
-											</TooltipTrigger>
-											<TooltipContent>
-												{t("users.tooltips.update_permissions", {
-													defaultValue: "Update permissions",
-												})}
-											</TooltipContent>
-										</Tooltip>
-									</TableCell>
+				<div className="border rounded-lg overflow-hidden">
+					{isLoading ? (
+						<div className="flex justify-center items-center py-8">
+							<Spinner className="h-6 w-6" />
+						</div>
+					) : users.length === 0 ? (
+						<div className="flex justify-center items-center py-8 text-muted-foreground">
+							{q
+								? t("users.table.empty.withSearch")
+								: t("users.table.empty.noData")}
+						</div>
+					) : (
+						<Table>
+							<TableHeader>
+								<TableRow>
+									<TableHead>#</TableHead>
+									<TableHead>ID</TableHead>
+									<TableHead>{t("users.table.headers.username")}</TableHead>
+									<TableHead>Email</TableHead>
+									<TableHead>{t("users.table.headers.permissions")}</TableHead>
+									<TableHead className="text-right">
+										{t("users.table.headers.actions", {
+											defaultValue: "Actions",
+										})}
+									</TableHead>
 								</TableRow>
-							))}
-						</TableBody>
-					</Table>
-				)}
-			</div>
+							</TableHeader>
+							<TableBody>
+								{users.map((user, index) => (
+									<TableRow key={user.id}>
+										<TableCell>{offset + index + 1}</TableCell>
+										<TableCell>{user.id}</TableCell>
+										<TableCell>{user.username ?? "-"}</TableCell>
+										<TableCell>{user.email ?? "-"}</TableCell>
+										<TableCell>
+											<UserPermissionsListInProject userId={user.id} />
+										</TableCell>
+										<TableCell className="space-x-4 text-right">
+											<Tooltip>
+												<TooltipTrigger asChild>
+													<span>
+														<UserProfileDialog userId={user.id} />
+													</span>
+												</TooltipTrigger>
+												<TooltipContent>
+													{t("users.tooltips.view_profile", {
+														defaultValue: "View profile",
+													})}
+												</TooltipContent>
+											</Tooltip>
+
+											<Tooltip>
+												<TooltipTrigger asChild>
+													<span>
+														<UpdateUserPermissionsInProjectDialog
+															userId={user.id}
+														/>
+													</span>
+												</TooltipTrigger>
+												<TooltipContent>
+													{t("users.tooltips.update_permissions", {
+														defaultValue: "Update permissions",
+													})}
+												</TooltipContent>
+											</Tooltip>
+										</TableCell>
+									</TableRow>
+								))}
+							</TableBody>
+						</Table>
+					)}
+				</div>
+			</motion.div>
 
 			{total > limit && (
 				<div className="py-4 flex justify-center">

@@ -6,6 +6,10 @@ import {
 	CardTitle,
 } from "@/components/shadcn/card";
 import { useTranslation } from "react-i18next";
+import { containerVariants, itemVariants } from "@/lib/animations";
+import { motion } from "framer-motion";
+
+const MotionCard = motion(Card);
 
 const AdminProjectsPermissions = (): React.JSX.Element => {
 	const { t } = useTranslation("admin-project");
@@ -13,7 +17,12 @@ const AdminProjectsPermissions = (): React.JSX.Element => {
 	const permissions = permissionsData?.results?.permissions || [];
 
 	return (
-		<Card className="w-full max-w-lg border border-slate-200 mx-auto shadow hover:shadow-lg transition-all duration-1000">
+		<MotionCard
+			className="w-full max-w-lg border border-slate-200 mx-auto shadow hover:shadow-lg transition-all duration-1000"
+			variants={containerVariants}
+			initial="hidden"
+			animate="visible"
+		>
 			<CardHeader className="pb-4 border-b border-slate-10">
 				<div className="flex items-center justify-between gap-4">
 					<div>
@@ -36,18 +45,20 @@ const AdminProjectsPermissions = (): React.JSX.Element => {
 				<div className="flex flex-wrap gap-2.5">
 					{/* Example Permissions - In real code, map over your data */}
 					{permissions.map((perm) => (
-						<span
+						<motion.span
 							key={perm}
 							className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white text-slate-700 border border-slate-200 shadow-sm hover:border-slate-300 hover:bg-slate-50 cursor-default transition-all"
+							variants={itemVariants}
+							whileHover={{ scale: 1.03 }}
 						>
 							{/* Subtle Icon (Optional but recommended) */}
 							<span className="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
 							{perm}
-						</span>
+						</motion.span>
 					))}
 				</div>
 			</CardContent>
-		</Card>
+		</MotionCard>
 	);
 };
 

@@ -35,6 +35,8 @@ import {
 	ViewDetailsAdminProjectDialog,
 	DeleteAdminProjectDialog,
 } from "./dialogs";
+import { itemVariants } from "@/lib/animations";
+import { motion } from "framer-motion";
 
 const AdminProjectsOrganization = (): React.JSX.Element => {
 	const { t } = useTranslation("admin-project");
@@ -104,176 +106,180 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 	};
 
 	return (
-		<div className="space-y-6">
-			<div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-				<form
-					onSubmit={(event) => {
-						event.preventDefault();
-						handleSearch();
-					}}
-					className="flex flex-1 flex-col gap-3 sm:flex-row"
-				>
-					<div className="flex flex-1 items-center gap-2 max-w-xl">
-						<Input
-							value={searchInput}
-							onChange={(event) => setSearchInput(event.target.value)}
-							placeholder={t("overview.search.placeholder")}
-							className="min-w-0"
-						/>
-						<Button type="submit" variant="default">
-							<Search className="size-4" />
-							{t("overview.buttons.search")}
-						</Button>
-					</div>
-
-					<Select
-						value={statusFilter}
-						onValueChange={(value) =>
-							setStatusFilter(value as typeof statusFilter)
-						}
+		<motion.div variants={itemVariants} initial="hidden" animate="visible">
+			<div className="space-y-6">
+				<div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+					<form
+						onSubmit={(event) => {
+							event.preventDefault();
+							handleSearch();
+						}}
+						className="flex flex-1 flex-col gap-3 sm:flex-row"
 					>
-						<SelectTrigger className="w-full sm:w-[220px]">
-							<SelectValue placeholder={t("overview.filter.label")} />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="all">
-								{t("overview.filter.options.all")}
-							</SelectItem>
-							<SelectItem value="active">
-								{t("overview.filter.options.active")}
-							</SelectItem>
-							<SelectItem value="archived">
-								{t("overview.filter.options.archived")}
-							</SelectItem>
-						</SelectContent>
-					</Select>
-				</form>
-
-				<CreateAdminProjectDialog organizationId={organizationId} />
-			</div>
-
-			<div className="rounded-lg border bg-background shadow-sm overflow-hidden">
-				<div className="max-h-[70vh] overflow-auto">
-					{isLoading ? (
-						<div className="flex items-center justify-center py-16">
-							<Spinner className="size-6" />
+						<div className="flex flex-1 items-center gap-2 max-w-xl">
+							<Input
+								value={searchInput}
+								onChange={(event) => setSearchInput(event.target.value)}
+								placeholder={t("overview.search.placeholder")}
+								className="min-w-0"
+							/>
+							<Button type="submit" variant="default">
+								<Search className="size-4" />
+								{t("overview.buttons.search")}
+							</Button>
 						</div>
-					) : filteredProjects.length === 0 ? (
-						<div className="flex items-center justify-center py-16">
-							<div className="text-sm text-muted-foreground">
-								{isFetching
-									? t("overview.loading")
-									: t("overview.table.empty.noData")}
-							</div>
-						</div>
-					) : (
-						<Table>
-							<TableHeader className="sticky top-0 z-10 bg-background">
-								<TableRow>
-									<TableHead>{t("overview.table.headers.uuid")}</TableHead>
-									<TableHead>{t("overview.table.headers.name")}</TableHead>
-									<TableHead>
-										{t("overview.table.headers.description")}
-									</TableHead>
-									<TableHead>
-										{t("overview.table.headers.organizationId")}
-									</TableHead>
-									<TableHead>{t("overview.table.headers.archived")}</TableHead>
-									<TableHead className="text-right">
-										{t("overview.table.headers.actions")}
-									</TableHead>
-								</TableRow>
-							</TableHeader>
-							<TableBody>
-								{filteredProjects.map((project) => (
-									<TableRow key={project.project_uuid}>
-										<TableCell>{project.project_uuid}</TableCell>
-										<TableCell>{project.name}</TableCell>
-										<TableCell>{project.description ?? "-"}</TableCell>
-										<TableCell>{project.organization_id}</TableCell>
-										<TableCell>
-											{project.archived
-												? t("overview.status.archived")
-												: t("overview.status.active")}
-										</TableCell>
-										<TableCell className="text-right">
-											<div className="flex justify-end gap-2">
-												<Tooltip>
-													<TooltipTrigger asChild>
-														<Button
-															variant="ghost"
-															size="icon"
-															onClick={() => handleViewDetails(project)}
-														>
-															<Eye className="h-4 w-4" />
-														</Button>
-													</TooltipTrigger>
-													<TooltipContent>
-														{t("overview.actions.view")}
-													</TooltipContent>
-												</Tooltip>
-												<Tooltip>
-													<TooltipTrigger asChild>
-														<Button
-															variant="ghost"
-															size="icon"
-															onClick={() => handleOpenArchive(project)}
-														>
-															{project.archived ? (
-																<RotateCcw className="h-4 w-4" />
-															) : (
-																<Archive className="h-4 w-4" />
-															)}
-														</Button>
-													</TooltipTrigger>
-													<TooltipContent>
-														{project.archived
-															? t("overview.actions.restore")
-															: t("overview.actions.archive")}
-													</TooltipContent>
-												</Tooltip>
-												<Tooltip>
-													<TooltipTrigger asChild>
-														<Button
-															variant="ghost"
-															size="icon"
-															onClick={() => handleOpenDelete(project)}
-														>
-															<Trash2 className="h-4 w-4" />
-														</Button>
-													</TooltipTrigger>
-													<TooltipContent>
-														{t("overview.actions.delete")}
-													</TooltipContent>
-												</Tooltip>
-											</div>
-										</TableCell>
-									</TableRow>
-								))}
-							</TableBody>
-						</Table>
-					)}
+
+						<Select
+							value={statusFilter}
+							onValueChange={(value) =>
+								setStatusFilter(value as typeof statusFilter)
+							}
+						>
+							<SelectTrigger className="w-full sm:w-[220px]">
+								<SelectValue placeholder={t("overview.filter.label")} />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="all">
+									{t("overview.filter.options.all")}
+								</SelectItem>
+								<SelectItem value="active">
+									{t("overview.filter.options.active")}
+								</SelectItem>
+								<SelectItem value="archived">
+									{t("overview.filter.options.archived")}
+								</SelectItem>
+							</SelectContent>
+						</Select>
+					</form>
+
+					<CreateAdminProjectDialog organizationId={organizationId} />
 				</div>
+
+				<div className="rounded-lg border bg-background shadow-sm overflow-hidden">
+					<div className="max-h-[70vh] overflow-auto">
+						{isLoading ? (
+							<div className="flex items-center justify-center py-16">
+								<Spinner className="size-6" />
+							</div>
+						) : filteredProjects.length === 0 ? (
+							<div className="flex items-center justify-center py-16">
+								<div className="text-sm text-muted-foreground">
+									{isFetching
+										? t("overview.loading")
+										: t("overview.table.empty.noData")}
+								</div>
+							</div>
+						) : (
+							<Table>
+								<TableHeader className="sticky top-0 z-10 bg-background">
+									<TableRow>
+										<TableHead>{t("overview.table.headers.uuid")}</TableHead>
+										<TableHead>{t("overview.table.headers.name")}</TableHead>
+										<TableHead>
+											{t("overview.table.headers.description")}
+										</TableHead>
+										<TableHead>
+											{t("overview.table.headers.organizationId")}
+										</TableHead>
+										<TableHead>
+											{t("overview.table.headers.archived")}
+										</TableHead>
+										<TableHead className="text-right">
+											{t("overview.table.headers.actions")}
+										</TableHead>
+									</TableRow>
+								</TableHeader>
+								<TableBody>
+									{filteredProjects.map((project) => (
+										<TableRow key={project.project_uuid}>
+											<TableCell>{project.project_uuid}</TableCell>
+											<TableCell>{project.name}</TableCell>
+											<TableCell>{project.description ?? "-"}</TableCell>
+											<TableCell>{project.organization_id}</TableCell>
+											<TableCell>
+												{project.archived
+													? t("overview.status.archived")
+													: t("overview.status.active")}
+											</TableCell>
+											<TableCell className="text-right">
+												<div className="flex justify-end gap-2">
+													<Tooltip>
+														<TooltipTrigger asChild>
+															<Button
+																variant="ghost"
+																size="icon"
+																onClick={() => handleViewDetails(project)}
+															>
+																<Eye className="h-4 w-4" />
+															</Button>
+														</TooltipTrigger>
+														<TooltipContent>
+															{t("overview.actions.view")}
+														</TooltipContent>
+													</Tooltip>
+													<Tooltip>
+														<TooltipTrigger asChild>
+															<Button
+																variant="ghost"
+																size="icon"
+																onClick={() => handleOpenArchive(project)}
+															>
+																{project.archived ? (
+																	<RotateCcw className="h-4 w-4" />
+																) : (
+																	<Archive className="h-4 w-4" />
+																)}
+															</Button>
+														</TooltipTrigger>
+														<TooltipContent>
+															{project.archived
+																? t("overview.actions.restore")
+																: t("overview.actions.archive")}
+														</TooltipContent>
+													</Tooltip>
+													<Tooltip>
+														<TooltipTrigger asChild>
+															<Button
+																variant="ghost"
+																size="icon"
+																onClick={() => handleOpenDelete(project)}
+															>
+																<Trash2 className="h-4 w-4" />
+															</Button>
+														</TooltipTrigger>
+														<TooltipContent>
+															{t("overview.actions.delete")}
+														</TooltipContent>
+													</Tooltip>
+												</div>
+											</TableCell>
+										</TableRow>
+									))}
+								</TableBody>
+							</Table>
+						)}
+					</div>
+				</div>
+
+				<ViewDetailsAdminProjectDialog
+					open={viewDetailsDialogOpen}
+					onOpenChange={setViewDetailsDialogOpen}
+					project={selectedProject}
+				/>
+
+				<ArchiveAdminProjectDialog
+					open={archiveDialogOpen}
+					onOpenChange={setArchiveDialogOpen}
+					project={selectedProject}
+				/>
+
+				<DeleteAdminProjectDialog
+					open={deleteDialogOpen}
+					onOpenChange={setDeleteDialogOpen}
+					project={selectedProject}
+				/>
 			</div>
-
-			<ViewDetailsAdminProjectDialog
-				open={viewDetailsDialogOpen}
-				onOpenChange={setViewDetailsDialogOpen}
-				project={selectedProject}
-			/>
-
-			<ArchiveAdminProjectDialog
-				open={archiveDialogOpen}
-				onOpenChange={setArchiveDialogOpen}
-				project={selectedProject}
-			/>
-
-			<DeleteAdminProjectDialog
-				open={deleteDialogOpen}
-				onOpenChange={setDeleteDialogOpen}
-				project={selectedProject}
-			/>
-		</div>
+		</motion.div>
 	);
 };
 
