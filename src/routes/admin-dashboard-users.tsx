@@ -22,10 +22,11 @@ import { CustomPagination } from "@/components/pagination/pagination";
 import { Search } from "lucide-react";
 import UserProfileDialog from "@/features/general/components/dialogs/user-profile-dialog";
 import UserOrganizationsDialog from "@/features/general/components/dialogs/user-organizations";
-// import UserPermissionsDialog from "@/features/general/components/dialogs/user-permissions-dialog";
 import { Label } from "@/components/shadcn/label";
 import { useGetAdminUserProfile } from "@/features/general/hooks/use-get-admin-user-profile";
 import type { UserInfo } from "@/features/general/types/admin";
+import { itemVariants } from "@/lib/animations";
+import { motion } from "framer-motion";
 
 const UserActionDialogs = ({
 	userId,
@@ -46,7 +47,6 @@ const UserActionDialogs = ({
 				profile={profile}
 				isProfileLoading={isProfileLoading}
 			/>
-			{/* <UserPermissionsDialog userId={userId} /> */}
 			<UserOrganizationsDialog
 				username={profile?.username || userId}
 				organizations={profile?.organizations}
@@ -113,7 +113,12 @@ const GeneralUsers = (): React.JSX.Element => {
 	};
 
 	return (
-		<div className="px-4 py-8">
+		<motion.div
+			className="px-4 py-8"
+			variants={itemVariants}
+			initial="hidden"
+			animate="visible"
+		>
 			<div className="space-y-4">
 				<h1 className="text-2xl font-bold">{t("admin.users.title")}</h1>
 
@@ -284,7 +289,7 @@ const GeneralUsers = (): React.JSX.Element => {
 					</div>
 				)}
 			</div>
-		</div>
+		</motion.div>
 	);
 };
 

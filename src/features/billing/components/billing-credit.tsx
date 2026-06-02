@@ -16,6 +16,8 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { useAdminOrganizationDetailsStore } from "@/features/admin-organization-details/store/admin-organization-details";
 import { formatIsoDateWithGmt } from "@/lib/utils";
+import { itemVariants } from "@/lib/animations";
+import { motion } from "framer-motion";
 
 const BillingCredit = (): React.JSX.Element => {
 	const { t } = useTranslation("billing");
@@ -43,7 +45,12 @@ const BillingCredit = (): React.JSX.Element => {
 	const hasMore = rows.length < total;
 
 	return (
-		<div className="space-y-4">
+		<motion.div
+			className="space-y-4"
+			variants={itemVariants}
+			initial="hidden"
+			animate="visible"
+		>
 			<div className="flex justify-end">
 				<AddCreditDialog
 					triggerElement={
@@ -105,7 +112,7 @@ const BillingCredit = (): React.JSX.Element => {
 					</p>
 				)}
 			</div>
-		</div>
+		</motion.div>
 	);
 };
 

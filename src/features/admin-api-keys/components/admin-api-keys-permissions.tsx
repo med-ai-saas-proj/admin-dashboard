@@ -6,6 +6,10 @@ import {
 	CardTitle,
 } from "@/components/shadcn/card";
 import { useTranslation } from "react-i18next";
+import { containerVariants, itemVariants } from "@/lib/animations";
+import { motion } from "framer-motion";
+
+const MotionCard = motion(Card);
 
 const AdminApiKeysPermissions = (): React.JSX.Element => {
 	const { t } = useTranslation("admin-api-key");
@@ -15,7 +19,12 @@ const AdminApiKeysPermissions = (): React.JSX.Element => {
 		: [];
 
 	return (
-		<Card className="w-full max-w-lg border border-slate-200 mx-auto shadow hover:shadow-lg transition-all duration-300">
+		<MotionCard
+			className="w-full max-w-lg border border-slate-200 mx-auto shadow hover:shadow-lg transition-all duration-300"
+			variants={containerVariants}
+			initial="hidden"
+			animate="visible"
+		>
 			<CardHeader className="pb-4 border-b border-slate-100">
 				<div className="flex items-center justify-between gap-4">
 					<div>
@@ -36,9 +45,10 @@ const AdminApiKeysPermissions = (): React.JSX.Element => {
 			<CardContent>
 				<div className="space-y-3 max-h-136 overflow-y-auto">
 					{permissions.map((p) => (
-						<div
+						<motion.div
 							key={p.id}
-							className="p-3 border border-slate-200 rounded-lg bg-white shadow-sm"
+							className="p-3 border border-slate-200 rounded-lg bg-white shadow-sm hover:border-slate-300 hover:bg-slate-100 transition-all duration-500 cursor-default"
+							variants={itemVariants}
 						>
 							<div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
 								{t("permissions.item.idLabel")}:{" "}
@@ -46,11 +56,11 @@ const AdminApiKeysPermissions = (): React.JSX.Element => {
 							</div>
 							<div className="font-medium text-slate-900">{p.name}</div>
 							<div className="text-sm text-slate-600 mt-1">{p.description}</div>
-						</div>
+						</motion.div>
 					))}
 				</div>
 			</CardContent>
-		</Card>
+		</MotionCard>
 	);
 };
 

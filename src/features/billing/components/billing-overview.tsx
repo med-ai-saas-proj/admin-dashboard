@@ -15,6 +15,8 @@ import TransactionsToolbar, {
 import type { DateRange } from "react-day-picker";
 import { useParams } from "react-router-dom";
 import { useAdminOrganizationDetailsStore } from "@/features/admin-organization-details/store/admin-organization-details";
+import { itemVariants } from "@/lib/animations";
+import { motion } from "framer-motion";
 
 type BillingOverviewFilterForm = {
 	search: string;
@@ -107,7 +109,12 @@ const BillingOverview = (): React.JSX.Element => {
 	};
 
 	return (
-		<div className="space-y-4">
+		<motion.div
+			className="space-y-4"
+			variants={itemVariants}
+			initial="hidden"
+			animate="visible"
+		>
 			{/* <h3 className="text-lg font-semibold">{t("overview.title")}</h3> */}
 
 			<TransactionsToolbar
@@ -145,7 +152,7 @@ const BillingOverview = (): React.JSX.Element => {
 					onPageChange={setCurrentPage}
 				/>
 			) : null}
-		</div>
+		</motion.div>
 	);
 };
 

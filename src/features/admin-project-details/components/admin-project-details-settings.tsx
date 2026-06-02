@@ -12,6 +12,10 @@ import { useAdminProjectDetailsStore } from "../store/admin-project-details";
 import { useGetAdminProjectSettings } from "../hooks/use-get-admin-project-settings";
 import UpdateProjectSettingsDialog from "./dialogs/update-project-settings-dialog";
 import { useTranslation } from "react-i18next";
+import { containerVariants, itemVariants } from "@/lib/animations";
+import { motion } from "framer-motion";
+
+const MotionCard = motion(Card);
 
 const AdminProjectDetailsSettings = (): React.JSX.Element => {
 	const { projectId: projectIdParam } = useParams<{ projectId: string }>();
@@ -29,7 +33,12 @@ const AdminProjectDetailsSettings = (): React.JSX.Element => {
 				{t("settings.title")} {projectId ? `(${projectId})` : ""}
 			</h1>
 			<div className="max-w-4xl mx-auto flex items-start justify-center">
-				<Card className="w-full shadow-sm border-slate-200">
+				<MotionCard
+					className="w-full shadow-sm border-slate-200"
+					variants={containerVariants}
+					initial="hidden"
+					animate="visible"
+				>
 					<CardHeader className="pb-3">
 						<CardTitle className="text-xl font-bold tracking-tight text-slate-900">
 							{t("settings.card.title")}
@@ -37,7 +46,7 @@ const AdminProjectDetailsSettings = (): React.JSX.Element => {
 					</CardHeader>
 
 					<CardContent className="grid gap-y-8">
-						<div className="flex flex-col gap-2">
+						<motion.div variants={itemVariants} className="flex flex-col gap-2">
 							<p className="text-sm font-medium text-slate-500 uppercase tracking-wider">
 								{t("settings.labels.rateLimit")}
 							</p>
@@ -51,9 +60,9 @@ const AdminProjectDetailsSettings = (): React.JSX.Element => {
 									</span>
 								)}
 							</div>
-						</div>
+						</motion.div>
 
-						<div className="flex flex-col gap-2">
+						<motion.div variants={itemVariants} className="flex flex-col gap-2">
 							<p className="text-sm font-medium text-slate-500 uppercase tracking-wider">
 								{t("settings.labels.spendingLimit")}
 							</p>
@@ -69,7 +78,7 @@ const AdminProjectDetailsSettings = (): React.JSX.Element => {
 									</span>
 								)}
 							</div>
-						</div>
+						</motion.div>
 					</CardContent>
 
 					<CardFooter className="flex justify-end">
@@ -83,7 +92,7 @@ const AdminProjectDetailsSettings = (): React.JSX.Element => {
 							}
 						/>
 					</CardFooter>
-				</Card>
+				</MotionCard>
 			</div>
 		</div>
 	);
