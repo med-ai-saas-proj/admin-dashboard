@@ -1,5 +1,4 @@
 import { API_ROUTES } from "@/config/api-routes";
-import { toApiResponse } from "@/lib/response";
 import apiClient from "@/query/api-client";
 
 export type DeleteAdminApiKeyCredentials = {
@@ -8,9 +7,10 @@ export type DeleteAdminApiKeyCredentials = {
 
 export const deleteAdminApiKey = async ({
 	apiKeyId,
-}: DeleteAdminApiKeyCredentials) => {
-	const response = await apiClient.delete<null>(
+}: DeleteAdminApiKeyCredentials): Promise<null> => {
+	await apiClient.delete<null>(
 		`${API_ROUTES.MANAGEMENT.ADMIN_API_KEYS}/${apiKeyId}`
 	);
-	return toApiResponse(response.data);
+
+	return null;
 };

@@ -155,7 +155,7 @@ const DashboardBilling = (): React.JSX.Element => {
 		if (!transactions) return [];
 
 		return transactions.results.map((tx) => ({
-			date: tx.createdAt.toLocaleString().slice(0, 10), // Extract YYYY-MM-DD from ISO string
+			date: tx.captured_at.toLocaleString().slice(0, 10), // Extract YYYY-MM-DD from ISO string
 		}));
 	}, [transactions]);
 
