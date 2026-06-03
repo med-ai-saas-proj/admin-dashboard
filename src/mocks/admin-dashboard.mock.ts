@@ -20,7 +20,7 @@ const adminSummaryUrl = new RegExp(
 );
 
 const adminMe: AdminMe = {
-	id: "admin_001",
+	user_id: "admin_001",
 	username: "admin.user",
 	email: "admin.user@example.com",
 };
@@ -56,7 +56,8 @@ const sampleUsers = Array.from({ length: 12 }, (_, i) => ({
 }));
 
 Mock.mock(usersUrl, "get", (options: { url: string }) => {
-	const requestUrl = new URL(options.url);
+	// `options.url` may be a relative path; provide a base to avoid URL constructor errors
+	const requestUrl = new URL(options.url, "http://localhost");
 	const limit = Number(requestUrl.searchParams.get("limit") ?? 10);
 	const offset = Number(requestUrl.searchParams.get("offset") ?? 0);
 	const q = requestUrl.searchParams.get("q")?.toLowerCase();
@@ -84,8 +85,8 @@ const userOrgsUrl = new RegExp(
 );
 
 const sampleOrgs = [
-	{ id: "org_001", name: "Acme Corp", alias: "acme" },
-	{ id: "org_002", name: "Beta LLC", alias: "beta" },
+	{ org_id: "org_001", name: "Acme Corp", alias: "acme" },
+	{ org_id: "org_002", name: "Beta LLC", alias: "beta" },
 ];
 
 Mock.mock(userOrgsUrl, "get", () => {
@@ -148,7 +149,9 @@ const userPermissionsUrl = new RegExp(
 
 const getUserIdFromUrl = (url: string) => {
 	const parts = url.split("/");
-	return parts[parts.length - 1].split("?")[0];
+	// URL pattern: .../users/{userId}/permissions
+	// userId is the segment before the last one ("permissions")
+	return parts[parts.length - 2].split("?")[0];
 };
 
 Mock.mock(userPermissionsUrl, "get", (options: { url: string }) => {
