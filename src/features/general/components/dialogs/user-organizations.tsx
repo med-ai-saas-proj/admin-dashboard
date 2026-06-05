@@ -8,19 +8,24 @@ import {
 } from "@/components/shadcn/dialog";
 import { Users } from "lucide-react";
 import { Button } from "@/components/shadcn/button";
+import { useGetAdminUserProfile } from "../../hooks/use-get-admin-user-profile";
 import type { UserProfileInfo } from "../../types/admin";
 
 const UserOrganizationsDialog = ({
-	username,
-	organizations,
-	isProfileLoading,
+	userId,
 }: {
-	username: string;
-	organizations?: UserProfileInfo["organizations"];
-	isProfileLoading?: boolean;
+	userId: string;
 }): React.JSX.Element => {
 	const [isOpen, setIsOpen] = useState(false);
-	const userOrganizations = organizations ?? [];
+	const { data, isLoading: isProfileLoading } = useGetAdminUserProfile({
+		params: { userId },
+		enabled: isOpen,
+	});
+	const organizations = data?.results.organizations;
+
+	const userOrganizations =
+		organizations ?? ([] as UserProfileInfo["organizations"]);
+	const username = data?.results.username || userId;
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>

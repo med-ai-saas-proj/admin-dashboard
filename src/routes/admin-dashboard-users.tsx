@@ -23,7 +23,6 @@ import { Search } from "lucide-react";
 import UserProfileDialog from "@/features/general/components/dialogs/user-profile-dialog";
 import UserOrganizationsDialog from "@/features/general/components/dialogs/user-organizations";
 import { Label } from "@/components/shadcn/label";
-import { useGetAdminUserProfile } from "@/features/general/hooks/use-get-admin-user-profile";
 import type { UserInfo } from "@/features/general/types/admin";
 import { itemVariants } from "@/lib/animations";
 import { motion } from "framer-motion";
@@ -33,25 +32,10 @@ const UserActionDialogs = ({
 }: {
 	userId: string;
 }): React.JSX.Element => {
-	const { data: profileData, isLoading: isProfileLoading } =
-		useGetAdminUserProfile({
-			userId,
-		});
-
-	const profile = profileData?.results;
-
 	return (
 		<div className="flex gap-x-6">
-			<UserProfileDialog
-				userId={userId}
-				profile={profile}
-				isProfileLoading={isProfileLoading}
-			/>
-			<UserOrganizationsDialog
-				username={profile?.username || userId}
-				organizations={profile?.organizations}
-				isProfileLoading={isProfileLoading}
-			/>
+			<UserProfileDialog userId={userId} />
+			<UserOrganizationsDialog userId={userId} />
 		</div>
 	);
 };

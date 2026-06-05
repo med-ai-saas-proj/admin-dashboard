@@ -11,25 +11,22 @@ import {
 import { Button } from "@/components/shadcn/button";
 import { Eye } from "lucide-react";
 import { useState } from "react";
-import type { UserProfileInfo } from "../../types/admin";
 import { useTranslation } from "react-i18next";
 import { useGetAdminUserProfile } from "../../hooks/use-get-admin-user-profile";
 
 const UserProfileDialog = ({
 	userId,
-	profile,
-	isProfileLoading,
 }: {
 	userId: string;
-	profile?: UserProfileInfo;
-	isProfileLoading?: boolean;
 }): React.JSX.Element => {
 	const { t } = useTranslation("admin-dashboard");
 
-	const { data } = useGetAdminUserProfile({ userId });
-	const userProfile = profile ?? data?.results;
-
 	const [isOpen, setIsOpen] = useState(false);
+	const { data, isLoading: isProfileLoading } = useGetAdminUserProfile({
+		params: { userId },
+		enabled: isOpen,
+	});
+	const userProfile = data?.results;
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>

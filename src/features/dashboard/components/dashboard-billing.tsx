@@ -154,7 +154,7 @@ const DashboardBilling = (): React.JSX.Element => {
 	const normalizedTransactionsData = useMemo(() => {
 		if (!transactions) return [];
 
-		return transactions.results.map((tx) => ({
+		return transactions.data.map((tx) => ({
 			date: tx.captured_at.toLocaleString().slice(0, 10), // Extract YYYY-MM-DD from ISO string
 		}));
 	}, [transactions]);
