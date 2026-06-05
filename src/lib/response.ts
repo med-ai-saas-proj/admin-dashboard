@@ -59,3 +59,9 @@ export const toApiBillingResponse = <T>(
 		data: payload,
 	};
 };
+
+export interface BillingPaginatedResponse<T> extends ApiBillingResponse<T> {
+	total: number;
+	offset?: number;
+	limit?: number;
+}

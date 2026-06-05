@@ -4,10 +4,17 @@ import {
 	type AdminUserProfileParams,
 } from "../services/get-admin-user-profile";
 
-export const useGetAdminUserProfile = (params: AdminUserProfileParams) => {
+export const useGetAdminUserProfile = ({
+	params,
+	enabled = true,
+}: {
+	params: AdminUserProfileParams;
+	enabled?: boolean;
+}) => {
 	const query = useQuery({
 		queryKey: ["admin-user-profile", params],
 		queryFn: () => getAdminUserProfile(params),
+		enabled,
 	});
 
 	return query;

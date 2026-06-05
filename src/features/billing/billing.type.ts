@@ -1,4 +1,4 @@
-import type { ApiResponse, PaginatedResponse } from "@/lib/response";
+import type { ApiResponse, BillingPaginatedResponse } from "@/lib/response";
 
 export type Invoice = {
 	invoice_uid: string;
@@ -69,9 +69,11 @@ export type Transaction = {
 	errorMessage?: string | null;
 };
 
-export type Invoices = PaginatedResponse<Invoice[]>;
+export type Invoices = BillingPaginatedResponse<Invoice[]>;
 export type InvoiceDetailsResponse = ApiResponse<InvoiceDetails>;
-export type AddCreditsResponse = PaginatedResponse<AddCredits>;
-export type CreditTransactions = PaginatedResponse<CreditTransaction[]>;
+export type AddCreditsResponse = BillingPaginatedResponse<AddCredits>;
+export type CreditTransactionsResponse = BillingPaginatedResponse<
+	CreditTransaction[]
+>;
 export type LifetimeValueResponse = ApiResponse<LifetimeValue>;
-export type TransactionsResponse = PaginatedResponse<Transaction[]>;
+export type TransactionsResponse = BillingPaginatedResponse<Transaction[]>;
