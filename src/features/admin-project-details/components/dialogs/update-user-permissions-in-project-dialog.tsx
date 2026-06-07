@@ -32,7 +32,10 @@ const UpdateUserPermissionsInProjectDialog = ({
 
 	const { data: allPermissionsInCurrentProjectData } =
 		useGetAdminProjectsPermissions();
-	const { data: userProfileData } = useGetAdminUserProfile({ userId });
+	const { data: userProfileData } = useGetAdminUserProfile({
+		params: { userId },
+		enabled: !!userId,
+	});
 	const { mutate: updatePermissions } =
 		useUpdateUserPermissionsInProject(projectId);
 

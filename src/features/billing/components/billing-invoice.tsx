@@ -80,7 +80,7 @@ const BillingInvoice = (): React.JSX.Element => {
 		to_date: toDate,
 	});
 
-	const rows = invoices?.results ?? [];
+	const rows = invoices?.data ?? [];
 	const total = invoices?.total ?? 0;
 	const hasMore = rows.length < total;
 
@@ -163,7 +163,7 @@ const BillingInvoice = (): React.JSX.Element => {
 							</TableCell>
 						</TableRow>
 					) : (
-						rows.map((invoice) => (
+						rows.map((invoice: Invoice) => (
 							<TableRow key={invoice.invoice_uid}>
 								<TableCell className="font-medium">
 									{invoice.invoice_uid}

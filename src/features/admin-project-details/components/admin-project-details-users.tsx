@@ -33,7 +33,8 @@ const UserPermissionsListInProject = ({
 	userId: string;
 }): React.JSX.Element => {
 	const { data: profileData } = useGetAdminUserProfile({
-		userId,
+		params: { userId },
+		enabled: !!userId,
 	});
 	const profile = profileData?.results;
 	const projectPermissions = profile?.permissions.project_permissions.flatMap(
@@ -193,7 +194,7 @@ const AdminProjectDetailsUsersPage = (): React.JSX.Element => {
 				</div>
 			</motion.div>
 
-			{total > limit && (
+			{/* {total > limit && (
 				<div className="py-4 flex justify-center">
 					<CustomPagination
 						currentPage={currentPage}
@@ -202,7 +203,15 @@ const AdminProjectDetailsUsersPage = (): React.JSX.Element => {
 						onPageChange={(page) => setCurrentPage(page)}
 					/>
 				</div>
-			)}
+			)} */}
+			<div className="py-4 flex justify-center">
+				<CustomPagination
+					currentPage={currentPage}
+					limit={limit}
+					totalElements={total}
+					onPageChange={(page) => setCurrentPage(page)}
+				/>
+			</div>
 		</div>
 	);
 };

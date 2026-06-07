@@ -35,7 +35,8 @@ const UserPermissionsListInOrganization = ({
 	userId: string;
 }): React.JSX.Element => {
 	const { data: profileData } = useGetAdminUserProfile({
-		userId,
+		params: { userId },
+		enabled: !!userId,
 	});
 	const profile = profileData?.results;
 	const isTop3Permissions =
@@ -200,7 +201,7 @@ const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 			</motion.div>
 
 			{/* Pagination */}
-			{total > limit && (
+			{/* {total > limit && (
 				<div className="py-4 flex justify-center">
 					<CustomPagination
 						currentPage={currentPage}
@@ -209,7 +210,15 @@ const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 						onPageChange={(p) => setCurrentPage(p)}
 					/>
 				</div>
-			)}
+			)} */}
+			<div className="py-4 flex justify-center">
+				<CustomPagination
+					currentPage={currentPage}
+					limit={limit}
+					totalElements={total}
+					onPageChange={(p) => setCurrentPage(p)}
+				/>
+			</div>
 		</div>
 	);
 };
