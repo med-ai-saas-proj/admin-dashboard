@@ -91,7 +91,7 @@ const BillingOverview = (): React.JSX.Element => {
 		organizationId: storedOrganizationId ?? params.orgId ?? null,
 	});
 
-	const rows = transactionData?.results ?? [];
+	const rows = transactionData?.data ?? [];
 	const total = transactionData?.total ?? 0;
 
 	const handleCopyTransactionId = async (transactionId: string) => {

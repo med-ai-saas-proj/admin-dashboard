@@ -34,7 +34,10 @@ const UpdateUserPermissionsInOrganizationDialog = ({
 
 	const { data: allPermissionsInCurrentOrganizationData } =
 		useGetAdminOrganizationPermissions();
-	const { data: userProfileData } = useGetAdminUserProfile({ userId });
+	const { data: userProfileData } = useGetAdminUserProfile({
+		params: { userId },
+		enabled: !!userId,
+	});
 	const { mutate: updatePermissions } =
 		useUpdateUserPermissionsInOrganization(organizationId);
 
