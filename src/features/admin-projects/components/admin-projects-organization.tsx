@@ -29,6 +29,7 @@ import { Spinner } from "@/components/shadcn/spinner";
 import { useGetAdminProjectsOrganization } from "@/features/admin-projects/hooks/use-get-admin-projects-organization";
 import { useAdminOrganizationDetailsStore } from "@/features/admin-organization-details/store/admin-organization-details";
 import type { AdminProjectOrganization } from "@/features/admin-projects/types/admin-projects";
+import { CustomPagination } from "@/components/pagination/pagination";
 import {
 	CreateAdminProjectDialog,
 	ArchiveAdminProjectDialog,
@@ -44,49 +45,44 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 	const orgId = useAdminOrganizationDetailsStore.getState().organizationId;
 	const organizationId = orgId ?? params.orgId ?? "";
 
-	const { data, isLoading, isFetching } = useGetAdminProjectsOrganization({
-		organizationId,
-		limit: 1000,
-		offset: 0,
-	});
-
 	const [searchInput, setSearchInput] = useState("");
 	const [searchTerm, setSearchTerm] = useState("");
 	const [statusFilter, setStatusFilter] = useState<
 		"all" | "archived" | "active"
 	>("all");
+	const [currentPage, setCurrentPage] = useState(1);
+	const [limit] = useState(10);
 	const [viewDetailsDialogOpen, setViewDetailsDialogOpen] = useState(false);
 	const [archiveDialogOpen, setArchiveDialogOpen] = useState(false);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [selectedProject, setSelectedProject] =
 		useState<AdminProjectOrganization | null>(null);
 
+	const offset = (currentPage - 1) * limit;
+
+	const { data, isLoading, isFetching } = useGetAdminProjectsOrganization({
+		organizationId,
+		limit,
+		offset,
+		q: searchTerm || undefined,
+	});
+
 	const projects = data?.results ?? [];
+	const totalElements = data?.total ?? 0;
 
 	const filteredProjects = useMemo(() => {
 		return projects.filter((project) => {
-			const matchesSearch =
-				!searchTerm ||
-				project.project_uuid.toLowerCase().includes(searchTerm.toLowerCase()) ||
-				project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-				(project.description
-					?.toLowerCase()
-					.includes(searchTerm.toLowerCase()) ??
-					false) ||
-				project.organization_id
-					.toLowerCase()
-					.includes(searchTerm.toLowerCase());
-
 			const matchesStatus =
 				statusFilter === "all" ||
 				(statusFilter === "archived" && project.archived) ||
 				(statusFilter === "active" && !project.archived);
 
-			return matchesSearch && matchesStatus;
+			return matchesStatus;
 		});
-	}, [projects, searchTerm, statusFilter]);
+	}, [projects, statusFilter]);
 
 	const handleSearch = () => {
+		setCurrentPage(1);
 		setSearchTerm(searchInput.trim());
 	};
 
@@ -260,6 +256,17 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 						)}
 					</div>
 				</div>
+
+				{totalElements > limit && (
+					<div className="py-4 flex justify-center">
+						<CustomPagination
+							currentPage={currentPage}
+							limit={limit}
+							totalElements={totalElements}
+							onPageChange={(p) => setCurrentPage(p)}
+						/>
+					</div>
+				)}
 
 				<ViewDetailsAdminProjectDialog
 					open={viewDetailsDialogOpen}

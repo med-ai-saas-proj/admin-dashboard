@@ -8,14 +8,16 @@ export const useGetAdminProjectsOrganization = ({
 	organizationId,
 	limit,
 	offset,
+	q,
 }: AdminProjectsOrganizationParams) => {
 	return useQuery({
-		queryKey: ["admin-projects-organization", organizationId, limit, offset],
+		queryKey: ["admin-projects-organization", organizationId, limit, offset, q],
 		queryFn: () =>
 			getAdminProjectsOrganization({
 				organizationId,
 				limit,
 				offset,
+				q,
 			}),
 		enabled: !!organizationId,
 	});

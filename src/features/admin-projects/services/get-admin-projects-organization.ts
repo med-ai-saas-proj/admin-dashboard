@@ -6,12 +6,14 @@ export type AdminProjectsOrganizationParams = {
 	organizationId: string;
 	limit?: number;
 	offset?: number;
+	q?: string;
 };
 
 export const getAdminProjectsOrganization = async ({
 	organizationId,
-	limit = 1000,
+	limit = 10,
 	offset = 0,
+	q,
 }: AdminProjectsOrganizationParams) => {
 	const response = await apiClient.get<AdminProjectsOrganizationResponse>(
 		`${API_ROUTES.MANAGEMENT.ADMIN_PROJECTS}`,
@@ -20,6 +22,7 @@ export const getAdminProjectsOrganization = async ({
 				org_id: organizationId,
 				limit,
 				offset,
+				q,
 			},
 		}
 	);
