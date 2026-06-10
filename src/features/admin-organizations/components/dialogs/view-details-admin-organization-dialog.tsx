@@ -34,7 +34,7 @@ export const ViewDetailsAdminOrganizationDialog = ({
 		}
 	);
 
-	const details = data?.data || organization;
+	const details = data?.results || organization;
 
 	const handleNavigateToDetails = (orgId: string) => {
 		navigate(`/organizations/${orgId}`);

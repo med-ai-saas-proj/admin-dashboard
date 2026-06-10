@@ -13,6 +13,7 @@ export const getAggregateByOrganization = async (
 				period_end: params.periodEnd,
 				period: params.period,
 				period_scale: params.periodScale,
+				org_id: params.organizationId,
 			},
 		}
 	);

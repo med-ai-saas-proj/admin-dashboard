@@ -1,4 +1,5 @@
 import { API_ROUTES } from "@/config/api-routes";
+import { toApiResponse } from "@/lib/response";
 import apiClient from "@/query/api-client";
 import type { AdminApiKeyResponse } from "../types/admin-api-keys";
 
@@ -7,6 +8,7 @@ export type UpdateAdminApiKeyCredentials = {
 	name: string;
 	description: string;
 	permissions: string[];
+	disabled: boolean;
 };
 
 export const updateAdminApiKey = async ({
@@ -14,6 +16,7 @@ export const updateAdminApiKey = async ({
 	name,
 	description,
 	permissions,
+	disabled,
 }: UpdateAdminApiKeyCredentials) => {
 	const response = await apiClient.put<AdminApiKeyResponse>(
 		`${API_ROUTES.MANAGEMENT.ADMIN_API_KEYS}/${apiKeyId}`,
@@ -21,7 +24,8 @@ export const updateAdminApiKey = async ({
 			name,
 			description,
 			permissions,
+			disabled,
 		}
 	);
-	return response.data;
+	return toApiResponse(response.data);
 };

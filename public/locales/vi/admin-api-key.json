@@ -52,8 +52,12 @@
             "labels": {
                 "name": "Tên",
                 "description": "Mô Tả",
-                "permissions": "Quyền (cách nhau bằng dấu phẩy)",
+                "permissions": "Quyền",
                 "disabled": "Bị Tắt"
+            },
+            "permissions": {
+                "loading": "Đang tải quyền...",
+                "empty": "Không có quyền nào khả dụng"
             }
         },
         "buttons": {
@@ -96,7 +100,12 @@
             "labels": {
                 "name": "Tên",
                 "description": "Mô Tả",
+                "permissions": "Quyền",
                 "disabled": "Bị Tắt"
+            },
+            "permissions": {
+                "loading": "Đang tải quyền...",
+                "empty": "Không có quyền nào khả dụng"
             }
         },
         "buttons": {
@@ -120,6 +129,12 @@
         }
     },
     "common": {
-        "notAvailable": "-"
+        "notAvailable": "-",
+        "toast": {
+            "createSuccess": "Khóa API đã được tạo thành công",
+            "updateSuccess": "Khóa API đã được cập nhật thành công",
+            "deleteSuccess": "Khóa API đã được xóa thành công",
+            "error": "Đã xảy ra lỗi. Vui lòng thử lại."
+        }
     }
 }

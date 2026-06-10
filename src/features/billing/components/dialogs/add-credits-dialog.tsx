@@ -24,6 +24,8 @@ import { toScaledAmount } from "@/features/billing/utils/billing-amount-calculat
 import { useAddCredits } from "@/features/billing/hooks/use-add-credits";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
+import { useAdminOrganizationDetailsStore } from "@/features/admin-organization-details/store/admin-organization-details";
 
 const createAmountSchema = (messages: { minValue: string }) =>
 	z.number().min(0, messages.minValue);
@@ -40,7 +42,15 @@ type AddCreditDialogProps = {
 
 const AddCreditDialog = ({ triggerElement }: AddCreditDialogProps) => {
 	const { t } = useTranslation("billing");
+	const { t: tDialog } = useTranslation("dialog");
 	const { t: tCommon } = useTranslation("common");
+	const { orgId } = useParams<{
+		orgId: string;
+	}>();
+	const storedOrganizationId = useAdminOrganizationDetailsStore(
+		(state) => state.organizationId
+	);
+
 	const validationMessages = useMemo(
 		() => ({
 			minValue: t("validation.amount.min"),
@@ -81,19 +91,25 @@ const AddCreditDialog = ({ triggerElement }: AddCreditDialogProps) => {
 		[amountInput]
 	);
 
-	const onSubmit = (data: AddCreditFormData) => {
+	const onSubmit = async (data: AddCreditFormData) => {
 		if (!amountValidation.success) {
 			return;
 		}
 
 		addCredit(
 			{
+				organizationId: orgId || storedOrganizationId || "",
 				amount: scaledAmount,
 				description: data.description ?? "",
 			},
 			{
-				onSuccess: () => {
-					toast(tCommon("requestDone"));
+				onSuccess: (data) => {
+					toast(
+						`${tDialog("billing.credit.successMessage", {
+							amount: Number(amountInput).toFixed(2),
+							totalCredits: Number(data.data.amount).toFixed(2),
+						})}`
+					);
 					setOpenDialog(false);
 				},
 				onError: () => {

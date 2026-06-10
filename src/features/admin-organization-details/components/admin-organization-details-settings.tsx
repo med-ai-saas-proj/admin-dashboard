@@ -12,6 +12,10 @@ import { useGetAdminOrganizationDetails } from "@/features/admin-organizations/h
 import { Button } from "@/components/shadcn/button";
 import UpdateOrganizationSettingsDialog from "./dialogs/update-organization-settings-dialog";
 import { useTranslation } from "react-i18next";
+import { containerVariants, itemVariants } from "@/lib/animations";
+import { motion } from "framer-motion";
+
+const MotionCard = motion(Card);
 
 const AdminOrganizationDetailsSettings = (): React.JSX.Element => {
 	const { orgId } = useParams<{ orgId: string }>();
@@ -31,19 +35,25 @@ const AdminOrganizationDetailsSettings = (): React.JSX.Element => {
 	);
 	const { t } = useTranslation("admin-organization");
 
-	const settings = settingsData?.data;
+	const settings = settingsData?.results;
 
 	return (
 		<div className="space-y-12">
 			{organizationInfo && (
 				<h1 className="text-2xl font-bold">
 					{t("settings.title")}{" "}
-					{organizationInfo.data.name || t("details.labels.organizationName")} (
-					{organizationId})
+					{organizationInfo.results.name ||
+						t("details.labels.organizationName")}{" "}
+					({organizationId})
 				</h1>
 			)}
 			<div className="max-w-4xl mx-auto flex items-start justify-center gap-x-4">
-				<Card className="w-full shadow-sm border-slate-200">
+				<MotionCard
+					className="w-full shadow-sm border-slate-200"
+					variants={containerVariants}
+					initial="hidden"
+					animate="visible"
+				>
 					<CardHeader className="pb-3">
 						<CardTitle className="text-xl font-bold tracking-tight text-slate-900">
 							{t("settings.card.title")}
@@ -52,7 +62,7 @@ const AdminOrganizationDetailsSettings = (): React.JSX.Element => {
 
 					<CardContent className="grid gap-y-8">
 						{/* Rate Limit Section */}
-						<div className="flex flex-col gap-2">
+						<motion.div variants={itemVariants} className="flex flex-col gap-2">
 							<p className="text-sm font-medium text-slate-500 uppercase tracking-wider">
 								{t("settings.labels.rateLimit")}
 							</p>
@@ -66,10 +76,10 @@ const AdminOrganizationDetailsSettings = (): React.JSX.Element => {
 									</span>
 								)}
 							</div>
-						</div>
+						</motion.div>
 
 						{/* Spending Limit Section */}
-						<div className="flex flex-col gap-2">
+						<motion.div variants={itemVariants} className="flex flex-col gap-2">
 							<p className="text-sm font-medium text-slate-500 uppercase tracking-wider">
 								{t("settings.labels.spendingLimit")}
 							</p>
@@ -85,7 +95,7 @@ const AdminOrganizationDetailsSettings = (): React.JSX.Element => {
 									</span>
 								)}
 							</div>
-						</div>
+						</motion.div>
 					</CardContent>
 
 					<CardFooter className="flex justify-end">
@@ -99,7 +109,7 @@ const AdminOrganizationDetailsSettings = (): React.JSX.Element => {
 							}
 						/>
 					</CardFooter>
-				</Card>
+				</MotionCard>
 				{/* <Card className="w-full shadow-sm border-slate-200">
 					<CardHeader className="pb-3">
 						<CardTitle className="text-sm font-semibold uppercase tracking-wider text-slate-500">

@@ -1,7 +1,7 @@
 import type { ApiResponse, PaginatedResponse } from "@/lib/response";
 
 export type AdminMe = {
-	id: string;
+	user_id: string;
 	username: string | null;
 	email: string | null;
 };
@@ -14,7 +14,7 @@ export type AdminSummary = {
 };
 
 export type UserInfo = {
-	id: string;
+	user_id: string;
 	username: string | null;
 	email: string | null;
 	first_name: string | null;
@@ -30,7 +30,7 @@ export type UserOrganizationInfo = {
 };
 
 export type UserProfileInfo = {
-	id: string;
+	user_id: string;
 	username: string | null;
 	email: string | null;
 	first_name: string | null;
@@ -38,7 +38,7 @@ export type UserProfileInfo = {
 	enabled: boolean;
 	email_verified: boolean;
 	organizations: {
-		id: string;
+		org_id: string;
 		name: string | null;
 		alias: string | null;
 	}[];
@@ -46,7 +46,7 @@ export type UserProfileInfo = {
 		organization_permissions: string[];
 		effective_organization_permissions: string[];
 		project_permissions: {
-			id: string;
+			project_uuid: string;
 			permissions: string[];
 			effective_permissions: string[];
 		}[];
@@ -55,8 +55,18 @@ export type UserProfileInfo = {
 
 export type UserPermissions = {
 	organization_permissions: string[];
+	effective_organization_permissions: string[];
 	project_permissions: {
-		project_id: string;
+		project_uuid: string;
+		permissions: string[];
+		effective_permissions: string[];
+	}[];
+};
+
+export type UpdateAdminUserPermissionsRequest = {
+	organization_permissions: string[];
+	project_permissions: {
+		project_uuid: string;
 		permissions: string[];
 	}[];
 };

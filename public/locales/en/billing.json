@@ -24,11 +24,44 @@
                 "trigger": "Add Credits",
                 "submit": "Add Credits"
             }
+        },
+        "invoiceActions": {
+            "viewDetails": "View details",
+            "markAsPaid": "Mark as paid",
+            "markAsRefunded": "Mark as refunded"
+        },
+        "invoiceDetails": {
+            "title": "Invoice details",
+            "description": "Review the invoice information before taking action.",
+            "fields": {
+                "invoiceUid": "Invoice UID",
+                "billingPeriod": "Billing period",
+                "totalAmount": "Total amount",
+                "paidAt": "Paid at",
+                "usedCredits": "Used credits"
+            }
+        },
+        "invoiceStatus": {
+            "labels": {
+                "invoiceUid": "Invoice UID",
+                "billingPeriod": "Billing period",
+                "totalAmount": "Total amount"
+            },
+            "paid": {
+                "title": "Mark invoice as paid",
+                "description": "This updates the invoice status to paid.",
+                "confirm": "Mark as paid"
+            },
+            "refunded": {
+                "title": "Mark invoice as refunded",
+                "description": "This updates the invoice status to refunded.",
+                "confirm": "Mark as refunded"
+            }
         }
     },
     "creditTransactions": {
         "columns": {
-            "amount": "Amount",
+            "amount": "Amount (USD)",
             "description": "Description",
             "createdAt": "Created At"
         },
@@ -51,7 +84,9 @@
             "SUCCESS": "SUCCESS",
             "FAILED": "FAILED",
             "PENDING": "PENDING",
-            "REFUNDED": "REFUNDED"
+            "REFUNDED": "REFUNDED",
+            "EXPIRED": "EXPIRED",
+            "CAPTURED": "CAPTURED"
         },
         "typeOptions": {
             "ALL": "All types",
@@ -70,6 +105,7 @@
                 "credits": "Credits",
                 "status": "Status",
                 "reason": "Reason",
+                "projectUid": "Project UID",
                 "action": "Action"
             },
             "loading": "Loading transactions...",
@@ -81,6 +117,7 @@
             "description": "Inspect transaction details before handling support requests.",
             "fields": {
                 "transactionId": "Transaction ID",
+                "projectUid": "Project UID",
                 "type": "Type",
                 "status": "Status",
                 "amount": "Amount",
@@ -105,7 +142,7 @@
                 "totalAmount": "Total Amount",
                 "paidAt": "Paid At",
                 "usedCredits": "Used Credits",
-                "details": "Details"
+                "actions": "Actions"
             },
             "empty": "No invoices found.",
             "loadMore": "Load More",

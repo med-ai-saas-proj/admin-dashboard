@@ -1,6 +1,13 @@
-"use client";
-
-import { CreditCard, GalleryVerticalEnd } from "lucide-react";
+import {
+	CreditCard,
+	GalleryVerticalEnd,
+	LayoutDashboard,
+	Users,
+	Building,
+	Folder,
+	Settings,
+	Key,
+} from "lucide-react";
 import type * as React from "react";
 import {
 	Sidebar,
@@ -44,53 +51,53 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 			},
 		],
 		user: userInfo,
-		dashboard: [
-			{
-				name: t("dashboard.billing.title"),
-				url: "/dashboard/billing",
-				icon: CreditCard,
-			},
-		],
+		// dashboard: [
+		// 	{
+		// 		name: t("dashboard.billing.title"),
+		// 		url: "/dashboard/billing",
+		// 		icon: CreditCard,
+		// 	},
+		// ],
 		adminDashboard: [
 			{
 				name: t("adminDashboard.admin.title"),
 				url: "/admin-dashboard/admin",
-				icon: CreditCard,
+				icon: LayoutDashboard,
 			},
 			{
 				name: t("adminDashboard.users.title"),
 				url: "/admin-dashboard/users",
-				icon: CreditCard,
+				icon: Users,
 			},
 		],
 		management: [
 			{
 				name: t("management.organizations.title"),
 				url: "/management/organizations",
-				icon: CreditCard,
-			},
-			{
-				name: t("management.billing.title"),
-				url: "/management/billing",
-				icon: CreditCard,
+				icon: Building,
 			},
 		],
 		organization: [
 			{
+				name: t("management.billing.title"),
+				url: `/organizations/${organizationId}/billing`,
+				icon: CreditCard,
+			},
+			{
 				name: t("organization.users.title"),
 				url: `/organizations/${organizationId}/users`,
-				icon: CreditCard,
+				icon: Users,
 				disableActive: !organizationId,
 			},
 			{
 				name: t("organization.projects.title"),
 				url: `/organizations/${organizationId}/projects`,
-				icon: CreditCard,
+				icon: Folder,
 			},
 			{
 				name: t("organization.settings.title"),
 				url: `/organizations/${organizationId}/settings`,
-				icon: CreditCard,
+				icon: Settings,
 				disableActive: !organizationId,
 			},
 		],
@@ -98,19 +105,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 			{
 				name: t("project.users.title"),
 				url: `/organizations/${organizationId}/projects/${projectId}/users`,
-				icon: CreditCard,
+				icon: Users,
 				disableActive: !projectId,
 			},
 			{
 				name: t("project.settings.title"),
 				url: `/organizations/${organizationId}/projects/${projectId}/settings`,
-				icon: CreditCard,
+				icon: Settings,
 				disableActive: !projectId,
 			},
 			{
 				name: t("project.apiKeys.title"),
 				url: `/organizations/${organizationId}/projects/${projectId}/api-keys`,
-				icon: CreditCard,
+				icon: Key,
 				disableActive: !projectId,
 			},
 		],
@@ -122,7 +129,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 				<TeamSwitcher teams={data.teams} />
 			</SidebarHeader>
 			<SidebarContent>
-				<NavProjects projects={data.dashboard} label={t("dashboard.label")} />
+				{/* <NavProjects
+                    projects={data.dashboard}
+                    label={t("dashboard.label")}
+                /> */}
 				<NavProjects
 					projects={data.adminDashboard}
 					label={t("adminDashboard.label")}

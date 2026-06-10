@@ -1,4 +1,5 @@
 import { API_ROUTES } from "@/config/api-routes";
+import { toApiResponse } from "@/lib/response";
 import apiClient from "@/query/api-client";
 import type { AdminProjectDetailsSettingsResponse } from "../types/admin-project-details";
 
@@ -12,5 +13,5 @@ export const getAdminProjectSettings = async ({
 	const response = await apiClient.get<AdminProjectDetailsSettingsResponse>(
 		`${API_ROUTES.MANAGEMENT.ADMIN_PROJECTS}/${projectId}/settings`
 	);
-	return response.data.data;
+	return toApiResponse(response.data);
 };

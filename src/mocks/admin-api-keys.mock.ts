@@ -136,7 +136,7 @@ const sampleApiKeys: Record<string, AdminApiKey[]> = {
 Mock.mock(apiKeysPermissionsUrl, "get", () => {
 	return {
 		success: true,
-		data: samplePermissions,
+		results: samplePermissions,
 	};
 });
 
@@ -149,7 +149,7 @@ Mock.mock(apiKeysUrl, "get", (options: { url: string }) => {
 
 	return {
 		success: true,
-		data: keys,
+		results: keys,
 	};
 });
 
@@ -188,7 +188,7 @@ Mock.mock(apiKeysUrl, "post", (options: { url: string; body?: string }) => {
 
 	return {
 		success: true,
-		data: newKey,
+		results: newKey,
 	};
 });
 
@@ -238,7 +238,7 @@ Mock.mock(apiKeyItemUrl, "put", (options: { url: string; body?: string }) => {
 		return { success: false, message: "api key not found" };
 	}
 
-	return { success: true, data: updated };
+	return { success: true, results: updated };
 });
 
 // Delete API key
@@ -268,5 +268,5 @@ Mock.mock(apiKeyItemUrl, "delete", (options: { url: string }) => {
 		return { success: false, message: "api key not found" };
 	}
 
-	return { success: true, data: null };
+	return { success: true, results: null };
 });

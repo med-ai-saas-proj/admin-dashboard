@@ -17,6 +17,8 @@
     "billing": {
         "overview": "Tổng quan",
         "invoices": "Hóa đơn",
-        "credits": "Credit"
+        "credits": "Credit",
+        "aggregateOrganization": "Tổng hợp tổ chức",
+        "aggregateProjects": "Tổng hợp dự án"
     }
 }

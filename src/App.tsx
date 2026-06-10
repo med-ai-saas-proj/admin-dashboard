@@ -15,8 +15,8 @@ import BillingDashboard from "./routes/billing";
 import BillingOverview from "./features/billing/components/billing-overview";
 import BillingCredit from "./features/billing/components/billing-credit";
 import BillingInvoice from "./features/billing/components/billing-invoice";
-import ChartDashboard from "./routes/chart-dashboard";
-import DashboardBilling from "./features/dashboard/components/dashboard-billing";
+// import ChartDashboard from "./routes/chart-dashboard";
+// import DashboardBilling from "./features/dashboard/components/dashboard-billing";
 import GeneralAdmin from "./routes/admin-dashboard-admin";
 import GeneralUsers from "./routes/admin-dashboard-users";
 import AdminOrganizations from "./routes/admin-organizations";
@@ -34,6 +34,9 @@ import AdminProjectDetailsUsers from "./features/admin-project-details/component
 import AdminApiKeysPage from "./routes/admin-api-key";
 import AdminApiKeysPermissions from "./features/admin-api-keys/components/admin-api-keys-permissions";
 import AdminApiKeysOverview from "./features/admin-api-keys/components/admin-api-keys-overview";
+import DashboardAggregateOrganization from "./features/dashboard/components/dashboard-aggregate-organization";
+import DashboardAggregateProjects from "./features/dashboard/components/dashboard-aggregate-project";
+import ComingSoonPage from "./layouts/coming-soon";
 
 function App() {
 	return (
@@ -65,17 +68,17 @@ function App() {
 								<Route path="admin" element={<GeneralAdmin />} />
 								<Route path="users" element={<GeneralUsers />} />
 							</Route>
-							<Route path="dashboard" element={<ChartDashboard />}>
+							{/* <Route path="dashboard" element={<ChartDashboard />}>
 								<Route
 									index={true}
 									element={<Navigate to="billing" replace />}
 								/>
 								<Route path="billing" element={<DashboardBilling />} />
-							</Route>
+							</Route> */}
 							<Route path="management">
 								<Route
 									index={true}
-									element={<Navigate to="billing" replace />}
+									element={<Navigate to="organizations" replace />}
 								/>
 								<Route path="organizations" element={<AdminOrganizations />}>
 									<Route
@@ -91,6 +94,13 @@ function App() {
 										element={<AdminOrganizationPermissions />}
 									/>
 								</Route>
+							</Route>
+							<Route
+								path="organizations/:orgId"
+								element={<AdminOrganizationDetails />}
+							>
+								{/* Redirects /organizations/123 to /organizations/123/users */}
+								<Route index element={<Navigate to="users" replace />} />
 								<Route path="billing" element={<BillingDashboard />}>
 									<Route
 										index={true}
@@ -99,15 +109,15 @@ function App() {
 									<Route path="overview" element={<BillingOverview />} />
 									<Route path="invoices" element={<BillingInvoice />} />
 									<Route path="credits" element={<BillingCredit />} />
+									<Route
+										path="aggregate-organization"
+										element={<DashboardAggregateOrganization />}
+									/>
+									<Route
+										path="aggregate-projects"
+										element={<DashboardAggregateProjects />}
+									/>
 								</Route>
-							</Route>
-							<Route
-								path="organizations/:orgId"
-								element={<AdminOrganizationDetails />}
-							>
-								{/* Redirects /organizations/123 to /organizations/123/users */}
-								<Route index element={<Navigate to="users" replace />} />
-
 								<Route
 									path="users"
 									element={<AdminOrganizationDetailsUsers />}
@@ -152,7 +162,7 @@ function App() {
 							</Route>
 						</Route>
 
-						<Route path="*" element={<Navigate to="/" replace />} />
+						<Route path="*" element={<ComingSoonPage />} />
 					</Routes>
 				</BrowserRouter>
 			</KeycloakProvider>

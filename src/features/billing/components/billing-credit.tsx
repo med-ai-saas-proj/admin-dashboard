@@ -13,12 +13,31 @@ import type { CreditTransaction } from "../billing.type";
 import { useGetCreditTransactions } from "../hooks/use-get-credit-transactions";
 import AddCreditDialog from "./dialogs/add-credits-dialog";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
+import { useAdminOrganizationDetailsStore } from "@/features/admin-organization-details/store/admin-organization-details";
+import { formatIsoDateWithGmt } from "@/lib/utils";
+import { itemVariants } from "@/lib/animations";
+import { motion } from "framer-motion";
 
 const BillingCredit = (): React.JSX.Element => {
 	const { t } = useTranslation("billing");
-	const [limit, setLimit] = useState(10);
+	const { orgId } = useParams<{
+		orgId: string;
+	}>();
 
-	const params = useMemo(() => ({ offset: 0, limit }), [limit]);
+	const [limit, setLimit] = useState(10);
+	const storedOrganizationId = useAdminOrganizationDetailsStore(
+		(state) => state.organizationId
+	);
+
+	const params = useMemo(
+		() => ({
+			organizationId: orgId || storedOrganizationId || "",
+			offset: 0,
+			limit,
+		}),
+		[orgId, storedOrganizationId, limit]
+	);
 	const { data: creditTransactions } = useGetCreditTransactions(params);
 
 	const rows: CreditTransaction[] = creditTransactions?.data ?? [];
@@ -26,7 +45,12 @@ const BillingCredit = (): React.JSX.Element => {
 	const hasMore = rows.length < total;
 
 	return (
-		<div className="space-y-4">
+		<motion.div
+			className="space-y-4"
+			variants={itemVariants}
+			initial="hidden"
+			animate="visible"
+		>
 			<div className="flex justify-end">
 				<AddCreditDialog
 					triggerElement={
@@ -57,11 +81,15 @@ const BillingCredit = (): React.JSX.Element => {
 						rows.map((transaction, index) => (
 							<TableRow key={`${transaction.created_at}-${index}`}>
 								<TableCell className="font-medium">
-									{transaction.amount}
+									{Number(transaction.amount).toFixed(2)}
 								</TableCell>
 								<TableCell>{transaction.description || "-"}</TableCell>
 								<TableCell>
-									{new Date(transaction.created_at).toLocaleString()}
+									{formatIsoDateWithGmt(transaction.created_at, {
+										monthFormat: "letters",
+										showTime: true,
+										showGmt: true,
+									})}
 								</TableCell>
 							</TableRow>
 						))
@@ -84,7 +112,7 @@ const BillingCredit = (): React.JSX.Element => {
 					</p>
 				)}
 			</div>
-		</div>
+		</motion.div>
 	);
 };
 

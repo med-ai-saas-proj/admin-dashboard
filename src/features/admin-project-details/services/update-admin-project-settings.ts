@@ -1,4 +1,5 @@
 import { API_ROUTES } from "@/config/api-routes";
+import { toApiResponse } from "@/lib/response";
 import apiClient from "@/query/api-client";
 import type { AdminProjectDetailsSettingsResponse } from "../types/admin-project-details";
 
@@ -20,5 +21,5 @@ export const updateAdminProjectSettings = async ({
 			spending_limit,
 		}
 	);
-	return response.data;
+	return toApiResponse(response.data);
 };

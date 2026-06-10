@@ -162,7 +162,9 @@
                 "number": "#",
                 "id": "ID",
                 "username": "Username",
-                "email": "Email"
+                "email": "Email",
+                "permissions": "Permissions",
+                "actions": "Actions"
             },
             "empty": {
                 "withSearch": "No users found matching your search",
@@ -174,9 +176,23 @@
         },
         "status": {
             "loading": "Loading..."
+        },
+        "permissionsDialog": {
+            "title": "User Permissions",
+            "username": "UserName: {{username}}",
+            "cancel": "Cancel",
+            "save": "Save changes"
+        },
+        "tooltips": {
+            "view_profile": "View profile",
+            "update_permissions": "Update permissions"
         }
     },
     "common": {
-        "notAvailable": "N/A"
+        "notAvailable": "N/A",
+        "toast": {
+            "success": "Permissions updated successfully",
+            "error": "Failed to update permissions"
+        }
     }
 }

@@ -12,8 +12,16 @@ export type AdminOrganizationSettings = {
 	// extra: Record<string, string>;
 };
 
+export type UserPermissionsInOrganization = {
+	permissions: string[];
+};
+
 export type AdminOrganizationUsersResponse = PaginatedResponse<
 	AdminUserOrganization[]
 >;
 export type AdminOrganizationSettingsResponse =
 	ApiResponse<AdminOrganizationSettings>;
+export type UserPermissionsInOrganizationResponse =
+	ApiResponse<UserPermissionsInOrganization>;
+export type UpdateUserPermissionsInOrganizationResponse =
+	ApiResponse<UserPermissionsInOrganization>;

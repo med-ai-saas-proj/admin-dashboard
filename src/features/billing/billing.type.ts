@@ -1,4 +1,4 @@
-import type { ApiResponse, PaginatedResponse } from "@/lib/response";
+import type { ApiResponse, BillingPaginatedResponse } from "@/lib/response";
 
 export type Invoice = {
 	invoice_uid: string;
@@ -9,6 +9,23 @@ export type Invoice = {
 		additionalProperty: string;
 	};
 	used_credits: string;
+};
+
+export type InvoiceDetails = {
+	invoice_uid: string;
+	billing_period: string;
+	total_amount: string;
+	paid_at: string;
+	details: {
+		additionalProperty: string;
+	};
+	used_credits: string;
+	line_items: {
+		description: string;
+		amount: string;
+		project_uuid: string;
+		project_name: string;
+	}[];
 };
 
 export type AddCredits = {
@@ -30,26 +47,33 @@ export type LifetimeValue = {
 	lastPaymentDate: Date; // Rất quan trọng để biết tổ chức này còn "Active buyer" không
 };
 
-export type Transactions = {
-	transactionId: string;
-	amount: number; // Số tiền đã nạp (VD: 150000)
-	creditsAdded: number;
-	type:
-		| "TOPUP"
-		| "SUBSCRIPTION"
-		| "SUBSCRIPTION_FEE"
-		| "OVERAGE_FEE"
-		| "REFUND";
-	status: "SUCCESS" | "FAILED" | "PENDING" | "REFUNDED";
-	paymentMethod: string;
-	description: string;
-	errorMessage: string | null; // Sẽ có text nếu status là FAILED (VD: "Insufficient funds")
-	createdAt: string | Date;
-	invoiceId: string; // Link tới hóa đơn tương ứng (nếu có)
+// export type Transactions = {
+// 	transactionId: string;
+// 	amount: number; // Số tiền đã nạp (VD: 150000)
+// 	creditsAdded: number;
+// 	status: "CAPTURED" | "EXPIRED" | "PENDING" | "REFUNDED";
+// 	paymentMethod: string;
+// 	description: string;
+// 	errorMessage: string | null; // Sẽ có text nếu status là FAILED (VD: "Insufficient funds")
+// 	createdAt: string | Date;
+// 	invoiceId: string; // Link tới hóa đơn tương ứng (nếu có)
+// };
+
+export type Transaction = {
+	transaction_uid: string;
+	amount: string;
+	project_uid: string;
+	captured_at: string;
+	status: "CAPTURED" | "EXPIRED" | "PENDING" | "REFUNDED";
+	description?: string;
+	errorMessage?: string | null;
 };
 
-export type Invoices = PaginatedResponse<Invoice[]>;
-export type AddCreditsResponse = PaginatedResponse<AddCredits>;
-export type CreditTransactions = PaginatedResponse<CreditTransaction[]>;
+export type Invoices = BillingPaginatedResponse<Invoice[]>;
+export type InvoiceDetailsResponse = ApiResponse<InvoiceDetails>;
+export type AddCreditsResponse = BillingPaginatedResponse<AddCredits>;
+export type CreditTransactionsResponse = BillingPaginatedResponse<
+	CreditTransaction[]
+>;
 export type LifetimeValueResponse = ApiResponse<LifetimeValue>;
-export type TransactionsResponse = PaginatedResponse<Transactions[]>;
+export type TransactionsResponse = BillingPaginatedResponse<Transaction[]>;

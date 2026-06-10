@@ -2,127 +2,141 @@ import Mock from "mockjs";
 
 import { API_ROUTES } from "@/config/api-routes";
 import type {
+	Invoice,
+	InvoiceDetails,
 	CreditTransaction,
 	LifetimeValue,
-	Transactions,
+	Transaction,
 } from "@/features/billing/billing.type";
 
 const escapeRegExp = (value: string) =>
 	value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const billingInvoicesUrl = new RegExp(
-	`^${escapeRegExp(API_ROUTES.MANAGEMENT.BILLING)}/invoices(?:\\?.*)?$`
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.BILLING)}/invoices(?:[?].*)?$`
+);
+
+const billingInvoiceDetailsUrl = new RegExp(
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.BILLING)}/invoices/[^/]+(?:[?].*)?$`
+);
+
+const billingInvoiceMarkPaidUrl = new RegExp(
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.BILLING)}/invoices/[^/]+/mark_paid(?:[?].*)?$`
+);
+
+const billingInvoiceRefundUrl = new RegExp(
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.BILLING)}/invoices/[^/]+/refund(?:[?].*)?$`
 );
 
 const billingCreditTransactionsUrl = new RegExp(
-	`^${escapeRegExp(API_ROUTES.MANAGEMENT.BILLING)}/credits/transactions(?:\\?.*)?$`
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.BILLING)}/credits/[^/]+/transactions(?:[?].*)?$`
 );
 
 const billingTransactionsUrl = new RegExp(
-	`^${escapeRegExp(API_ROUTES.MANAGEMENT.BILLING)}/transactions(?:\\?.*)?$`
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.BILLING)}/transactions(?:[?].*)?$`
 );
 
 const billingCreditsUrl = new RegExp(
-	`^${escapeRegExp(API_ROUTES.MANAGEMENT.BILLING)}/credits(?:\\?.*)?$`
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.BILLING)}/credits(?:[?].*)?$`
 );
 
 const billingLifetimeValueUrl = new RegExp(
-	`^${escapeRegExp(API_ROUTES.MANAGEMENT.BILLING)}/lifetime-value(?:\\?.*)?$`
+	`^${escapeRegExp(API_ROUTES.MANAGEMENT.BILLING)}/lifetime-value(?:[?].*)?$`
 );
 
-type InvoiceRecord = {
-	invoice_uid: string;
-	billing_period: string;
-	total_amount: string;
-	paid_at: string;
-	details: {
-		additionalProperty: string;
-	};
-	used_credits: string;
-};
+type InvoiceRecord = InvoiceDetails;
 
 const generateInvoice = (index: number): InvoiceRecord => {
 	const isPaid = index % 3 !== 0;
 	const amount = Mock.Random.float(25, 5000, 2, 2);
 
+	// Generate dates for the last 12 months
+	const monthsBack = index % 12;
+	const invoiceDate = new Date();
+	invoiceDate.setMonth(invoiceDate.getMonth() - monthsBack);
+	const billingPeriod = `${invoiceDate.getFullYear()}-${String(invoiceDate.getMonth() + 1).padStart(2, "0")}`;
+
 	return {
 		invoice_uid: `INV-${Mock.Random.string("upper", 8)}-${index + 1}`,
-		billing_period: Mock.Random.date("yyyy-MM"),
+		billing_period: billingPeriod,
 		total_amount: amount.toFixed(2),
 		paid_at: isPaid ? Mock.Random.datetime("yyyy-MM-dd HH:mm:ss") : "",
 		details: {
 			additionalProperty: isPaid ? "Paid successfully" : "Payment pending",
 		},
 		used_credits: Mock.Random.integer(10, 250).toString(),
+		line_items: [
+			{
+				description: Mock.Random.pick([
+					"Monthly subscription",
+					"Usage overage",
+					"Billing adjustment",
+				]),
+				amount: amount.toFixed(2),
+				project_uuid: `PRJ-${Mock.Random.string("upper", 6)}-${index + 1}`,
+				project_name: Mock.Random.pick([
+					"Atlas",
+					"Northstar",
+					"Velocity",
+					"Aurora",
+				]),
+			},
+		],
 	};
 };
 
 const generateCreditTransaction = (): CreditTransaction => {
-	const amount = Mock.Random.float(10, 1000, 2, 2);
-	const createdAt = Mock.Random.datetime("yyyy-MM-dd HH:mm:ss");
+	const amount = Mock.Random.float(50, 2500, 2, 2);
+
+	// Generate dates spread across the last 90 days
+	const daysBack = Mock.Random.integer(0, 90);
+	const createdAtDate = new Date();
+	createdAtDate.setDate(createdAtDate.getDate() - daysBack);
+	createdAtDate.setHours(
+		Mock.Random.integer(0, 23),
+		Mock.Random.integer(0, 59),
+		Mock.Random.integer(0, 59)
+	);
+	const createdAt = createdAtDate.toISOString().slice(0, 19).replace("T", " ");
 
 	return {
 		amount: amount.toFixed(2),
 		description: Mock.Random.pick([
 			"Manual credit top-up",
-			"Promotional credit",
-			"Billing adjustment",
+			"Promotional credit granted",
+			"Billing adjustment credit",
+			"Referral bonus credit",
+			"System credit adjustment",
 		]),
 		created_at: createdAt,
 	};
 };
 
-const transactionTypes: Transactions["type"][] = [
-	"TOPUP",
-	"SUBSCRIPTION",
-	"SUBSCRIPTION_FEE",
-	"OVERAGE_FEE",
-	"REFUND",
-];
-
-const transactionStatuses: Transactions["status"][] = [
-	"SUCCESS",
-	"FAILED",
+const transactionStatuses: Transaction["status"][] = [
 	"PENDING",
-	"REFUNDED",
+	"CAPTURED",
+	"EXPIRED",
 ];
 
-const generateRecentDateIso = (maxDaysBack = 45): string => {
-	const date = new Date();
-	const daysBack = Mock.Random.integer(0, maxDaysBack);
-	date.setDate(date.getDate() - daysBack);
-	date.setHours(
+const generateTransaction = (index: number): Transaction => {
+	const status = Mock.Random.pick(transactionStatuses);
+	const amount = Mock.Random.float(25, 2500, 2, 2);
+	const createdAtDate = new Date();
+	createdAtDate.setDate(createdAtDate.getDate() - Mock.Random.integer(0, 45));
+	createdAtDate.setHours(
 		Mock.Random.integer(0, 23),
 		Mock.Random.integer(0, 59),
 		Mock.Random.integer(0, 59),
 		0
 	);
-
-	return date.toISOString();
-};
-
-const generateTransaction = (index: number): Transactions => {
-	const type = Mock.Random.pick(transactionTypes);
-	const status = Mock.Random.pick(transactionStatuses);
-	const creditsAdded =
-		type === "REFUND" ? 0 : Mock.Random.integer(5000, 250000);
-	const amount =
-		type === "REFUND"
-			? Mock.Random.float(10, 500, 2, 2)
-			: Mock.Random.float(25, 2500, 2, 2);
+	const capturedAt = createdAtDate.toISOString();
 
 	return {
-		transactionId: `TXN-${Mock.Random.string("upper", 6)}-${index + 1}`,
-		amount: Number(amount.toFixed(2)),
-		creditsAdded,
-		type,
+		transaction_uid: `TXN-${Mock.Random.string("upper", 6)}-${index + 1}`,
+		amount: amount.toFixed(2),
+		project_uid: `PRJ-${Mock.Random.string("upper", 6)}-${index + 1}`,
+		captured_at: capturedAt,
 		status,
-		paymentMethod: Mock.Random.pick([
-			"Visa",
-			"Mastercard",
-			"Amex",
-			"Bank transfer",
-		]),
 		description: Mock.Random.pick([
 			"Top-up processed successfully",
 			"Monthly subscription charged",
@@ -131,24 +145,20 @@ const generateTransaction = (index: number): Transactions => {
 			"Refund issued for failed charge",
 		]),
 		errorMessage:
-			status === "FAILED"
+			status === "EXPIRED"
 				? Mock.Random.pick([
 						"Card declined",
 						"Insufficient funds",
 						"Payment gateway timeout",
 					])
 				: null,
-		createdAt: generateRecentDateIso(),
-		invoiceId: Mock.Random.bool()
-			? `INV-${Mock.Random.string("upper", 6)}-${index + 1}`
-			: "",
 	};
 };
 
 const transactions = Array.from({ length: 48 }, (_, index) =>
 	generateTransaction(index)
 ).sort((left, right) =>
-	String(right.createdAt).localeCompare(String(left.createdAt))
+	String(right.captured_at).localeCompare(String(left.captured_at))
 );
 
 const creditTransactions = Array.from({ length: 20 }, () =>
@@ -170,27 +180,119 @@ const lifetimeValueData: LifetimeValue = {
 	lastPaymentDate,
 };
 
+const invoiceRecords = Array.from({ length: 20 }, (_, index) =>
+	generateInvoice(index)
+).sort((left, right) => left.invoice_uid.localeCompare(right.invoice_uid));
+
+const toInvoiceSummary = ({
+	line_items: _lineItems,
+	...invoice
+}: InvoiceRecord): Invoice => invoice;
+
+const findInvoiceById = (invoiceId: string) =>
+	invoiceRecords.find((invoice) => invoice.invoice_uid === invoiceId);
+
+const updateInvoiceStatus = (
+	invoiceId: string,
+	status: "paid" | "refunded"
+) => {
+	const invoice = findInvoiceById(invoiceId);
+
+	if (!invoice) {
+		return null;
+	}
+
+	const timestamp = Mock.Random.datetime("yyyy-MM-dd HH:mm:ss");
+
+	if (status === "paid") {
+		invoice.paid_at = invoice.paid_at || timestamp;
+		invoice.details.additionalProperty = "Paid successfully";
+	} else {
+		invoice.details.additionalProperty = "Refunded successfully";
+	}
+
+	return invoice;
+};
+
+Mock.mock(billingInvoiceDetailsUrl, "get", (options: { url: string }) => {
+	const requestUrl = new URL(options.url);
+	const invoiceId = requestUrl.pathname.split("/").pop() ?? "";
+	const invoice = findInvoiceById(invoiceId);
+
+	if (!invoice) {
+		return {
+			success: false,
+			results: null,
+		};
+	}
+
+	return {
+		success: true,
+		results: invoice,
+	};
+});
+
+Mock.mock(billingInvoiceMarkPaidUrl, "post", (options: { url: string }) => {
+	const requestUrl = new URL(options.url);
+	const invoiceId = requestUrl.pathname.split("/").slice(-2, -1)[0] ?? "";
+	const invoice = updateInvoiceStatus(invoiceId, "paid");
+
+	return {
+		success: !!invoice,
+		results: invoice,
+	};
+});
+
+Mock.mock(billingInvoiceMarkPaidUrl, "put", (options: { url: string }) => {
+	const requestUrl = new URL(options.url);
+	const invoiceId = requestUrl.pathname.split("/").slice(-2, -1)[0] ?? "";
+	const invoice = updateInvoiceStatus(invoiceId, "paid");
+
+	return {
+		success: !!invoice,
+		results: invoice,
+	};
+});
+
+Mock.mock(billingInvoiceRefundUrl, "post", (options: { url: string }) => {
+	const requestUrl = new URL(options.url);
+	const invoiceId = requestUrl.pathname.split("/").slice(-2, -1)[0] ?? "";
+	const invoice = updateInvoiceStatus(invoiceId, "refunded");
+
+	return {
+		success: !!invoice,
+		results: invoice,
+	};
+});
+
 Mock.mock(billingInvoicesUrl, "get", (options: { url: string }) => {
 	const requestUrl = new URL(options.url);
 	const limit = Number(requestUrl.searchParams.get("limit") ?? 10);
 	const offset = Number(requestUrl.searchParams.get("offset") ?? 0);
 	const paid = requestUrl.searchParams.get("paid");
+	const fromDate = requestUrl.searchParams.get("from_date");
+	const toDate = requestUrl.searchParams.get("to_date");
 	const shouldReturnPaid = paid === null ? undefined : paid === "true";
 
-	const allInvoices = Array.from({ length: 20 }, (_, index) =>
-		generateInvoice(index)
-	);
-	const filteredInvoices =
-		shouldReturnPaid === undefined
-			? allInvoices
-			: allInvoices.filter(
-					(_, index) => (index % 3 !== 0) === shouldReturnPaid
-				);
+	const filteredInvoices = invoiceRecords.filter((invoice) => {
+		const matchesPaid =
+			shouldReturnPaid === undefined
+				? true
+				: (invoice.paid_at !== "") === shouldReturnPaid;
+
+		const matchesDateRange =
+			!fromDate && !toDate
+				? true
+				: invoice.billing_period >= (fromDate ?? "") &&
+					invoice.billing_period <= (toDate ?? "9999-99");
+
+		return matchesPaid && matchesDateRange;
+	});
 	const pagedInvoices = filteredInvoices.slice(offset, offset + limit);
 
 	return {
 		success: true,
-		data: pagedInvoices,
+		results: pagedInvoices.map(toInvoiceSummary),
 		total: filteredInvoices.length,
 		offset,
 		limit,
@@ -205,7 +307,7 @@ Mock.mock(billingCreditTransactionsUrl, "get", (options: { url: string }) => {
 
 	return {
 		success: true,
-		data: pagedTransactions,
+		results: pagedTransactions,
 		total: creditTransactions.length,
 		offset,
 		limit,
@@ -226,7 +328,6 @@ Mock.mock(billingTransactionsUrl, "get", (options: { url: string }) => {
 	);
 	const limit = Number(requestUrl.searchParams.get("limit") ?? perPage);
 	const status = requestUrl.searchParams.get("status");
-	const type = requestUrl.searchParams.get("type");
 	const transactionId = requestUrl.searchParams
 		.get("transaction_id")
 		?.trim()
@@ -235,18 +336,16 @@ Mock.mock(billingTransactionsUrl, "get", (options: { url: string }) => {
 	const endDate = requestUrl.searchParams.get("end_date");
 
 	const filteredTransactions = transactions.filter((transaction) => {
-		const transactionDay = String(transaction.createdAt).slice(0, 10);
+		const transactionDay = String(transaction.captured_at).slice(0, 10);
 		const matchesStatus = status ? transaction.status === status : true;
-		const matchesType = type ? transaction.type === type : true;
 		const matchesTransactionId = transactionId
-			? transaction.transactionId.toLowerCase().includes(transactionId)
+			? transaction.transaction_uid.toLowerCase().includes(transactionId)
 			: true;
 		const matchesStartDate = startDate ? transactionDay >= startDate : true;
 		const matchesEndDate = endDate ? transactionDay <= endDate : true;
 
 		return (
 			matchesStatus &&
-			matchesType &&
 			matchesTransactionId &&
 			matchesStartDate &&
 			matchesEndDate
@@ -257,7 +356,7 @@ Mock.mock(billingTransactionsUrl, "get", (options: { url: string }) => {
 
 	return {
 		success: true,
-		data: pagedTransactions,
+		results: pagedTransactions,
 		total: filteredTransactions.length,
 		offset,
 		limit,
@@ -281,7 +380,7 @@ Mock.mock(billingCreditsUrl, "post", (options: { body?: string }) => {
 
 	return {
 		success: true,
-		data: {
+		results: {
 			amount: newTransaction.amount,
 		},
 	};
@@ -290,6 +389,6 @@ Mock.mock(billingCreditsUrl, "post", (options: { body?: string }) => {
 Mock.mock(billingLifetimeValueUrl, "get", () => {
 	return {
 		success: true,
-		data: lifetimeValueData,
+		results: lifetimeValueData,
 	};
 });

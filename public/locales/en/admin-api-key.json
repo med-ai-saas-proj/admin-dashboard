@@ -52,8 +52,12 @@
             "labels": {
                 "name": "Name",
                 "description": "Description",
-                "permissions": "Permissions (comma separated)",
+                "permissions": "Permissions",
                 "disabled": "Disabled"
+            },
+            "permissions": {
+                "loading": "Loading permissions...",
+                "empty": "No permissions available"
             }
         },
         "buttons": {
@@ -96,7 +100,12 @@
             "labels": {
                 "name": "Name",
                 "description": "Description",
+                "permissions": "Permissions",
                 "disabled": "Disabled"
+            },
+            "permissions": {
+                "loading": "Loading permissions...",
+                "empty": "No permissions available"
             }
         },
         "buttons": {
@@ -120,6 +129,12 @@
         }
     },
     "common": {
-        "notAvailable": "-"
+        "notAvailable": "-",
+        "toast": {
+            "createSuccess": "API key created successfully",
+            "updateSuccess": "API key updated successfully",
+            "deleteSuccess": "API key deleted successfully",
+            "error": "An error occurred. Please try again."
+        }
     }
 }

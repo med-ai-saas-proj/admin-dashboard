@@ -1,19 +1,24 @@
 import { API_ROUTES } from "@/config/api-routes";
 import apiClient from "@/query/api-client";
-import type { UserPermissions } from "../types/admin";
+import type {
+	UpdateAdminUserPermissionsRequest,
+	UserProfileInfo,
+	UserProfileResponse,
+} from "../types/admin";
+import { toApiResponse } from "@/lib/response";
 
 export type UpdateAdminUserPermissionsParams = {
 	userId: string;
-	permissions: UserPermissions;
+	permissions: UpdateAdminUserPermissionsRequest;
 };
 
 export const updateAdminUserPermissions = async ({
 	userId,
 	permissions,
-}: UpdateAdminUserPermissionsParams): Promise<UserPermissions> => {
-	const response = await apiClient.put<UserPermissions>(
-		`${API_ROUTES.ADMIN_DASHBOARD.ADMIN}/user-permissions/${userId}`,
+}: UpdateAdminUserPermissionsParams): Promise<UserProfileResponse> => {
+	const response = await apiClient.put<UserProfileInfo>(
+		`${API_ROUTES.MANAGEMENT.ADMIN}/users/${userId}/permissions`,
 		permissions
 	);
-	return response.data;
+	return toApiResponse(response.data);
 };

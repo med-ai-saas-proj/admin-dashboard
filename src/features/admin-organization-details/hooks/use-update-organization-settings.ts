@@ -30,7 +30,7 @@ export const useUpdateOrganizationSettings = () => {
 				(old) => {
 					const prev = old ?? {
 						success: true,
-						data: {
+						results: {
 							rate_limit: 0,
 							spending_limit: 0,
 							// extra: {},
@@ -38,10 +38,11 @@ export const useUpdateOrganizationSettings = () => {
 					};
 					return {
 						...prev,
-						data: {
-							rate_limit: params.rate_limit ?? prev.data.rate_limit,
-							spending_limit: params.spending_limit ?? prev.data.spending_limit,
-							// extra: params.extra ?? prev.data.extra,
+						results: {
+							rate_limit: params.rate_limit ?? prev.results.rate_limit,
+							spending_limit:
+								params.spending_limit ?? prev.results.spending_limit,
+							// extra: params.extra ?? prev.results.extra,
 						},
 					};
 				}

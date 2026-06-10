@@ -62,11 +62,12 @@ export type AggregateParams = {
 	periodEnd: string; // ISO date string
 	period: AggregatePeriod;
 	periodScale: number;
+	organizationId?: string;
 };
 
 export type Aggregate = {
 	success: boolean;
-	data: {
+	results: {
 		period_bucket: string;
 		transaction_count: number;
 		total_amount: string;

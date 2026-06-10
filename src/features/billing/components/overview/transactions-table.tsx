@@ -8,16 +8,17 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/shadcn/table";
-import type { Transactions } from "@/features/billing/billing.type";
+import type { Transaction } from "@/features/billing/billing.type";
 import { CopyIcon, EyeIcon } from "lucide-react";
 import type React from "react";
 import { useTranslation } from "react-i18next";
 import TransactionReceiptDialog from "./transaction-receipt-dialog";
 
 type TransactionsTableProps = {
-	rows: Transactions[];
+	rows: Transaction[];
 	isLoading: boolean;
 	isError: boolean;
+	organizationCredits: number;
 	onCopyTransactionId: (transactionId: string) => void;
 };
 
@@ -28,27 +29,28 @@ const TransactionsTable = ({
 	rows,
 	isLoading,
 	isError,
+	organizationCredits,
 	onCopyTransactionId,
 }: TransactionsTableProps): React.JSX.Element => {
 	const { t, i18n } = useTranslation("billing");
 	const currentLocale = i18n.language;
 
-	const renderStatus = (status: Transactions["status"]) => {
+	const renderStatus = (status: Transaction["status"]) => {
 		switch (status) {
-			case "SUCCESS":
+			case "CAPTURED":
 				return (
 					<span
 						className={`${badgeBaseClass} border-emerald-500 text-emerald-700 bg-white`}
 					>
-						{t("overview.statusOptions.SUCCESS")}
+						{t("overview.statusOptions.CAPTURED")}
 					</span>
 				);
-			case "FAILED":
+			case "EXPIRED":
 				return (
 					<span
 						className={`${badgeBaseClass} border-red-500 text-red-600 bg-white`}
 					>
-						{t("overview.statusOptions.FAILED")}
+						{t("overview.statusOptions.EXPIRED")}
 					</span>
 				);
 			case "PENDING":
@@ -70,24 +72,6 @@ const TransactionsTable = ({
 		}
 	};
 
-	const renderType = (type: Transactions["type"]) => {
-		const labelMap: Record<string, string> = {
-			TOPUP: t("overview.typeOptions.TOPUP"),
-			SUBSCRIPTION: t("overview.typeOptions.SUBSCRIPTION"),
-			SUBSCRIPTION_FEE: t("overview.typeOptions.SUBSCRIPTION"),
-			OVERAGE_FEE: t("overview.typeOptions.OVERAGE"),
-			REFUND: t("overview.typeOptions.REFUND"),
-		};
-
-		return (
-			<span
-				className={`${badgeBaseClass} border-slate-300 text-slate-700 bg-slate-50`}
-			>
-				{labelMap[type] || type}
-			</span>
-		);
-	};
-
 	return (
 		<div className="rounded-lg border">
 			<Table>
@@ -95,15 +79,12 @@ const TransactionsTable = ({
 					<TableRow>
 						<TableHead>{t("overview.table.columns.date")}</TableHead>
 						<TableHead>{t("overview.table.columns.transactionId")}</TableHead>
-						<TableHead>{t("overview.table.columns.type")}</TableHead>
-						<TableHead className="text-right">
+						<TableHead className="text-center">
 							{t("overview.table.columns.amount")}
 						</TableHead>
-						<TableHead className="text-right">
-							{t("overview.table.columns.credits")}
-						</TableHead>
 						<TableHead>{t("overview.table.columns.status")}</TableHead>
-						<TableHead>{t("overview.table.columns.reason")}</TableHead>
+						<TableHead>{t("overview.table.columns.credits")}</TableHead>
+						<TableHead>{t("overview.table.columns.projectUid")}</TableHead>
 						<TableHead className="text-right">
 							{t("overview.table.columns.action")}
 						</TableHead>
@@ -112,7 +93,7 @@ const TransactionsTable = ({
 				<TableBody>
 					{isLoading ? (
 						<TableRow>
-							<TableCell colSpan={8} className="py-8">
+							<TableCell colSpan={7} className="py-8">
 								<div className="flex items-center justify-center gap-2 text-muted-foreground">
 									<Spinner />
 									<span>{t("overview.table.loading")}</span>
@@ -122,7 +103,7 @@ const TransactionsTable = ({
 					) : isError ? (
 						<TableRow>
 							<TableCell
-								colSpan={8}
+								colSpan={7}
 								className="py-6 text-center text-destructive"
 							>
 								{t("overview.table.error")}
@@ -131,7 +112,7 @@ const TransactionsTable = ({
 					) : rows.length === 0 ? (
 						<TableRow>
 							<TableCell
-								colSpan={8}
+								colSpan={7}
 								className="py-6 text-center text-muted-foreground"
 							>
 								{t("overview.table.empty")}
@@ -139,42 +120,33 @@ const TransactionsTable = ({
 						</TableRow>
 					) : (
 						rows.map((transaction) => {
-							const createdAt = new Date(transaction.createdAt);
-							const failureReason = (
-								transaction as {
-									errorMessage?: string | null;
-									description?: string;
-								}
-							).errorMessage;
+							const createdAt = new Date(transaction.captured_at);
 
 							return (
-								<TableRow key={transaction.transactionId}>
+								<TableRow key={transaction.transaction_uid}>
 									<TableCell>
 										{Number.isNaN(createdAt.getTime())
 											? "-"
 											: createdAt.toLocaleString(currentLocale)}
 									</TableCell>
 									<TableCell className="text-muted-foreground text-xs font-medium">
-										{transaction.transactionId}
+										{transaction.transaction_uid}
 									</TableCell>
-									<TableCell>{renderType(transaction.type)}</TableCell>
-									<TableCell className="text-right font-medium">
+									<TableCell className="text-center font-medium">
 										{new Intl.NumberFormat(currentLocale, {
 											style: "currency",
 											currency: "USD",
 										}).format(Number(transaction.amount ?? 0))}
 									</TableCell>
-									<TableCell className="text-right font-medium text-emerald-600">
+									<TableCell>{renderStatus(transaction.status)}</TableCell>
+									<TableCell className="text-left font-medium text-emerald-600">
 										+
-										{Number(transaction.creditsAdded ?? 0).toLocaleString(
+										{Number(organizationCredits ?? 0).toLocaleString(
 											currentLocale
 										)}
 									</TableCell>
-									<TableCell>{renderStatus(transaction.status)}</TableCell>
-									<TableCell className="max-w-56 truncate text-destructive">
-										{transaction.status === "FAILED"
-											? failureReason || transaction.description || "-"
-											: "-"}
+									<TableCell className="max-w-56 truncate text-muted-foreground">
+										{transaction.project_uid || "-"}
 									</TableCell>
 									<TableCell>
 										<div className="flex items-center justify-end gap-1">
@@ -191,7 +163,7 @@ const TransactionsTable = ({
 												variant="ghost"
 												size="icon-sm"
 												onClick={() =>
-													onCopyTransactionId(transaction.transactionId)
+													onCopyTransactionId(transaction.transaction_uid)
 												}
 											>
 												<CopyIcon className="size-4" />

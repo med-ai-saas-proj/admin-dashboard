@@ -52,7 +52,7 @@ export const useUpdateAdminProjectOrganization = () => {
 						if (!cache) {
 							return {
 								success: true,
-								data: {
+								results: {
 									project_uuid: credentials.projectId,
 									name: credentials.name,
 									description: credentials.description,
@@ -64,10 +64,12 @@ export const useUpdateAdminProjectOrganization = () => {
 
 						// If cached value is a paginated list, update the matching item in the array
 						if (
-							Array.isArray((cache as AdminProjectsOrganizationResponse).data)
+							Array.isArray(
+								(cache as AdminProjectsOrganizationResponse).results
+							)
 						) {
 							const list = (cache as AdminProjectsOrganizationResponse)
-								.data as AdminProjectOrganization[];
+								.results as AdminProjectOrganization[];
 							const updatedList = list.map((item) =>
 								item.project_uuid === credentials.projectId
 									? {
@@ -80,16 +82,16 @@ export const useUpdateAdminProjectOrganization = () => {
 
 							return {
 								...(cache as AdminProjectsOrganizationResponse),
-								data: updatedList,
+								results: updatedList,
 							} as AdminProjectsOrganizationResponse;
 						}
 
 						// Otherwise it's a single-item response; update its fields
 						const single = (cache as UpdateAdminProjectOrganizationResponse)
-							.data as AdminProjectOrganization;
+							.results as AdminProjectOrganization;
 						return {
 							...(cache as UpdateAdminProjectOrganizationResponse),
-							data: {
+							results: {
 								...single,
 								name: credentials.name,
 								description: credentials.description,

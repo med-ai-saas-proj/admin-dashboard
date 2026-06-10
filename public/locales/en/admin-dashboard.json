@@ -1,0 +1,92 @@
+{
+    "admin": {
+        "general": {
+            "title": "General Admin Information",
+            "description": "Overview of your admin account and key metrics",
+            "labels": {
+                "id": "ID",
+                "username": "Username",
+                "email": "Email"
+            },
+            "summary": {
+                "organizations": "Organizations",
+                "projects": "Projects",
+                "api_keys": "API Keys",
+                "users": "Users"
+            }
+        },
+        "users": {
+            "title": "Users Management",
+            "search": {
+                "label": "Search",
+                "placeholder": "Search by username or email..."
+            },
+            "button": {
+                "search": "Search"
+            },
+            "filters": {
+                "status": "Status",
+                "status_placeholder": "All status",
+                "enabled": "Enabled",
+                "disabled": "Disabled",
+                "email_verified": "Email Verified",
+                "email_verified_placeholder": "All",
+                "verified": "Verified",
+                "not_verified": "Not Verified"
+            },
+            "table": {
+                "id": "ID",
+                "username": "Username",
+                "full_name": "Full Name",
+                "email": "Email",
+                "status": "Status",
+                "email_verified": "Email Verified",
+                "actions": "Actions",
+                "active": "Active",
+                "inactive": "Inactive",
+                "yes": "Yes",
+                "no": "No",
+                "no_users": "No users found"
+            },
+            "details": {
+                "fallback": {
+                    "organizationInfo": "Organization information not available",
+                    "organizationPermissions": "Organization permissions not available",
+                    "projectPermissions": "Project permissions not available"
+                }
+            },
+            "profile": {
+                "trigger": {
+                    "view_details": "View details"
+                },
+                "dialog": {
+                    "title_with_username": "{{username}}'s Profile",
+                    "title_with_user_id": "User {{userId}} Profile"
+                },
+                "loading": "Loading profile...",
+                "status": {
+                    "active": "Active",
+                    "inactive": "Inactive",
+                    "verified": "Verified",
+                    "unverified": "Unverified"
+                },
+                "sections": {
+                    "organization_information": "Organization Information",
+                    "organization_permissions": "Organization Permissions",
+                    "project_permissions": "Project Permissions"
+                },
+                "empty": {
+                    "organization_information": "No organization information available.",
+                    "organization_permissions": "No organization permissions available.",
+                    "project_permissions": "No project permissions available."
+                },
+                "labels": {
+                    "project_id": "Project ID:"
+                },
+                "buttons": {
+                    "cancel": "Cancel"
+                }
+            }
+        }
+    }
+}

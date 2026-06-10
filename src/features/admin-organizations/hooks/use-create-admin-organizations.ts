@@ -40,14 +40,14 @@ export const useCreateAdminOrganization = () => {
 					(old) => {
 						const prev = old ?? {
 							success: true,
-							data: [],
+							results: [],
 							total: 0,
 							offset: 0,
 							limit: 10,
 						};
 						return {
 							...prev,
-							data: [optimistic, ...(prev.data ?? [])],
+							results: [optimistic, ...(prev.results ?? [])],
 							total: (prev.total ?? 0) + 1,
 						};
 					}

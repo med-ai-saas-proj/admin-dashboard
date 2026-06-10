@@ -16,25 +16,33 @@ import { Input } from "@/components/shadcn/input";
 import { Label } from "@/components/shadcn/label";
 import { Checkbox } from "@/components/shadcn/checkbox";
 import { useCreateAdminApiKey } from "../../hooks/use-create-admin-api-key";
+import { useGetAdminApiKeyPermissions } from "../../hooks/use-get-admin-api-key-permissions";
 import { useTranslation } from "react-i18next";
 
 const createSchema = z.object({
 	name: z.string().min(1, "Name is required"),
 	description: z.string().optional().or(z.literal("")),
-	permissions: z.string().optional().or(z.literal("")),
-	disabled: z.boolean().optional(),
+	permissions: z.array(z.string()).default([]),
+	// disabled: z.boolean().optional(),
 });
 
-type CreateForm = z.infer<typeof createSchema>;
+type CreateForm = z.input<typeof createSchema>;
+type CreateFormOutput = z.output<typeof createSchema>;
 
 export const CreateAdminApiKeyDialog = ({
 	projectId,
 }: {
 	projectId: string;
 }) => {
+	const { t } = useTranslation("admin-api-key");
+
 	const [open, setOpen] = useState(false);
 	const { mutate: createApiKey, isPending } = useCreateAdminApiKey();
-	const { t } = useTranslation("admin-api-key");
+	const { data: permissionsData, isLoading: permissionsLoading } =
+		useGetAdminApiKeyPermissions();
+	const permissions = Array.isArray(permissionsData?.results)
+		? permissionsData.results
+		: [];
 
 	const {
 		register,
@@ -42,13 +50,13 @@ export const CreateAdminApiKeyDialog = ({
 		control,
 		reset,
 		formState: { errors, isSubmitting },
-	} = useForm<CreateForm>({
+	} = useForm<CreateForm, unknown, CreateFormOutput>({
 		resolver: zodResolver(createSchema),
 		defaultValues: {
 			name: "",
 			description: "",
-			permissions: "",
-			disabled: false,
+			permissions: [],
+			// disabled: false,
 		},
 	});
 
@@ -58,16 +66,13 @@ export const CreateAdminApiKeyDialog = ({
 		}
 	}, [open, reset]);
 
-	const onSubmit = async (values: CreateForm) => {
+	const onSubmit = async (values: CreateFormOutput) => {
 		createApiKey(
 			{
 				projectId,
 				name: values.name,
 				description: values.description ?? "",
-				permissions: (values.permissions ?? "")
-					.split(",")
-					.map((s) => s.trim())
-					.filter(Boolean),
+				permissions: values.permissions ?? [],
 			},
 			{
 				onSuccess: () => {
@@ -112,10 +117,69 @@ export const CreateAdminApiKeyDialog = ({
 						<Label className="text-sm font-medium">
 							{t("create.form.labels.permissions")}
 						</Label>
-						<Input {...register("permissions")} />
+						<div className="mt-2 rounded-md border border-slate-200 p-3 max-h-132 overflow-y-auto">
+							{permissionsLoading ? (
+								<div className="text-sm text-muted-foreground">
+									{t("create.form.permissions.loading")}
+								</div>
+							) : permissions.length > 0 ? (
+								<Controller
+									control={control}
+									name="permissions"
+									render={({ field }) => (
+										<div className="space-y-3">
+											{permissions.map((permission) => {
+												const selectedPermissions = field.value ?? [];
+												const checked = selectedPermissions.includes(
+													permission.id
+												);
+
+												return (
+													<div
+														key={permission.id}
+														className="flex items-start gap-3 rounded-md border border-slate-200 bg-white px-3 py-2 transition-colors hover:bg-slate-50"
+													>
+														<Checkbox
+															id={`permission-${permission.id}`}
+															checked={checked}
+															onCheckedChange={(nextChecked) => {
+																const nextValue = Boolean(nextChecked);
+
+																field.onChange(
+																	nextValue
+																		? [...selectedPermissions, permission.id]
+																		: selectedPermissions.filter(
+																				(value) => value !== permission.id
+																			)
+																);
+															}}
+														/>
+														<div className="space-y-0.5">
+															<div className="text-sm font-medium text-slate-900">
+																{permission.name}
+															</div>
+															<div className="text-xs text-slate-500">
+																{permission.description}
+															</div>
+															<div className="text-[11px] font-mono text-slate-400">
+																{permission.id}
+															</div>
+														</div>
+													</div>
+												);
+											})}
+										</div>
+									)}
+								/>
+							) : (
+								<div className="text-sm text-muted-foreground">
+									{t("create.form.permissions.empty")}
+								</div>
+							)}
+						</div>
 					</div>
 
-					<div className="flex items-center gap-2">
+					{/* <div className="flex items-center gap-2">
 						<Controller
 							control={control}
 							name="disabled"
@@ -127,7 +191,7 @@ export const CreateAdminApiKeyDialog = ({
 							)}
 						/>
 						<span className="text-sm">{t("create.form.labels.disabled")}</span>
-					</div>
+					</div> */}
 
 					<DialogFooter>
 						<DialogClose asChild>

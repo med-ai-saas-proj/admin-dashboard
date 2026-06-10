@@ -7,9 +7,10 @@ export type DeleteAdminApiKeyCredentials = {
 
 export const deleteAdminApiKey = async ({
 	apiKeyId,
-}: DeleteAdminApiKeyCredentials) => {
-	const response = await apiClient.delete<null>(
+}: DeleteAdminApiKeyCredentials): Promise<null> => {
+	await apiClient.delete<null>(
 		`${API_ROUTES.MANAGEMENT.ADMIN_API_KEYS}/${apiKeyId}`
 	);
-	return response.data;
+
+	return null;
 };

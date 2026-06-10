@@ -6,21 +6,21 @@ import { useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { useGetTransactions } from "../hooks/use-get-transactions";
-import type {
-	TransactionType,
-	TransactionsParams,
-} from "../services/get-transactions";
+import { useGetCreditsOrganization } from "../hooks/use-get-credits-organization";
+import type { TransactionsParams } from "../services/get-transactions";
 import TransactionsTable from "./overview/transactions-table";
 import TransactionsToolbar, {
 	type TransactionStatusFilter,
-	type TransactionTypeFilter,
 } from "./overview/transactions-toolbar";
 import type { DateRange } from "react-day-picker";
+import { useParams } from "react-router-dom";
+import { useAdminOrganizationDetailsStore } from "@/features/admin-organization-details/store/admin-organization-details";
+import { itemVariants } from "@/lib/animations";
+import { motion } from "framer-motion";
 
 type BillingOverviewFilterForm = {
 	search: string;
 	status: TransactionStatusFilter;
-	type: TransactionTypeFilter;
 	dateRange: DateRange | undefined;
 };
 
@@ -28,6 +28,13 @@ const PAGE_SIZE = 20;
 
 const BillingOverview = (): React.JSX.Element => {
 	const { t: tCommon } = useTranslation("common");
+	const params = useParams<{
+		orgId: string;
+	}>();
+	const storedOrganizationId = useAdminOrganizationDetailsStore(
+		(state) => state.organizationId
+	);
+
 	const { copy } = useCopyToClipboard();
 	const [currentPage, setCurrentPage] = useState(1);
 
@@ -43,14 +50,12 @@ const BillingOverview = (): React.JSX.Element => {
 		defaultValues: {
 			search: "",
 			status: "ALL",
-			type: "ALL",
 			dateRange: defaultDateRange,
 		},
 	});
 
 	const search = useWatch({ control, name: "search" }) ?? "";
 	const status = useWatch({ control, name: "status" }) ?? "ALL";
-	const type = useWatch({ control, name: "type" }) ?? "ALL";
 	const dateRange = useWatch({ control, name: "dateRange" });
 
 	const normalizedSearch = search.trim();
@@ -69,23 +74,22 @@ const BillingOverview = (): React.JSX.Element => {
 			params.status = status;
 		}
 
-		if (type !== "ALL") {
-			params.type = type as TransactionType;
-		}
-
 		if (dateRange?.from) {
 			params.start_date = format(dateRange.from, "yyyy-MM-dd");
 			params.end_date = format(dateRange.to ?? dateRange.from, "yyyy-MM-dd");
 		}
 
 		return params;
-	}, [currentPage, normalizedSearch, status, type, dateRange]);
+	}, [currentPage, normalizedSearch, status, dateRange]);
 
 	const {
 		data: transactionData,
 		isLoading,
 		isError,
 	} = useGetTransactions(queryParams);
+	const { data: organizationCredits } = useGetCreditsOrganization({
+		organizationId: storedOrganizationId ?? params.orgId ?? null,
+	});
 
 	const rows = transactionData?.data ?? [];
 	const total = transactionData?.total ?? 0;
@@ -100,19 +104,22 @@ const BillingOverview = (): React.JSX.Element => {
 		reset({
 			search: "",
 			status: "ALL",
-			type: "ALL",
 			dateRange: defaultDateRange,
 		});
 	};
 
 	return (
-		<div className="space-y-4">
+		<motion.div
+			className="space-y-4"
+			variants={itemVariants}
+			initial="hidden"
+			animate="visible"
+		>
 			{/* <h3 className="text-lg font-semibold">{t("overview.title")}</h3> */}
 
 			<TransactionsToolbar
 				searchValue={search}
 				statusValue={status}
-				typeValue={type}
 				dateRange={dateRange}
 				onSearchChange={(value) => {
 					setCurrentPage(1);
@@ -121,10 +128,6 @@ const BillingOverview = (): React.JSX.Element => {
 				onStatusChange={(value) => {
 					setCurrentPage(1);
 					setValue("status", value);
-				}}
-				onTypeChange={(value) => {
-					setCurrentPage(1);
-					setValue("type", value);
 				}}
 				onDateRangeChange={(value) => {
 					setCurrentPage(1);
@@ -137,6 +140,7 @@ const BillingOverview = (): React.JSX.Element => {
 				rows={rows}
 				isLoading={isLoading}
 				isError={isError}
+				organizationCredits={organizationCredits?.amount ?? 0}
 				onCopyTransactionId={handleCopyTransactionId}
 			/>
 
@@ -148,7 +152,7 @@ const BillingOverview = (): React.JSX.Element => {
 					onPageChange={setCurrentPage}
 				/>
 			) : null}
-		</div>
+		</motion.div>
 	);
 };
 

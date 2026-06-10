@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { useGetAdminUsers } from "@/features/general/hooks/use-get-admin-users";
 import { Input } from "@/components/shadcn/input";
 import { Button } from "@/components/shadcn/button";
+import { useTranslation } from "react-i18next";
 import {
 	Select,
 	SelectContent,
@@ -21,11 +22,28 @@ import { CustomPagination } from "@/components/pagination/pagination";
 import { Search } from "lucide-react";
 import UserProfileDialog from "@/features/general/components/dialogs/user-profile-dialog";
 import UserOrganizationsDialog from "@/features/general/components/dialogs/user-organizations";
-import UserPermissionsDialog from "@/features/general/components/dialogs/user-permissions-dialog";
+import { Label } from "@/components/shadcn/label";
+import type { UserInfo } from "@/features/general/types/admin";
+import { itemVariants } from "@/lib/animations";
+import { motion } from "framer-motion";
+
+const UserActionDialogs = ({
+	userId,
+}: {
+	userId: string;
+}): React.JSX.Element => {
+	return (
+		<div className="flex gap-x-6">
+			<UserProfileDialog userId={userId} />
+			<UserOrganizationsDialog userId={userId} />
+		</div>
+	);
+};
 
 const LIMIT = 10;
 
 const GeneralUsers = (): React.JSX.Element => {
+	const { t } = useTranslation("admin-dashboard");
 	const [currentPage, setCurrentPage] = useState(1);
 	const [searchInput, setSearchInput] = useState("");
 	const [searchQuery, setSearchQuery] = useState("");
@@ -47,8 +65,10 @@ const GeneralUsers = (): React.JSX.Element => {
 
 	const filteredUsers = useMemo(() => {
 		// The response data should be an array based on the mock, but type says UserInfo
-		const users = Array.isArray(usersResponse?.data) ? usersResponse.data : [];
-		let filtered = [...users];
+		const users = Array.isArray(usersResponse?.results)
+			? usersResponse.results
+			: [];
+		let filtered = [...users] as UserInfo[];
 
 		if (enabledFilter !== undefined) {
 			const isEnabled = enabledFilter === "true";
@@ -61,7 +81,7 @@ const GeneralUsers = (): React.JSX.Element => {
 		}
 
 		return filtered;
-	}, [usersResponse?.data, enabledFilter, emailVerifiedFilter]);
+	}, [usersResponse?.results, enabledFilter, emailVerifiedFilter]);
 
 	const handlePageChange = (page: number) => {
 		setCurrentPage(page);
@@ -77,22 +97,27 @@ const GeneralUsers = (): React.JSX.Element => {
 	};
 
 	return (
-		<div className="px-4 py-8">
+		<motion.div
+			className="px-4 py-8"
+			variants={itemVariants}
+			initial="hidden"
+			animate="visible"
+		>
 			<div className="space-y-4">
-				<h1 className="text-2xl font-bold">Users Management</h1>
+				<h1 className="text-2xl font-bold">{t("admin.users.title")}</h1>
 
 				<div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
 					<div className="flex flex-1 gap-2 max-w-xl">
 						<div className="flex-1">
-							<label
+							<Label
 								htmlFor="search-input"
 								className="mb-2 block text-sm font-medium"
 							>
-								Search
-							</label>
+								{t("admin.users.search.label")}
+							</Label>
 							<Input
 								id="search-input"
-								placeholder="Search by username or email..."
+								placeholder={t("admin.users.search.placeholder")}
 								value={searchInput}
 								onChange={handleSearchInputChange}
 								className="w-full"
@@ -106,7 +131,7 @@ const GeneralUsers = (): React.JSX.Element => {
 								onClick={handleSearchClick}
 							>
 								<Search className="h-4 w-4" />
-								Search
+								{t("admin.users.button.search")}
 							</Button>
 						</div>
 					</div>
@@ -117,36 +142,50 @@ const GeneralUsers = (): React.JSX.Element => {
 								htmlFor="status-filter"
 								className="mb-2 block text-sm font-medium"
 							>
-								Status
+								{t("admin.users.filters.status")}
 							</label>
 							<Select value={enabledFilter} onValueChange={setEnabledFilter}>
 								<SelectTrigger id="status-filter" className="w-36">
-									<SelectValue placeholder="All status" />
+									<SelectValue
+										placeholder={t("admin.users.filters.status_placeholder")}
+									/>
 								</SelectTrigger>
 								<SelectContent>
-									<SelectItem value="true">Enabled</SelectItem>
-									<SelectItem value="false">Disabled</SelectItem>
+									<SelectItem value="true">
+										{t("admin.users.filters.enabled")}
+									</SelectItem>
+									<SelectItem value="false">
+										{t("admin.users.filters.disabled")}
+									</SelectItem>
 								</SelectContent>
 							</Select>
 						</div>
 
 						<div className="flex-1 place-items-end sm:w-fit">
-							<label
+							<Label
 								htmlFor="email-verified-filter"
 								className="mb-2 block text-sm font-medium"
 							>
-								Email Verified
-							</label>
+								{t("admin.users.filters.email_verified")}
+							</Label>
 							<Select
 								value={emailVerifiedFilter}
 								onValueChange={setEmailVerifiedFilter}
 							>
 								<SelectTrigger id="email-verified-filter" className="w-36">
-									<SelectValue placeholder="All" />
+									<SelectValue
+										placeholder={t(
+											"admin.users.filters.email_verified_placeholder"
+										)}
+									/>
 								</SelectTrigger>
 								<SelectContent>
-									<SelectItem value="true">Verified</SelectItem>
-									<SelectItem value="false">Not Verified</SelectItem>
+									<SelectItem value="true">
+										{t("admin.users.filters.verified")}
+									</SelectItem>
+									<SelectItem value="false">
+										{t("admin.users.filters.not_verified")}
+									</SelectItem>
 								</SelectContent>
 							</Select>
 						</div>
@@ -157,21 +196,23 @@ const GeneralUsers = (): React.JSX.Element => {
 					<Table className="border-none">
 						<TableHeader>
 							<TableRow>
-								<TableHead>ID</TableHead>
-								<TableHead>Username</TableHead>
-								<TableHead>Full Name</TableHead>
-								<TableHead>Email</TableHead>
-								<TableHead>Status</TableHead>
-								<TableHead>Email Verified</TableHead>
-								<TableHead className="w-20">Actions</TableHead>
+								<TableHead>{t("admin.users.table.id")}</TableHead>
+								<TableHead>{t("admin.users.table.username")}</TableHead>
+								<TableHead>{t("admin.users.table.full_name")}</TableHead>
+								<TableHead>{t("admin.users.table.email")}</TableHead>
+								<TableHead>{t("admin.users.table.status")}</TableHead>
+								<TableHead>{t("admin.users.table.email_verified")}</TableHead>
+								<TableHead className="w-20">
+									{t("admin.users.table.actions")}
+								</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
 							{filteredUsers.length > 0 ? (
-								filteredUsers.map((user) => (
-									<TableRow key={user.id}>
+								filteredUsers.map((user: UserInfo) => (
+									<TableRow key={user.user_id}>
 										<TableCell className="font-mono text-xs">
-											{user.id}
+											{user.user_id}
 										</TableCell>
 										<TableCell>{user.username}</TableCell>
 										<TableCell>
@@ -188,7 +229,9 @@ const GeneralUsers = (): React.JSX.Element => {
 														: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
 												}`}
 											>
-												{user.enabled ? "Active" : "Inactive"}
+												{user.enabled
+													? t("admin.users.table.active")
+													: t("admin.users.table.inactive")}
 											</span>
 										</TableCell>
 										<TableCell>
@@ -199,22 +242,20 @@ const GeneralUsers = (): React.JSX.Element => {
 														: "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200"
 												}`}
 											>
-												{user.email_verified ? "Yes" : "No"}
+												{user.email_verified
+													? t("admin.users.table.yes")
+													: t("admin.users.table.no")}
 											</span>
 										</TableCell>
 										<TableCell>
-											<div className="flex gap-x-6">
-												<UserProfileDialog userId={user.id} />
-												<UserPermissionsDialog userId={user.id} />
-												<UserOrganizationsDialog userId={user.id} />
-											</div>
+											<UserActionDialogs userId={user.user_id} />
 										</TableCell>
 									</TableRow>
 								))
 							) : (
 								<TableRow>
 									<TableCell colSpan={7} className="py-8 text-center">
-										No users found
+										{t("admin.users.table.no_users")}
 									</TableCell>
 								</TableRow>
 							)}
@@ -232,7 +273,7 @@ const GeneralUsers = (): React.JSX.Element => {
 					</div>
 				)}
 			</div>
-		</div>
+		</motion.div>
 	);
 };
 

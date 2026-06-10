@@ -149,7 +149,7 @@ Mock.mock(
 
 		return {
 			success: true,
-			data: next,
+			results: next,
 		};
 	}
 );
@@ -173,7 +173,7 @@ Mock.mock(organizationUsersUrl, "get", (options: { url: string }) => {
 
 	return {
 		success: true,
-		data: paged,
+		results: paged,
 		total: filtered.length,
 		offset,
 		limit,

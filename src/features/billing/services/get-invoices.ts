@@ -3,8 +3,8 @@ import apiClient from "@/query/api-client";
 import type { Invoices } from "../billing.type";
 
 export type InvoiceParams = {
-	fromDate?: Date;
-	toDate?: Date;
+	from_date?: string;
+	to_date?: string;
 	paid?: boolean;
 	limit?: number;
 	offset?: number;

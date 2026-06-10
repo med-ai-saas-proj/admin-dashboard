@@ -37,7 +37,13 @@
         "actions": {
             "view": "View details",
             "edit": "Edit",
+            "archive": "Archive",
+            "restore": "Restore",
             "delete": "Delete"
+        },
+        "status": {
+            "active": "Active",
+            "archived": "Archived"
         }
     },
     "create": {
@@ -111,6 +117,46 @@
             "noProjectSelected": "No project selected"
         }
     },
+    "archive": {
+        "dialog": {
+            "title": "Archive Project",
+            "description": "Are you sure you want to archive this project? It will no longer appear in the active list."
+        },
+        "labels": {
+            "project": "Project",
+            "uuid": "UUID"
+        },
+        "buttons": {
+            "cancel": "Cancel",
+            "archive": "Archive Project",
+            "archiving": "Archiving..."
+        },
+        "messages": {
+            "success": "Project archived successfully",
+            "error": "Failed to archive project",
+            "noProjectSelected": "No project selected"
+        }
+    },
+    "unarchive": {
+        "dialog": {
+            "title": "Restore Project",
+            "description": "Are you sure you want to restore this project? It will return to the active list."
+        },
+        "labels": {
+            "project": "Project",
+            "uuid": "UUID"
+        },
+        "buttons": {
+            "cancel": "Cancel",
+            "restore": "Restore Project",
+            "restoring": "Restoring..."
+        },
+        "messages": {
+            "success": "Project restored successfully",
+            "error": "Failed to restore project",
+            "noProjectSelected": "No project selected"
+        }
+    },
     "details": {
         "dialog": {
             "title": "Project details",
@@ -178,10 +224,25 @@
             "loading": "Loading..."
         },
         "table": {
+            "headers": {
+                "username": "Username",
+                "permissions": "Permissions",
+                "actions": "Actions"
+            },
             "empty": {
                 "withSearch": "No users found matching your search",
                 "noData": "No users"
             }
+        },
+        "tooltips": {
+            "view_profile": "View profile",
+            "update_permissions": "Update permissions"
+        },
+        "permissionsDialog": {
+            "title": "User Permissions",
+            "username": "UserName: {{username}}",
+            "cancel": "Cancel",
+            "save": "Save changes"
         }
     },
     "permissions": {
@@ -191,6 +252,10 @@
         }
     },
     "common": {
-        "notAvailable": "-"
+        "notAvailable": "-",
+        "toast": {
+            "updatePermissionsSuccess": "Permissions updated successfully",
+            "updatePermissionsError": "Failed to update permissions"
+        }
     }
 }

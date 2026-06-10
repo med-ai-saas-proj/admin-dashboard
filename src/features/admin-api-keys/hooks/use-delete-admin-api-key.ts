@@ -43,7 +43,7 @@ export const useDeleteAdminApiKey = (projectId: string) => {
 
 						return {
 							...old,
-							data: (old.data ?? []).filter(
+							results: (old.results ?? []).filter(
 								(item) => item.api_key_uuid !== params.apiKeyId
 							),
 						};

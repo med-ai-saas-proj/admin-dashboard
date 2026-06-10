@@ -2,15 +2,17 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
+import { TooltipProvider } from "./components/shadcn/tooltip.tsx";
 
 if (import.meta.env.DEV) {
-	import("@/mocks/admin-dashboard.mock");
-	import("@/mocks/admin-organizations.mock");
-	import("@/mocks/admin-projects.mock");
-	import("@/mocks/admin-organization-details.mock");
-	import("@/mocks/admin-project-details.mock");
-	import("@/mocks/admin-api-keys.mock");
-	import("@/mocks/billing.mock");
+	// import("@/mocks/admin-dashboard.mock");
+	// import("@/mocks/admin-organizations.mock");
+	// import("@/mocks/admin-projects.mock");
+	// import("@/mocks/admin-organization-details.mock");
+	// import("@/mocks/admin-project-details.mock");
+	// import("@/mocks/admin-api-keys.mock");
+	// import("@/mocks/billing.mock");
+	// import("@/mocks/billing-aggregate.mock");
 	// import("@/mocks/organization-people.mock");
 	// import("@/mocks/organization-project.mock");
 	// import("@/mocks/project-people.mock");
@@ -19,6 +21,8 @@ if (import.meta.env.DEV) {
 
 createRoot(document.getElementById("root")!).render(
 	<StrictMode>
-		<App />
+		<TooltipProvider>
+			<App />
+		</TooltipProvider>
 	</StrictMode>
 );

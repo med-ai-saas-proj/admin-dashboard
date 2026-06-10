@@ -6,9 +6,10 @@ import {
 	DialogClose,
 	DialogFooter,
 } from "@/components/shadcn/dialog";
-import { useGetAdminUserOrganizations } from "../../hooks/use-get-user-organizations";
 import { Users } from "lucide-react";
 import { Button } from "@/components/shadcn/button";
+import { useGetAdminUserProfile } from "../../hooks/use-get-admin-user-profile";
+import type { UserProfileInfo } from "../../types/admin";
 
 const UserOrganizationsDialog = ({
 	userId,
@@ -16,11 +17,15 @@ const UserOrganizationsDialog = ({
 	userId: string;
 }): React.JSX.Element => {
 	const [isOpen, setIsOpen] = useState(false);
-	const { data: organizationsData } = useGetAdminUserOrganizations({
-		userId,
+	const { data, isLoading: isProfileLoading } = useGetAdminUserProfile({
+		params: { userId },
+		enabled: isOpen,
 	});
+	const organizations = data?.results.organizations;
 
-	const organizations = organizationsData?.data || [];
+	const userOrganizations =
+		organizations ?? ([] as UserProfileInfo["organizations"]);
+	const username = data?.results.username || userId;
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -36,19 +41,28 @@ const UserOrganizationsDialog = ({
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-lg">
 				<h2 className="text-lg font-semibold mb-4">
-					Organizations for User ID: {userId}
+					Organizations for User: {username}
 				</h2>
-				{organizations.length === 0 ? (
+				{isProfileLoading ? (
+					<p className="text-sm text-muted-foreground">
+						Loading organizations...
+					</p>
+				) : userOrganizations.length === 0 ? (
 					<p className="text-sm text-muted-foreground">
 						This user does not belong to any organizations.
 					</p>
 				) : (
 					<ul className="space-y-2">
-						{organizations.map((org) => (
-							<li key={org.id} className="border rounded-md p-3 bg-slate-50">
+						{userOrganizations.map((org) => (
+							<li
+								key={org.org_id}
+								className="border rounded-md p-3 bg-slate-50"
+							>
 								<p className="font-medium">{org.name}</p>
 								<div className="flex items-center gap-x-2 mt-2">
-									<p className="text-sm text-muted-foreground">ID: {org.id}</p>
+									<p className="text-sm text-muted-foreground">
+										ID: {org.org_id}
+									</p>
 									<div className="border h-4" />
 									<p className="text-sm text-muted-foreground">
 										Alias: {org.alias}

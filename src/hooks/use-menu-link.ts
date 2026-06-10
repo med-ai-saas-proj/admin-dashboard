@@ -72,6 +72,16 @@ export const useMenuLink = () => {
 			title: t("billing.credits"),
 			value: "credits",
 		},
+		{
+			key: "aggregate-organization",
+			title: t("billing.aggregateOrganization"),
+			value: "aggregate-organization",
+		},
+		{
+			key: "aggregate-projects",
+			title: t("billing.aggregateProjects"),
+			value: "aggregate-projects",
+		},
 	];
 
 	return {

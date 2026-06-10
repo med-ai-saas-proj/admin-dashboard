@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { format, subDays } from "date-fns";
+import { CircleCheckBig, Eye, RotateCcw } from "lucide-react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import type { DateRange } from "react-day-picker";
 
 import {
 	Table,
@@ -17,29 +20,110 @@ import {
 	SelectValue,
 } from "@/components/shadcn/select";
 import { Button } from "@/components/shadcn/button";
+import DashboardTimeRangePicker from "@/features/dashboard/components/dashboard-time-range-picker";
 
+import type {
+	Invoice,
+	InvoiceDetails,
+	InvoiceDetailsResponse,
+} from "../billing.type";
+import InvoiceStatusConfirmDialog from "./dialogs/invoice-status-confirm-dialog";
+import ViewInvoiceDetailsDialog from "./dialogs/view-invoice-details-dialog";
 import { useGetInvoices } from "../hooks/use-get-invoices";
+import { useMarkInvoiceAsPaid } from "../hooks/use-mark-invoice-as-paid";
+import { useMarkInvoiceAsRefunded } from "../hooks/use-mark-invoice-as-refunded";
+import { itemVariants } from "@/lib/animations";
+import { motion } from "framer-motion";
 
 const BillingInvoice = (): React.JSX.Element => {
 	const { t } = useTranslation("billing");
+
 	const [paidFilter, setPaidFilter] = useState<"all" | "true" | "false">("all");
 	const [limit, setLimit] = useState(10);
+	const [detailsInvoiceResponse, setDetailsInvoiceResponse] =
+		useState<InvoiceDetailsResponse | null>(null);
+	const [paidInvoice, setPaidInvoice] = useState<InvoiceDetails | null>(null);
+	const [refundedInvoice, setRefundedInvoice] = useState<InvoiceDetails | null>(
+		null
+	);
+	const defaultDateRange = useMemo<DateRange>(
+		() => ({
+			from: subDays(new Date(), 30),
+			to: new Date(),
+		}),
+		[]
+	);
+	const [dateRange, setDateRange] = useState<DateRange | undefined>(
+		defaultDateRange
+	);
 
 	const paid = paidFilter === "all" ? undefined : paidFilter === "true";
+	const fromDate = dateRange?.from
+		? format(dateRange.from, "yyyy-MM-dd")
+		: undefined;
+	const toDate = dateRange?.from
+		? format(dateRange.to ?? dateRange.from, "yyyy-MM-dd")
+		: undefined;
+
+	const { mutate: markInvoiceAsPaid, isPending: isMarkInvoiceAsPaidPending } =
+		useMarkInvoiceAsPaid();
+	const {
+		mutate: markInvoiceAsRefunded,
+		isPending: isMarkInvoiceAsRefundedPending,
+	} = useMarkInvoiceAsRefunded();
 
 	const { data: invoices } = useGetInvoices({
 		offset: 0,
 		limit,
 		paid,
+		from_date: fromDate,
+		to_date: toDate,
 	});
 
 	const rows = invoices?.data ?? [];
 	const total = invoices?.total ?? 0;
 	const hasMore = rows.length < total;
 
+	const toInvoiceDetails = (invoice: Invoice): InvoiceDetails => ({
+		...invoice,
+		line_items: [],
+	});
+
+	const handleMarkAsPaid = (invoice: InvoiceDetails) => {
+		markInvoiceAsPaid(
+			{ invoiceId: invoice.invoice_uid },
+			{
+				onSuccess: () => {
+					setPaidInvoice(null);
+				},
+			}
+		);
+	};
+
+	const handleMarkAsRefunded = (invoice: InvoiceDetails) => {
+		markInvoiceAsRefunded(
+			{ invoiceId: invoice.invoice_uid },
+			{
+				onSuccess: () => {
+					setRefundedInvoice(null);
+				},
+			}
+		);
+	};
+
 	return (
-		<div className="space-y-4">
-			<div className="flex items-center justify-end">
+		<motion.div
+			className="space-y-4"
+			variants={itemVariants}
+			initial="hidden"
+			animate="visible"
+		>
+			<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+				<DashboardTimeRangePicker
+					date={dateRange}
+					onDateRangeChange={setDateRange}
+					className="mx-0"
+				/>
 				<Select
 					value={paidFilter}
 					onValueChange={(value) => setPaidFilter(value as typeof paidFilter)}
@@ -63,7 +147,9 @@ const BillingInvoice = (): React.JSX.Element => {
 						<TableHead>{t("invoice.table.columns.totalAmount")}</TableHead>
 						<TableHead>{t("invoice.table.columns.paidAt")}</TableHead>
 						<TableHead>{t("invoice.table.columns.usedCredits")}</TableHead>
-						<TableHead>{t("invoice.table.columns.details")}</TableHead>
+						<TableHead className="text-right">
+							{t("invoice.table.columns.actions")}
+						</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
@@ -77,7 +163,7 @@ const BillingInvoice = (): React.JSX.Element => {
 							</TableCell>
 						</TableRow>
 					) : (
-						rows.map((invoice) => (
+						rows.map((invoice: Invoice) => (
 							<TableRow key={invoice.invoice_uid}>
 								<TableCell className="font-medium">
 									{invoice.invoice_uid}
@@ -86,7 +172,45 @@ const BillingInvoice = (): React.JSX.Element => {
 								<TableCell>{invoice.total_amount}</TableCell>
 								<TableCell>{invoice.paid_at || "-"}</TableCell>
 								<TableCell>{invoice.used_credits}</TableCell>
-								<TableCell>{invoice.details.additionalProperty}</TableCell>
+								<TableCell>
+									<div className="flex flex-wrap justify-end gap-2">
+										<Button
+											type="button"
+											variant="outline"
+											size="sm"
+											onClick={() =>
+												setDetailsInvoiceResponse({
+													success: true,
+													results: toInvoiceDetails(invoice),
+												})
+											}
+										>
+											<Eye className="h-4 w-4" />
+											{t("dialogs.invoiceActions.viewDetails")}
+										</Button>
+										<Button
+											type="button"
+											variant="secondary"
+											size="sm"
+											onClick={() => setPaidInvoice(toInvoiceDetails(invoice))}
+											disabled={!!invoice.paid_at}
+										>
+											<CircleCheckBig className="h-4 w-4" />
+											{t("dialogs.invoiceActions.markAsPaid")}
+										</Button>
+										<Button
+											type="button"
+											variant="secondary"
+											size="sm"
+											onClick={() =>
+												setRefundedInvoice(toInvoiceDetails(invoice))
+											}
+										>
+											<RotateCcw className="h-4 w-4" />
+											{t("dialogs.invoiceActions.markAsRefunded")}
+										</Button>
+									</div>
+								</TableCell>
 							</TableRow>
 						))
 					)}
@@ -108,7 +232,51 @@ const BillingInvoice = (): React.JSX.Element => {
 					</p>
 				)}
 			</div>
-		</div>
+
+			<ViewInvoiceDetailsDialog
+				open={detailsInvoiceResponse !== null}
+				onOpenChange={(open) => {
+					if (!open) {
+						setDetailsInvoiceResponse(null);
+					}
+				}}
+				invoiceResponse={detailsInvoiceResponse}
+			/>
+
+			<InvoiceStatusConfirmDialog
+				open={paidInvoice !== null}
+				onOpenChange={(open) => {
+					if (!open) {
+						setPaidInvoice(null);
+					}
+				}}
+				invoice={paidInvoice}
+				title={t("dialogs.invoiceStatus.paid.title")}
+				description={t("dialogs.invoiceStatus.paid.description")}
+				confirmLabel={t("dialogs.invoiceStatus.paid.confirm")}
+				isPending={isMarkInvoiceAsPaidPending}
+				onConfirm={handleMarkAsPaid}
+				confirmVariant="default"
+				leadingIcon={<CircleCheckBig className="h-4 w-4" />}
+			/>
+
+			<InvoiceStatusConfirmDialog
+				open={refundedInvoice !== null}
+				onOpenChange={(open) => {
+					if (!open) {
+						setRefundedInvoice(null);
+					}
+				}}
+				invoice={refundedInvoice}
+				title={t("dialogs.invoiceStatus.refunded.title")}
+				description={t("dialogs.invoiceStatus.refunded.description")}
+				confirmLabel={t("dialogs.invoiceStatus.refunded.confirm")}
+				isPending={isMarkInvoiceAsRefundedPending}
+				onConfirm={handleMarkAsRefunded}
+				confirmVariant="default"
+				leadingIcon={<RotateCcw className="h-4 w-4" />}
+			/>
+		</motion.div>
 	);
 };
 

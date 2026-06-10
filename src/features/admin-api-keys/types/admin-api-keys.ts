@@ -1,4 +1,4 @@
-import type { ApiResponse } from "@/lib/response";
+import type { ApiResponse, PaginatedResponse } from "@/lib/response";
 
 export type AdminApiKey = {
 	api_key_uuid: string;
@@ -17,8 +17,8 @@ export type AdminApiKeyPermissions = {
 	description: string;
 };
 
-export type AdminApiKeysResponse = ApiResponse<AdminApiKey[]>;
+export type AdminApiKeysResponse = PaginatedResponse<AdminApiKey[]>;
 export type AdminApiKeyResponse = ApiResponse<AdminApiKey>;
-export type AdminApiKeyPermissionsResponse = ApiResponse<
+export type AdminApiKeyPermissionsResponse = PaginatedResponse<
 	AdminApiKeyPermissions[]
 >;

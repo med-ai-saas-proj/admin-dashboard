@@ -37,7 +37,13 @@
         "actions": {
             "view": "Xem chi tiết",
             "edit": "Chỉnh Sửa",
+            "archive": "Lưu Trữ",
+            "restore": "Khôi Phục",
             "delete": "Xóa"
+        },
+        "status": {
+            "active": "Hoạt Động",
+            "archived": "Đã Lưu Trữ"
         }
     },
     "create": {
@@ -111,6 +117,46 @@
             "noProjectSelected": "Không có dự án nào được chọn"
         }
     },
+    "archive": {
+        "dialog": {
+            "title": "Lưu Trữ Dự Án",
+            "description": "Bạn có chắc chắn muốn lưu trữ dự án này không? Dự án sẽ không còn xuất hiện trong danh sách đang hoạt động."
+        },
+        "labels": {
+            "project": "Dự Án",
+            "uuid": "UUID"
+        },
+        "buttons": {
+            "cancel": "Hủy",
+            "archive": "Lưu Trữ Dự Án",
+            "archiving": "Đang Lưu Trữ..."
+        },
+        "messages": {
+            "success": "Dự án được lưu trữ thành công",
+            "error": "Không thể lưu trữ dự án",
+            "noProjectSelected": "Không có dự án nào được chọn"
+        }
+    },
+    "unarchive": {
+        "dialog": {
+            "title": "Khôi Phục Dự Án",
+            "description": "Bạn có chắc chắn muốn khôi phục dự án này không? Dự án sẽ quay lại danh sách đang hoạt động."
+        },
+        "labels": {
+            "project": "Dự Án",
+            "uuid": "UUID"
+        },
+        "buttons": {
+            "cancel": "Hủy",
+            "restore": "Khôi Phục Dự Án",
+            "restoring": "Đang Khôi Phục..."
+        },
+        "messages": {
+            "success": "Dự án được khôi phục thành công",
+            "error": "Không thể khôi phục dự án",
+            "noProjectSelected": "Không có dự án nào được chọn"
+        }
+    },
     "details": {
         "dialog": {
             "title": "Chi tiết dự án",
@@ -178,10 +224,25 @@
             "loading": "Đang Tải..."
         },
         "table": {
+            "headers": {
+                "username": "Tên người dùng",
+                "permissions": "Quyền",
+                "actions": "Hành Động"
+            },
             "empty": {
                 "withSearch": "Không tìm thấy người dùng nào phù hợp với tìm kiếm của bạn",
                 "noData": "Không có người dùng nào"
             }
+        },
+        "tooltips": {
+            "view_profile": "Xem hồ sơ",
+            "update_permissions": "Cập nhật quyền"
+        },
+        "permissionsDialog": {
+            "title": "Quyền người dùng",
+            "username": "Tên người dùng: {{username}}",
+            "cancel": "Hủy",
+            "save": "Lưu thay đổi"
         }
     },
     "permissions": {

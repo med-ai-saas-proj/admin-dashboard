@@ -1,0 +1,7 @@
+{
+    "billing": {
+        "credit": {
+            "successMessage": "Credit added {{amount}} USD, total credits: {{totalCredits}} USD"
+        }
+    }
+}

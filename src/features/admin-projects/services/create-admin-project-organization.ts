@@ -1,4 +1,5 @@
 import { API_ROUTES } from "@/config/api-routes";
+import { toApiResponse } from "@/lib/response";
 import apiClient from "@/query/api-client";
 import type { CreateAdminProjectOrganizationResponse } from "../types/admin-projects";
 
@@ -21,9 +22,9 @@ export const createAdminProjectOrganization = async ({
 		},
 		{
 			params: {
-				organizationId,
+				org_id: organizationId,
 			},
 		}
 	);
-	return response.data;
+	return toApiResponse(response.data);
 };
