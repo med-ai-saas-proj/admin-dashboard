@@ -16,7 +16,7 @@ import {
 	SidebarHeader,
 	SidebarRail,
 } from "@/components/shadcn/sidebar";
-import { LocaleSwitcher } from "@/components/sidebar/locale-switcher";
+// import { LocaleSwitcher } from "@/components/sidebar/locale-switcher";
 import { NavProjects } from "@/components/sidebar/nav-projects";
 import { NavUser } from "@/components/sidebar/nav-user";
 import { TeamSwitcher } from "@/components/sidebar/team-switcher";
@@ -150,7 +150,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 			</SidebarContent>
 
 			<SidebarFooter>
-				<LocaleSwitcher className="mx-auto" />
+				{/* <LocaleSwitcher className="mx-auto" /> */}
 				{data.user && <NavUser user={data.user} />}
 			</SidebarFooter>
 			<SidebarRail />
