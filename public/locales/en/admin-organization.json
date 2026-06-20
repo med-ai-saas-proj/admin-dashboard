@@ -1,6 +1,6 @@
 {
+    "title": "Organization Management",
     "overview": {
-        "title": "Organization Management",
         "search": {
             "placeholder": "Search by ID, name, or owner..."
         },

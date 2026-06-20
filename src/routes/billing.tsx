@@ -1,18 +1,20 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/shadcn/tabs";
 import { useMenuLink } from "@/hooks/use-menu-link";
+import { useTranslation } from "react-i18next";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const BillingDashboard = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { billingLinks } = useMenuLink();
+	const { t } = useTranslation("billing");
 
 	const currentTab =
 		location.pathname.split("/").pop() || billingLinks[0].value;
 
 	return (
 		<>
-			<h2 className="text-2xl font-bold mb-4">Billing</h2>
+			<h2 className="text-2xl font-bold mb-4">{t("title")}</h2>
 			<Tabs value={currentTab} onValueChange={(value) => navigate(value)}>
 				<div className="border-b w-full">
 					<TabsList variant={"line"}>
