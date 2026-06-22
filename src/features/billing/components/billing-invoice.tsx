@@ -190,7 +190,7 @@ const BillingInvoice = (): React.JSX.Element => {
 										</Button>
 										<Button
 											type="button"
-											variant="secondary"
+											variant="outline"
 											size="sm"
 											onClick={() => setPaidInvoice(toInvoiceDetails(invoice))}
 											disabled={!!invoice.paid_at}
@@ -200,7 +200,7 @@ const BillingInvoice = (): React.JSX.Element => {
 										</Button>
 										<Button
 											type="button"
-											variant="secondary"
+											variant="outline"
 											size="sm"
 											onClick={() =>
 												setRefundedInvoice(toInvoiceDetails(invoice))

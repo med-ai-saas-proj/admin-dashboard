@@ -1,6 +1,6 @@
 {
+    "title": "API Keys Dashboard",
     "overview": {
-        "title": "API Keys Dashboard",
         "search": {
             "placeholder": "Search API keys"
         },

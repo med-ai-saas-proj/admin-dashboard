@@ -14,7 +14,7 @@ export const updateAdminProjectSettings = async ({
 	rate_limit,
 	spending_limit,
 }: UpdateAdminProjectSettingsCredentials) => {
-	const response = await apiClient.put<AdminProjectDetailsSettingsResponse>(
+	const response = await apiClient.patch<AdminProjectDetailsSettingsResponse>(
 		`${API_ROUTES.MANAGEMENT.ADMIN_PROJECTS}/${projectId}/settings`,
 		{
 			rate_limit,
