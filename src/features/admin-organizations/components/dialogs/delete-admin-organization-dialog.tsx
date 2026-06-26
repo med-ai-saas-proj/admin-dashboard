@@ -43,9 +43,6 @@ export const DeleteAdminOrganizationDialog = ({
 					onOpenChange(false);
 					refetch();
 				},
-				onError: () => {
-					toast.error(t("delete.messages.error"));
-				},
 			}
 		);
 	};

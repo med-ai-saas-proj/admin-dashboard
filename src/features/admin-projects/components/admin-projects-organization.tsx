@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Archive, Eye, RotateCcw, Search, Trash2 } from "lucide-react";
+import { Archive, Eye, RotateCcw, Search } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import { useTranslation } from "react-i18next";
@@ -34,7 +34,7 @@ import {
 	CreateAdminProjectDialog,
 	ArchiveAdminProjectDialog,
 	ViewDetailsAdminProjectDialog,
-	DeleteAdminProjectDialog,
+	// DeleteAdminProjectDialog,
 } from "./dialogs";
 import { itemVariants } from "@/lib/animations";
 import { motion } from "framer-motion";
@@ -54,7 +54,7 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 	const [limit] = useState(10);
 	const [viewDetailsDialogOpen, setViewDetailsDialogOpen] = useState(false);
 	const [archiveDialogOpen, setArchiveDialogOpen] = useState(false);
-	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+	// const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [selectedProject, setSelectedProject] =
 		useState<AdminProjectOrganization | null>(null);
 
@@ -96,10 +96,10 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 		setArchiveDialogOpen(true);
 	};
 
-	const handleOpenDelete = (project: AdminProjectOrganization) => {
-		setSelectedProject(project);
-		setDeleteDialogOpen(true);
-	};
+	// const handleOpenDelete = (project: AdminProjectOrganization) => {
+	// 	setSelectedProject(project);
+	// 	setDeleteDialogOpen(true);
+	// };
 
 	return (
 		<motion.div variants={itemVariants} initial="hidden" animate="visible">
@@ -233,7 +233,7 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 																: t("overview.actions.archive")}
 														</TooltipContent>
 													</Tooltip>
-													<Tooltip>
+													{/* <Tooltip>
 														<TooltipTrigger asChild>
 															<Button
 																variant="ghost"
@@ -246,7 +246,7 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 														<TooltipContent>
 															{t("overview.actions.delete")}
 														</TooltipContent>
-													</Tooltip>
+													</Tooltip> */}
 												</div>
 											</TableCell>
 										</TableRow>
@@ -280,11 +280,11 @@ const AdminProjectsOrganization = (): React.JSX.Element => {
 					project={selectedProject}
 				/>
 
-				<DeleteAdminProjectDialog
+				{/* <DeleteAdminProjectDialog
 					open={deleteDialogOpen}
 					onOpenChange={setDeleteDialogOpen}
 					project={selectedProject}
-				/>
+				/> */}
 			</div>
 		</motion.div>
 	);
