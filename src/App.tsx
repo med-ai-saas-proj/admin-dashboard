@@ -43,7 +43,7 @@ function App() {
 		<QueryClientProvider client={query_client}>
 			<KeycloakProvider>
 				<BrowserRouter>
-					<Toaster />
+					<Toaster richColors />
 					<Routes>
 						<Route
 							path="/login"

@@ -57,9 +57,6 @@ export const CreateAdminOrganizationDialog = ({
 					onOpenChange(false);
 					refetch();
 				},
-				onError: () => {
-					toast.error(t("create.messages.error"));
-				},
 			}
 		);
 	};

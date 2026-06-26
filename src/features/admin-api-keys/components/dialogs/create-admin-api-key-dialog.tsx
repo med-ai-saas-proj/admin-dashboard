@@ -18,6 +18,7 @@ import { Checkbox } from "@/components/shadcn/checkbox";
 import { useCreateAdminApiKey } from "../../hooks/use-create-admin-api-key";
 import { useGetAdminApiKeyPermissions } from "../../hooks/use-get-admin-api-key-permissions";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 import { SaveAdminAPIKeyDialog } from "./save-admin-api-key-dialog";
 
 const createSchema = z.object({
@@ -83,6 +84,7 @@ export const CreateAdminApiKeyDialog = ({
 			},
 			{
 				onSuccess: (data) => {
+					toast.success(t("common.toast.createSuccess"));
 					setOpen(false);
 					setOpenSaveDialog(true);
 					setCreatedApiKey({ key: data.results.key });
