@@ -11,6 +11,18 @@ export type AdminApiKey = {
 	disabled: boolean;
 };
 
+export type CreateAdminApiKey = {
+	api_key_uuid: string;
+	project_uuid: string;
+	name: string;
+	description: string;
+	hint: string;
+	created_at: string;
+	permissions: string[];
+	disabled: boolean;
+	key: string;
+};
+
 export type AdminApiKeyPermissions = {
 	id: string;
 	name: string;
@@ -19,6 +31,7 @@ export type AdminApiKeyPermissions = {
 
 export type AdminApiKeysResponse = PaginatedResponse<AdminApiKey[]>;
 export type AdminApiKeyResponse = ApiResponse<AdminApiKey>;
+export type CreateAdminApiKeyResponse = ApiResponse<CreateAdminApiKey>;
 export type AdminApiKeyPermissionsResponse = PaginatedResponse<
 	AdminApiKeyPermissions[]
 >;

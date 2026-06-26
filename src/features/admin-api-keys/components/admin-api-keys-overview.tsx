@@ -172,6 +172,7 @@ const AdminApiKeysOverview = (): React.JSX.Element => {
 									<TableRow>
 										<TableHead>{t("overview.table.headers.uuid")}</TableHead>
 										<TableHead>{t("overview.table.headers.name")}</TableHead>
+										<TableHead>{t("overview.table.headers.hint")}</TableHead>
 										<TableHead>
 											{t("overview.table.headers.description")}
 										</TableHead>
@@ -189,6 +190,7 @@ const AdminApiKeysOverview = (): React.JSX.Element => {
 										<TableRow key={k.api_key_uuid}>
 											<TableCell>{k.api_key_uuid}</TableCell>
 											<TableCell>{k.name}</TableCell>
+											<TableCell>{k.hint ?? "-"}</TableCell>
 											<TableCell>{k.description ?? "-"}</TableCell>
 											<TableCell>
 												{new Date(k.created_at).toLocaleString()}

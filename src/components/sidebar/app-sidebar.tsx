@@ -109,15 +109,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 				disableActive: !projectId,
 			},
 			{
-				name: t("project.settings.title"),
-				url: `/organizations/${organizationId}/projects/${projectId}/settings`,
-				icon: Settings,
-				disableActive: !projectId,
-			},
-			{
 				name: t("project.apiKeys.title"),
 				url: `/organizations/${organizationId}/projects/${projectId}/api-keys`,
 				icon: Key,
+				disableActive: !projectId,
+			},
+			{
+				name: t("project.settings.title"),
+				url: `/organizations/${organizationId}/projects/${projectId}/settings`,
+				icon: Settings,
 				disableActive: !projectId,
 			},
 		],

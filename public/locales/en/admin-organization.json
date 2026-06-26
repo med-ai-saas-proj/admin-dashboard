@@ -69,7 +69,8 @@
         },
         "buttons": {
             "update": "Update",
-            "updating": "Updating..."
+            "updating": "Updating...",
+            "cancel": "Cancel"
         },
         "messages": {
             "success": "Organization updated successfully",

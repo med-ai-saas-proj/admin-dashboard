@@ -99,8 +99,8 @@
     },
     "delete": {
         "dialog": {
-            "title": "Archive Project",
-            "description": "Are you sure you want to archive this project? This action will move the project to archived status."
+            "title": "Delete Project",
+            "description": "Are you sure you want to delete this project? This action cannot be undone."
         },
         "labels": {
             "project": "Project",
@@ -108,12 +108,12 @@
         },
         "buttons": {
             "cancel": "Cancel",
-            "delete": "Archive Project",
-            "deleting": "Archiving..."
+            "delete": "Delete Project",
+            "deleting": "Deleting..."
         },
         "messages": {
-            "success": "Project archived successfully",
-            "error": "Failed to archive project",
+            "success": "Project deleted successfully",
+            "error": "Failed to delete project",
             "noProjectSelected": "No project selected"
         }
     },

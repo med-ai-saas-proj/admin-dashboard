@@ -69,7 +69,8 @@
         },
         "buttons": {
             "update": "Cập Nhật",
-            "updating": "Đang Cập Nhật..."
+            "updating": "Đang Cập Nhật...",
+            "cancel": "Hủy"
         },
         "messages": {
             "success": "Tổ chức được cập nhật thành công",

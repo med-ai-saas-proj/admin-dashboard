@@ -98,9 +98,7 @@ export const UpdateAdminOrganizationDialog = ({
 							onClick={() => onOpenChange(false)}
 							disabled={isPending}
 						>
-							{t("create.action.cancel") ||
-								t("common.action.cancel") ||
-								"Cancel"}
+							{t("update.buttons.cancel")}
 						</Button>
 						<Button type="submit" disabled={isPending}>
 							{isPending ? (

@@ -16,6 +16,7 @@
             "headers": {
                 "uuid": "UUID",
                 "name": "Tên",
+                "hint": "Gợi Ý",
                 "description": "Mô Tả",
                 "created": "Tạo Lúc",
                 "disabled": "Trạng Thái",
@@ -42,6 +43,11 @@
         "status": {
             "enabled": "Được Bật",
             "disabled": "Bị Tắt"
+        },
+        "saveDialog": {
+            "title": "Lưu khóa của bạn",
+            "description": "Vui lòng lưu khóa bí mật này ở nơi an toàn và dễ truy cập. Vì lý do bảo mật, bạn sẽ không thể xem lại nó qua tài khoản Venera của mình. Nếu bạn làm mất khóa bí mật này, bạn sẽ cần tạo một khóa mới.",
+            "keySet": "Khóa này đã được tự động thiết lập cho các dịch vụ AI"
         }
     },
     "create": {

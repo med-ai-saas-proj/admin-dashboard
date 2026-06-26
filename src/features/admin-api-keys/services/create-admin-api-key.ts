@@ -1,7 +1,7 @@
 import { API_ROUTES } from "@/config/api-routes";
 import { toApiResponse } from "@/lib/response";
 import apiClient from "@/query/api-client";
-import type { AdminApiKeyResponse } from "../types/admin-api-keys";
+import type { CreateAdminApiKeyResponse } from "../types/admin-api-keys";
 
 export type CreateAdminApiKeyCredentials = {
 	name: string;
@@ -16,7 +16,7 @@ export const createAdminApiKey = async ({
 	permissions,
 	projectId,
 }: CreateAdminApiKeyCredentials) => {
-	const response = await apiClient.post<AdminApiKeyResponse>(
+	const response = await apiClient.post<CreateAdminApiKeyResponse>(
 		`${API_ROUTES.MANAGEMENT.ADMIN_API_KEYS}`,
 		{
 			name,

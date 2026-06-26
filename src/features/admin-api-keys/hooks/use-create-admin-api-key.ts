@@ -3,7 +3,7 @@ import { createAdminApiKey } from "../services/create-admin-api-key";
 import type { CreateAdminApiKeyCredentials } from "../services/create-admin-api-key";
 import type {
 	AdminApiKeysResponse,
-	AdminApiKeyResponse,
+	CreateAdminApiKeyResponse,
 } from "../types/admin-api-keys";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -11,7 +11,7 @@ export const useCreateAdminApiKey = () => {
 	const queryClient = useQueryClient();
 
 	return useMutation<
-		AdminApiKeyResponse,
+		CreateAdminApiKeyResponse,
 		Error,
 		CreateAdminApiKeyCredentials,
 		{ previous?: Array<[QueryKey, AdminApiKeysResponse | undefined]> }
@@ -32,7 +32,7 @@ export const useCreateAdminApiKey = () => {
 					(old) => {
 						if (!old) return old;
 
-						const newApiKey: AdminApiKeyResponse = {
+						const newApiKey: CreateAdminApiKeyResponse = {
 							success: true,
 							results: {
 								api_key_uuid: "temp-id",
@@ -43,6 +43,7 @@ export const useCreateAdminApiKey = () => {
 								created_at: new Date().toISOString(),
 								permissions: credentials.permissions,
 								disabled: false,
+								key: "temp-key",
 							},
 						};
 

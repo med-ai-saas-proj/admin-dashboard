@@ -99,8 +99,8 @@
     },
     "delete": {
         "dialog": {
-            "title": "Lưu Trữ Dự Án",
-            "description": "Bạn có chắc chắn muốn lưu trữ dự án này không? Hành động này sẽ di chuyển dự án sang trạng thái đã lưu trữ."
+            "title": "Xóa Dự Án",
+            "description": "Bạn có chắc chắn muốn xóa dự án này không? Hành động này không thể hoàn tác."
         },
         "labels": {
             "project": "Dự Án",
@@ -108,12 +108,12 @@
         },
         "buttons": {
             "cancel": "Hủy",
-            "delete": "Lưu Trữ Dự Án",
-            "deleting": "Đang Lưu Trữ..."
+            "delete": "Xóa Dự Án",
+            "deleting": "Đang Xóa..."
         },
         "messages": {
-            "success": "Dự án được lưu trữ thành công",
-            "error": "Không thể lưu trữ dự án",
+            "success": "Dự án được xóa thành công",
+            "error": "Không thể xóa dự án",
             "noProjectSelected": "Không có dự án nào được chọn"
         }
     },
