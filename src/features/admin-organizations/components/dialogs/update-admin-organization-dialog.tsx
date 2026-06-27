@@ -13,7 +13,7 @@ import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { useUpdateAdminOrganization } from "../../hooks/use-update-admin-organizations";
-import { useGetAdminOrganizations } from "../../hooks/use-get-admin-organizations";
+import { useRefetchAdminOrganizations } from "../../hooks/use-refetch-admin-organizations";
 import type { AdminOrganization } from "../../types/admin-organizations";
 
 interface UpdateAdminOrganizationDialogProps {
@@ -33,7 +33,7 @@ export const UpdateAdminOrganizationDialog = ({
 
 	const { mutate: updateOrganization, isPending } =
 		useUpdateAdminOrganization();
-	const { refetch } = useGetAdminOrganizations();
+	const refetchOrganizations = useRefetchAdminOrganizations();
 
 	useEffect(() => {
 		if (organization) {
@@ -58,7 +58,7 @@ export const UpdateAdminOrganizationDialog = ({
 				onSuccess: () => {
 					toast.success(t("update.messages.success"));
 					onOpenChange(false);
-					refetch();
+					refetchOrganizations();
 				},
 				onError: () => {
 					toast.error(t("update.messages.error"));

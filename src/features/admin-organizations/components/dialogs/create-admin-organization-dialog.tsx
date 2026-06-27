@@ -13,7 +13,7 @@ import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useCreateAdminOrganization } from "../../hooks/use-create-admin-organizations";
-import { useGetAdminOrganizations } from "../../hooks/use-get-admin-organizations";
+import { useRefetchAdminOrganizations } from "../../hooks/use-refetch-admin-organizations";
 
 interface CreateAdminOrganizationDialogProps {
 	open: boolean;
@@ -32,7 +32,7 @@ export const CreateAdminOrganizationDialog = ({
 
 	const { mutate: createOrganization, isPending } =
 		useCreateAdminOrganization();
-	const { refetch } = useGetAdminOrganizations();
+	const refetchOrganizations = useRefetchAdminOrganizations();
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -55,7 +55,7 @@ export const CreateAdminOrganizationDialog = ({
 					setAlias("");
 					setOwnerId("");
 					onOpenChange(false);
-					refetch();
+					refetchOrganizations();
 				},
 			}
 		);
