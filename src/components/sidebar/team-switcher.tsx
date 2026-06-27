@@ -20,6 +20,7 @@ import type { AdminOrganization } from "@/features/admin-organizations/types/adm
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/features/auth/store/auth-store";
 import { useTranslation } from "react-i18next";
+import { cn } from "@/lib/utils";
 
 export function TeamSwitcher({
 	info,
@@ -83,9 +84,16 @@ export function TeamSwitcher({
 							<DropdownMenuItem
 								key={org.name}
 								onClick={() => handleOrganizationSelect(org)}
-								className="gap-2 p-2"
+								className={cn(
+									"gap-2 p-2 flex items-start justify-between",
+									org.org_id === info.organization.id &&
+										"bg-sidebar-accent text-sidebar-accent-foreground"
+								)}
 							>
-								{org.name}
+								<div className="grid flex-1 text-left text-sm leading-tight">
+									{org.name}
+									<span className="truncate text-xs">{org.org_id}</span>
+								</div>
 								<DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
 							</DropdownMenuItem>
 						))}
