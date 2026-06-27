@@ -106,7 +106,7 @@ const UpdateUserPermissionsInOrganizationDialog = ({
 						})}
 					</p>
 				</div>
-				<div className="max-h-128 overflow-y-auto space-y-4">
+				<div className="max-h-96 overflow-y-auto space-y-4">
 					{allPermissionsInCurrentOrganization?.permissions.map(
 						(permission) => (
 							<div
