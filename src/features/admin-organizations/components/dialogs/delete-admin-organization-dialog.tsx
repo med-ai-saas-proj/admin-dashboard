@@ -10,7 +10,7 @@ import { Spinner } from "@/components/shadcn/spinner";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { useDeleteAdminOrganization } from "../../hooks/use-delete-admin-organization";
-import { useGetAdminOrganizations } from "../../hooks/use-get-admin-organizations";
+import { useRefetchAdminOrganizations } from "../../hooks/use-refetch-admin-organizations";
 import type { AdminOrganization } from "../../types/admin-organizations";
 
 interface DeleteAdminOrganizationDialogProps {
@@ -28,7 +28,7 @@ export const DeleteAdminOrganizationDialog = ({
 
 	const { mutate: deleteOrganization, isPending } =
 		useDeleteAdminOrganization();
-	const { refetch } = useGetAdminOrganizations();
+	const refetchOrganizations = useRefetchAdminOrganizations();
 
 	const handleConfirm = () => {
 		if (!organization) return;
@@ -41,7 +41,7 @@ export const DeleteAdminOrganizationDialog = ({
 				onSuccess: () => {
 					toast.success(t("delete.messages.success"));
 					onOpenChange(false);
-					refetch();
+					refetchOrganizations();
 				},
 			}
 		);
