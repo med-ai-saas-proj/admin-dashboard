@@ -138,13 +138,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	};
 
 	useEffect(() => {
-		if (!organizationInfo) {
+		if (organizations?.results?.length && !organizationInfo?.id) {
+			const firstOrg = organizations.results[0];
 			setOrganization({
-				id: organizations?.results[0]?.org_id || "",
-				name: organizations?.results[0]?.name || "",
+				id: firstOrg.org_id,
+				name: firstOrg.name,
 			});
 		}
-	}, [organizationInfo, organizations, setOrganization]);
+	}, [organizationInfo?.id, organizations, setOrganization]);
 
 	return (
 		<Sidebar collapsible="icon" {...props}>
