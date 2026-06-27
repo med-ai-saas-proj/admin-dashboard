@@ -1,4 +1,8 @@
 {
+    "breadcrumb": {
+        "organizationFallback": "Chọn một tổ chức",
+        "projectFallback": "Chọn một dự án"
+    },
     "dashboard": {
         "label": "Bảng điều khiển",
         "billing": {
@@ -25,6 +29,7 @@
     },
     "organization": {
         "label": "Tổ chức",
+        "label2": "Các tổ chức",
         "users": {
             "title": "Người dùng"
         },

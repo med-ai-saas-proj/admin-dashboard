@@ -23,5 +23,3 @@ export type AdminOrganizationDetailsResponse = ApiResponse<AdminOrganization>;
 export type AdminOrganizationsResponse = ApiResponse<AdminOrganization[]>;
 export type AdminOrganizationDeleteResponse =
 	ApiResponse<AdminOrganizationDelete>;
-export type AdminOrganizationPermissionsResponse =
-	ApiResponse<AdminOrganizationPermissions>;
