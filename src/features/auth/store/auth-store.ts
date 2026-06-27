@@ -1,3 +1,4 @@
+import { useAdminProjectDetailsStore } from "@/features/admin-project-details/store/admin-project-details";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -48,14 +49,17 @@ export const useAuthStore = create<AuthState>()(
 					expiresAt: Date.now() + expiresIn * 1000,
 				}),
 			setUserInfo: (userInfo) => set({ userInfo }),
-			logout: () =>
+			logout: () => {
+				useAdminProjectDetailsStore.getState().resetProjectDetails();
+
 				set({
 					token: null,
 					refreshToken: null,
 					expiresAt: null,
 					userInfo: null,
 					organization: null,
-				}),
+				});
+			},
 			isTokenExpired: () => {
 				const expiresAt = get().expiresAt;
 				if (!expiresAt) return true;

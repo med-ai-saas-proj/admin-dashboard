@@ -25,17 +25,24 @@ import { useTranslation } from "react-i18next";
 import { useAdminOrganizationDetailsStore } from "@/features/admin-organization-details/store/admin-organization-details";
 import { useParams } from "react-router-dom";
 import { useAdminProjectDetailsStore } from "@/features/admin-project-details/store/admin-project-details";
+import { useGetAdminOrganizations } from "@/features/admin-organizations/hooks/use-get-admin-organizations";
+import { useEffect } from "react";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	const { t } = useTranslation("sidebar");
 	const params = useParams();
 
-	const { userInfo } = useAuthStore();
+	const {
+		userInfo,
+		organization: organizationInfo,
+		setOrganization,
+	} = useAuthStore();
 
 	const storedOrganizationId = useAdminOrganizationDetailsStore(
 		(state) => state.organizationId
 	);
 	const organizationId = params.orgId || storedOrganizationId;
+	const { data: organizations } = useGetAdminOrganizations();
 
 	const storedProjectId = useAdminProjectDetailsStore(
 		(state) => state.projectId
@@ -43,13 +50,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	const projectId = params.projectId || storedProjectId;
 
 	const data = {
-		teams: [
-			{
-				name: "Acme Inc",
+		info: {
+			organization: {
+				name:
+					organizationInfo?.name ||
+					organizations?.results[0]?.name ||
+					"Acme Inc",
+				id:
+					organizationInfo?.id ||
+					organizations?.results[0]?.org_id ||
+					"org-123",
 				logo: GalleryVerticalEnd,
-				plan: "Enterprise",
 			},
-		],
+			organizationList: organizations?.results || [],
+		},
 		user: userInfo,
 		// dashboard: [
 		// 	{
@@ -123,10 +137,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 		],
 	};
 
+	useEffect(() => {
+		if (!organizationInfo) {
+			setOrganization({
+				id: organizations?.results[0]?.org_id || "",
+				name: organizations?.results[0]?.name || "",
+			});
+		}
+	}, [organizationInfo, organizations, setOrganization]);
+
 	return (
 		<Sidebar collapsible="icon" {...props}>
 			<SidebarHeader>
-				<TeamSwitcher teams={data.teams} />
+				<TeamSwitcher info={data.info} />
 			</SidebarHeader>
 			<SidebarContent>
 				{/* <NavProjects
@@ -151,7 +174,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
 			<SidebarFooter>
 				{/* <LocaleSwitcher className="mx-auto" /> */}
-				{data.user && <NavUser user={data.user} />}
+				{data.user && (
+					<NavUser user={data.user} organization={data.info.organization} />
+				)}
 			</SidebarFooter>
 			<SidebarRail />
 		</Sidebar>

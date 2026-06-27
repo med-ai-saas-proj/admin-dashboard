@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { useGetAdminOrganizationDetails } from "../../hooks/use-get-admin-organizations-details";
 import type { AdminOrganization } from "../../types/admin-organizations";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "@/features/auth/store/auth-store";
 
 interface ViewDetailsAdminOrganizationDialogProps {
 	open: boolean;
@@ -24,7 +25,9 @@ export const ViewDetailsAdminOrganizationDialog = ({
 	organization,
 }: ViewDetailsAdminOrganizationDialogProps) => {
 	const { t } = useTranslation("admin-organization");
+
 	const navigate = useNavigate();
+	const setOrganization = useAuthStore((state) => state.setOrganization);
 	const { data, isLoading } = useGetAdminOrganizationDetails(
 		{
 			organization_id: organization?.org_id || "",
@@ -36,7 +39,11 @@ export const ViewDetailsAdminOrganizationDialog = ({
 
 	const details = data?.results || organization;
 
-	const handleNavigateToDetails = (orgId: string) => {
+	const handleNavigateToDetails = (orgName: string, orgId: string) => {
+		setOrganization({
+			name: orgName,
+			id: orgId,
+		});
 		navigate(`/organizations/${orgId}`);
 	};
 
@@ -90,7 +97,12 @@ export const ViewDetailsAdminOrganizationDialog = ({
 					<Button
 						type="button"
 						className="ml-2"
-						onClick={() => handleNavigateToDetails(details?.org_id || "")}
+						onClick={() =>
+							handleNavigateToDetails(
+								details?.name || "",
+								details?.org_id || ""
+							)
+						}
 						disabled={!details}
 					>
 						{t("details.buttons.viewMore")}
