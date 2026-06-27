@@ -9,13 +9,13 @@ import {
 	CardContent,
 } from "@/components/shadcn/card";
 import { Skeleton } from "@/components/shadcn/skeleton";
-import { useGetAdminOrganizationDetails } from "@/features/admin-organizations/hooks/use-get-admin-organizations-details";
 import UpdateOrganizationSettingsDialog from "./dialogs/update-organization-settings-dialog";
 import { useTranslation } from "react-i18next";
 import { containerVariants, itemVariants } from "@/lib/animations";
 import { motion } from "framer-motion";
 import { Button } from "@/components/shadcn/button";
 import { Pencil } from "lucide-react";
+import { useAuthStore } from "@/features/auth/store/auth-store";
 
 const MotionCard = motion(Card);
 
@@ -27,22 +27,18 @@ const AdminOrganizationDetailsSettings = (): React.JSX.Element => {
 	const { data: settingsData, isLoading } = useGetAdminOrganizationSettings({
 		organizationId,
 	});
-	const { data: organizationInfo } = useGetAdminOrganizationDetails(
-		{ organization_id: organizationId },
-		{ enabled: !!organizationId }
-	);
+	const organizationName = useAuthStore((state) => state.organization?.name);
 	const { t } = useTranslation("admin-organization");
 
 	const settings = settingsData?.results;
 
 	return (
 		<motion.div variants={containerVariants} initial="hidden" animate="visible">
-			{organizationInfo && (
+			{organizationName && (
 				<h1 className="text-2xl font-bold mb-6">
 					{t("settings.title")}{" "}
-					{organizationInfo.results.name ||
-						t("details.labels.organizationName")}{" "}
-					({organizationId})
+					{organizationName || t("details.labels.organizationName")} (
+					{organizationId})
 				</h1>
 			)}
 
