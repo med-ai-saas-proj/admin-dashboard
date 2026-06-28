@@ -61,22 +61,16 @@ export const API_ROUTES = {
 	},
 	SERVICES: {
 		EHR_SUMMARIZE: new URL(
-			`service/${API_VERSION}/ehr_summarize`,
+			`api/${API_VERSION}/ehr_summarize`,
 			BASE_API_URL
 		).toString(),
 		RX_ADVISOR: new URL(
-			`service/${API_VERSION}/rx_advisor`,
+			`api/${API_VERSION}/rx_advisor`,
 			BASE_API_URL
 		).toString(),
-		AI_SEARCH: new URL(
-			`service/${API_VERSION}/ai_search`,
-			BASE_API_URL
-		).toString(),
-		CHAT: new URL(`service/${API_VERSION}/chat`, BASE_API_URL).toString(),
-		DASHBOARD: new URL(
-			`service/${API_VERSION}/dashboard`,
-			BASE_API_URL
-		).toString(),
+		AI_SEARCH: new URL(`api/${API_VERSION}/ai_search`, BASE_API_URL).toString(),
+		CHAT: new URL(`api/${API_VERSION}/chat`, BASE_API_URL).toString(),
+		DASHBOARD: new URL(`api/${API_VERSION}/dashboard`, BASE_API_URL).toString(),
 	},
 } as const;
 
