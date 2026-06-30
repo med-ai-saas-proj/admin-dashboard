@@ -17,7 +17,6 @@ import { useAdminOrganizationDetailsStore } from "../store/admin-organization-de
 import { useGetAdminOrganizationUsers } from "../hooks/use-get-admin-organization-users";
 import type { AdminUserOrganization } from "@/features/admin-organization-details/types/admin-organization-details";
 import { useParams } from "react-router-dom";
-import { useGetAdminOrganizationDetails } from "@/features/admin-organizations/hooks/use-get-admin-organizations-details";
 import UpdateUserPermissionsInOrganizationDialog from "./dialogs/update-user-permissions-in-organization-dialog";
 import UserProfileDialog from "@/features/general/components/dialogs/user-profile-dialog";
 import {
@@ -28,6 +27,7 @@ import {
 import { useGetAdminUserProfile } from "@/features/general/hooks/use-get-admin-user-profile";
 import { itemVariants } from "@/lib/animations";
 import { motion } from "framer-motion";
+import { useAuthStore } from "@/features/auth/store/auth-store";
 
 const UserPermissionsListInOrganization = ({
 	userId,
@@ -78,14 +78,7 @@ const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 
 	const offset = (currentPage - 1) * limit;
 
-	const { data: organizationInfo } = useGetAdminOrganizationDetails(
-		{
-			organization_id: organizationId,
-		},
-		{
-			enabled: !!organizationId,
-		}
-	);
+	const organizationName = useAuthStore((state) => state.organization?.name);
 	const { data, isFetching, refetch, isLoading } = useGetAdminOrganizationUsers(
 		{
 			orgId: organizationId || "",
@@ -106,12 +99,11 @@ const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 
 	return (
 		<div className="space-y-8">
-			{organizationInfo && (
+			{organizationName && (
 				<h1 className="text-2xl font-bold">
 					{t("users.title")}{" "}
-					{organizationInfo.results.name ||
-						t("details.labels.organizationName")}{" "}
-					({organizationId})
+					{organizationName || t("details.labels.organizationName")} (
+					{organizationId})
 				</h1>
 			)}
 			<motion.div variants={itemVariants} initial="hidden" animate="visible">

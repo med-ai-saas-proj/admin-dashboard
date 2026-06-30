@@ -13,5 +13,6 @@ export const getAdminOrganizationDetails = async (
 	const response = await apiClient.get<AdminOrganizationDetailsResponse>(
 		`${API_ROUTES.MANAGEMENT.ADMIN_ORGANIZATION}/${params.organization_id}`
 	);
+
 	return toApiResponse(response.data);
 };

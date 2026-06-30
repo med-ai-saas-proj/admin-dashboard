@@ -41,7 +41,7 @@ const UserProfileDialog = ({
 				</button>
 			</DialogTrigger>
 
-			<DialogContent className="sm:max-w-xl">
+			<DialogContent className="sm:max-w-2xl">
 				<DialogHeader>
 					<DialogTitle>
 						{userProfile?.username
@@ -166,7 +166,7 @@ const UserProfileDialog = ({
 										</h3>
 										{userProfile?.permissions.project_permissions &&
 										userProfile?.permissions.project_permissions.length > 0 ? (
-											<div className="space-y-3">
+											<div className="space-y-3 max-h-64 overflow-y-auto">
 												{userProfile.permissions.project_permissions.map(
 													(projPerm) => (
 														<div

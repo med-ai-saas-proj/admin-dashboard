@@ -125,7 +125,7 @@ const UpdateUserPermissionsInProjectDialog = ({
 						})}
 					</p>
 				</div>
-				<div className="max-h-128 space-y-4 overflow-y-auto">
+				<div className="max-h-96 space-y-4 overflow-y-auto">
 					{allPermissionsInCurrentProject?.permissions.map((permission) => (
 						<div
 							key={permission}

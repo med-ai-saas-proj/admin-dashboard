@@ -52,7 +52,7 @@ const UserOrganizationsDialog = ({
 						This user does not belong to any organizations.
 					</p>
 				) : (
-					<ul className="space-y-2">
+					<ul className="space-y-2 max-h-64 overflow-y-auto">
 						{userOrganizations.map((org) => (
 							<li
 								key={org.org_id}

@@ -1,14 +1,12 @@
 "use client";
 
-import { ChevronsUpDown, Plus } from "lucide-react";
-import * as React from "react";
+import { ChevronsUpDown } from "lucide-react";
 
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuLabel,
-	DropdownMenuSeparator,
 	DropdownMenuShortcut,
 	DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
@@ -18,22 +16,39 @@ import {
 	SidebarMenuItem,
 	useSidebar,
 } from "@/components/shadcn/sidebar";
+import type { AdminOrganization } from "@/features/admin-organizations/types/admin-organizations";
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "@/features/auth/store/auth-store";
+import { useTranslation } from "react-i18next";
+import { cn } from "@/lib/utils";
 
 export function TeamSwitcher({
-	teams,
+	info,
 }: {
-	teams: {
-		name: string;
-		logo: React.ElementType;
-		plan: string;
-	}[];
+	info: {
+		organization: {
+			name: string;
+			id: string;
+			logo: React.ElementType;
+		};
+		organizationList: AdminOrganization[];
+	};
 }) {
+	const { t } = useTranslation("sidebar");
+	const navigate = useNavigate();
 	const { isMobile } = useSidebar();
-	const [activeTeam, setActiveTeam] = React.useState(teams[0]);
 
-	if (!activeTeam) {
-		return null;
-	}
+	const setOrganization = useAuthStore((state) => state.setOrganization);
+
+	const OrganizationLogo = info.organization.logo;
+
+	const handleOrganizationSelect = (org: { org_id: string; name: string }) => {
+		setOrganization({
+			name: org.name,
+			id: org.org_id,
+		});
+		navigate(`/organizations/${org.org_id}/users`);
+	};
 
 	return (
 		<SidebarMenu>
@@ -45,11 +60,13 @@ export function TeamSwitcher({
 							className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
 						>
 							<div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-								<activeTeam.logo className="size-4" />
+								<OrganizationLogo className="size-4" />
 							</div>
 							<div className="grid flex-1 text-left text-sm leading-tight">
-								<span className="truncate font-medium">{activeTeam.name}</span>
-								<span className="truncate text-xs">{activeTeam.plan}</span>
+								<span className="truncate font-medium">
+									{info.organization.name}
+								</span>
+								<span className="truncate text-xs">{info.organization.id}</span>
 							</div>
 							<ChevronsUpDown className="ml-auto" />
 						</SidebarMenuButton>
@@ -61,28 +78,25 @@ export function TeamSwitcher({
 						sideOffset={4}
 					>
 						<DropdownMenuLabel className="text-muted-foreground text-xs">
-							Teams
+							{t("organization.label2")}
 						</DropdownMenuLabel>
-						{teams.map((team, index) => (
+						{info.organizationList.map((org, index) => (
 							<DropdownMenuItem
-								key={team.name}
-								onClick={() => setActiveTeam(team)}
-								className="gap-2 p-2"
+								key={org.name}
+								onClick={() => handleOrganizationSelect(org)}
+								className={cn(
+									"gap-2 p-2 flex items-start justify-between",
+									org.org_id === info.organization.id &&
+										"bg-sidebar-accent text-sidebar-accent-foreground"
+								)}
 							>
-								<div className="flex size-6 items-center justify-center rounded-md border">
-									<team.logo className="size-3.5 shrink-0" />
+								<div className="grid flex-1 text-left text-sm leading-tight">
+									{org.name}
+									<span className="truncate text-xs">{org.org_id}</span>
 								</div>
-								{team.name}
 								<DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
 							</DropdownMenuItem>
 						))}
-						<DropdownMenuSeparator />
-						<DropdownMenuItem className="gap-2 p-2">
-							<div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
-								<Plus className="size-4" />
-							</div>
-							<div className="text-muted-foreground font-medium">Add team</div>
-						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			</SidebarMenuItem>

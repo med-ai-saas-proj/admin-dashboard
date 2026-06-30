@@ -22,15 +22,28 @@ import { useTranslation } from "react-i18next";
 import { locales } from "@/config/i18n";
 import { cn } from "@/lib/utils";
 
-export function NavUser({ user }: { user: UserInfo }) {
+export function NavUser({
+	user,
+	organization,
+}: {
+	user: UserInfo;
+	organization: {
+		name: string;
+		id: string;
+	} | null;
+}) {
 	const { isMobile } = useSidebar();
 	const { mutate: signOut } = useSignOut();
-	const { i18n } = useTranslation();
+	const { t, i18n } = useTranslation("sidebar");
 	const currentLocale = i18n.language;
 
 	const avatarText = user.preferred_username
 		? user.preferred_username.substring(0, 2).toUpperCase()
 		: "U";
+
+	const organizationText = organization?.name
+		? organization.name.substring(0, 2).toUpperCase()
+		: "O";
 
 	return (
 		<SidebarMenu>
@@ -42,13 +55,19 @@ export function NavUser({ user }: { user: UserInfo }) {
 							className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
 						>
 							<Avatar className="h-8 w-8 rounded-lg">
-								<AvatarFallback>{avatarText}</AvatarFallback>
+								<AvatarFallback>{organizationText}</AvatarFallback>
 							</Avatar>
 							<div className="grid flex-1 text-left text-sm leading-tight">
 								<span className="truncate font-medium">
-									{user.preferred_username}
+									{organization?.name || (
+										<span className="text-muted-foreground italic font-light">
+											Choose Organization
+										</span>
+									)}
 								</span>
-								<span className="truncate text-xs">{user.email}</span>
+								<span className="truncate text-xs">
+									{t("organization.label")}
+								</span>
 							</div>
 							<ChevronsUpDown className="ml-auto size-4" />
 						</SidebarMenuButton>

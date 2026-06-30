@@ -10,6 +10,10 @@ import {
 import { Separator } from "@/components/shadcn/separator";
 import { SidebarTrigger } from "@/components/shadcn/sidebar";
 import { cn } from "@/lib/utils";
+import { useParams } from "react-router-dom";
+import { useAuthStore } from "@/features/auth/store/auth-store";
+import { useAdminProjectDetailsStore } from "@/features/admin-project-details/store/admin-project-details";
+import { useTranslation } from "react-i18next";
 
 const DashboardLayout = ({
 	children,
@@ -21,6 +25,12 @@ const DashboardLayout = ({
 	headerRight?: React.ReactNode;
 	className?: string;
 }>) => {
+	const { t } = useTranslation("sidebar");
+	const params = useParams();
+	const organization = useAuthStore((state) => state.organization);
+	const projectName = useAdminProjectDetailsStore((state) => state.projectName);
+	const isProjectPage = Boolean(params.projectId);
+
 	return (
 		<>
 			<header className="sticky top-0 bg-background z-50 flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
@@ -33,8 +43,28 @@ const DashboardLayout = ({
 					<Breadcrumb>
 						<BreadcrumbList>
 							<BreadcrumbItem className="hidden md:block">
-								<BreadcrumbLink href="#">My Project</BreadcrumbLink>
+								<BreadcrumbLink href="#">
+									{organization?.name || (
+										<span className="text-muted-foreground italic font-light">
+											{t("breadcrumb.organizationFallback")}
+										</span>
+									)}
+								</BreadcrumbLink>
 							</BreadcrumbItem>
+							{isProjectPage && (
+								<>
+									<BreadcrumbSeparator className="hidden md:block" />
+									<BreadcrumbItem className="hidden md:block">
+										<BreadcrumbLink href="#">
+											{projectName || (
+												<span className="text-muted-foreground italic font-light">
+													{t("breadcrumb.projectFallback")}
+												</span>
+											)}
+										</BreadcrumbLink>
+									</BreadcrumbItem>
+								</>
+							)}
 							<BreadcrumbSeparator className="hidden md:block" />
 							<BreadcrumbItem>
 								<BreadcrumbPage>{pageTitle}</BreadcrumbPage>

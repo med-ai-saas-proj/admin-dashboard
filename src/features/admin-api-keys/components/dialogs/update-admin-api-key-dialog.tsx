@@ -80,10 +80,10 @@ const UpdateAdminApiKeyDialog = ({
 		if (!open) reset();
 	}, [open, reset]);
 
-	const onSubmit = async (values: UpdateFormOutput) => {
+	const onSubmit = (values: UpdateFormOutput) => {
 		if (!apiKey) return;
 
-		await updateMutation.mutateAsync(
+		updateMutation.mutate(
 			{
 				apiKeyId: apiKey.api_key_uuid,
 				name: values.name,
@@ -94,17 +94,11 @@ const UpdateAdminApiKeyDialog = ({
 			{
 				onSuccess: () => {
 					toast.success(t("common.toast.updateSuccess"));
-				},
-				onError: () => {
-					toast.error(t("common.toast.error"));
-				},
-				onSettled: () => {
 					reset();
+					onOpenChange(false);
 				},
 			}
 		);
-
-		onOpenChange(false);
 	};
 
 	return (
