@@ -134,7 +134,7 @@ const UpdateAdminApiKeyDialog = ({
 						<Label className="text-sm font-medium mb-2">
 							{t("update.form.labels.permissions")}
 						</Label>
-						<div className="mt-2 max-h-132 overflow-y-auto rounded-md border border-slate-200 p-3">
+						<div className="mt-2 max-h-80 overflow-y-auto rounded-md border border-slate-200 p-3">
 							{permissionsLoading ? (
 								<div className="text-sm text-muted-foreground">
 									{t("update.form.permissions.loading")}
