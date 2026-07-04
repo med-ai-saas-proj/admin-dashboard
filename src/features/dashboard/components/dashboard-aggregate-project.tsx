@@ -1,6 +1,7 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import DashboardChart from "@/features/dashboard/components/dashboard-chart";
 import DashboardAggregateTimeFilter from "@/features/dashboard/components/dashboard-aggregate-time-filter";
+import DashboardAggregateProjectFilter from "@/features/dashboard/components/dashboard-aggregate-project-filter";
 import KPICard from "@/features/dashboard/components/kpi-card";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
@@ -15,8 +16,7 @@ import type { ChartConfig } from "@/components/shadcn/chart";
 import type { ChartConfiguration } from "../dashboard.type";
 import { useChartTimePickerStore } from "../store/chart-time-picker";
 import { useAdminOrganizationDetailsStore } from "@/features/admin-organization-details/store/admin-organization-details";
-import type { AdminProjectOrganization } from "@/features/admin-projects/types/admin-projects";
-import { useGetAdminProjectsOrganization } from "@/features/admin-projects/hooks/use-get-admin-projects-organization";
+import { useParams } from "react-router-dom";
 
 const DashboardAggregateProjects = () => {
 	const { t } = useTranslation("dashboard");
@@ -24,23 +24,15 @@ const DashboardAggregateProjects = () => {
 	const endDate = useChartTimePickerStore((state) => state.endDate);
 	const selectedPeriod = useChartTimePickerStore((state) => state.period);
 	const scale = useChartTimePickerStore((state) => state.scale);
-	const organizationId =
+
+	const { orgId } = useParams<{
+		orgId: string;
+	}>();
+	const storedOrganizationId =
 		useAdminOrganizationDetailsStore((state) => state.organizationId) || "";
+	const organizationId = storedOrganizationId || orgId || "";
 
-	// Fetch organization projects
-	const { data: projectsData } = useGetAdminProjectsOrganization({
-		organizationId,
-		limit: 100,
-	});
-
-	// Extract project UIDs
-	const projectUids = useMemo(
-		() =>
-			(projectsData?.results as AdminProjectOrganization[] | undefined)?.map(
-				(project) => project.project_uuid
-			) ?? [],
-		[projectsData?.results]
-	);
+	const [selectedProjectUids, setSelectedProjectUids] = useState<string[]>([]);
 
 	// Fetching Aggregate Projects Data
 	const aggregateParams = useMemo(() => {
@@ -56,10 +48,17 @@ const DashboardAggregateProjects = () => {
 			periodEnd: periodEndExclusive.toISOString(),
 			period: selectedPeriod,
 			periodScale: scale,
-			projectUids,
+			projectUids: selectedProjectUids,
 			organizationId,
 		};
-	}, [startDate, endDate, selectedPeriod, scale, projectUids, organizationId]);
+	}, [
+		startDate,
+		endDate,
+		selectedPeriod,
+		scale,
+		selectedProjectUids,
+		organizationId,
+	]);
 
 	const { data: aggregateProjectsData } =
 		useGetAggregateByProjects(aggregateParams);
@@ -194,8 +193,13 @@ const DashboardAggregateProjects = () => {
 					variants={itemVariants}
 					initial="hidden"
 					animate="visible"
-					className="flex items-center justify-end gap-x-4 mt-6"
+					className="flex items-center justify-between gap-x-4 mt-6"
 				>
+					<DashboardAggregateProjectFilter
+						organizationId={organizationId}
+						value={selectedProjectUids}
+						onChange={setSelectedProjectUids}
+					/>
 					<DashboardAggregateTimeFilter />
 				</motion.div>
 			</div>
