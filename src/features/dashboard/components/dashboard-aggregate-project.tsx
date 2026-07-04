@@ -30,7 +30,7 @@ const DashboardAggregateProjects = () => {
 	// Fetch organization projects
 	const { data: projectsData } = useGetAdminProjectsOrganization({
 		organizationId,
-		limit: 1000,
+		limit: 100,
 	});
 
 	// Extract project UIDs
@@ -57,8 +57,9 @@ const DashboardAggregateProjects = () => {
 			period: selectedPeriod,
 			periodScale: scale,
 			projectUids,
+			organizationId,
 		};
-	}, [startDate, endDate, selectedPeriod, scale, projectUids]);
+	}, [startDate, endDate, selectedPeriod, scale, projectUids, organizationId]);
 
 	const { data: aggregateProjectsData } =
 		useGetAggregateByProjects(aggregateParams);

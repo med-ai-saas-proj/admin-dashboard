@@ -28,7 +28,7 @@ const PAGE_SIZE = 20;
 
 const BillingOverview = (): React.JSX.Element => {
 	const { t: tCommon } = useTranslation("common");
-	const params = useParams<{
+	const { orgId } = useParams<{
 		orgId: string;
 	}>();
 	const storedOrganizationId = useAdminOrganizationDetailsStore(
@@ -64,6 +64,7 @@ const BillingOverview = (): React.JSX.Element => {
 		const params: TransactionsParams = {
 			page: currentPage,
 			per_page: PAGE_SIZE,
+			org_id: storedOrganizationId || orgId || "",
 		};
 
 		if (normalizedSearch) {
@@ -80,7 +81,14 @@ const BillingOverview = (): React.JSX.Element => {
 		}
 
 		return params;
-	}, [currentPage, normalizedSearch, status, dateRange]);
+	}, [
+		currentPage,
+		normalizedSearch,
+		status,
+		dateRange,
+		storedOrganizationId,
+		orgId,
+	]);
 
 	const {
 		data: transactionData,
@@ -88,7 +96,7 @@ const BillingOverview = (): React.JSX.Element => {
 		isError,
 	} = useGetTransactions(queryParams);
 	const { data: organizationCredits } = useGetCreditsOrganization({
-		organizationId: storedOrganizationId ?? params.orgId ?? null,
+		organizationId: storedOrganizationId || orgId || null,
 	});
 
 	const rows = transactionData?.data ?? [];

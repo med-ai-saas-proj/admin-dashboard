@@ -5,6 +5,7 @@ import type { TransactionsResponse } from "../billing.type";
 export type TransactionStatus = "PENDING" | "CAPTURED" | "EXPIRED";
 
 export type TransactionsParams = {
+	org_id: string;
 	page?: number; // Trang hiện tại (Mặc định: 1)
 	per_page?: number; // Số lượng item mỗi trang (Mặc định: 20)
 	status?: TransactionStatus; // (Optional) Lọc theo trạng thái
@@ -14,7 +15,7 @@ export type TransactionsParams = {
 };
 
 export const getTransactions = async (
-	params: TransactionsParams = {}
+	params: TransactionsParams
 ): Promise<TransactionsResponse> => {
 	const response = await apiClient.get<TransactionsResponse>(
 		`${API_ROUTES.MANAGEMENT.BILLING}/transactions`,

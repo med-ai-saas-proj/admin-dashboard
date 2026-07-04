@@ -32,7 +32,7 @@ const BillingCredit = (): React.JSX.Element => {
 
 	const params = useMemo(
 		() => ({
-			organizationId: orgId || storedOrganizationId || "",
+			organizationId: storedOrganizationId || orgId || "",
 			offset: 0,
 			limit,
 		}),
