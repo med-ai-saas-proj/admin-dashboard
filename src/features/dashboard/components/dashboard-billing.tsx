@@ -18,11 +18,21 @@ import DashboardChart from "./dashboard-chart";
 import type { DateRange } from "react-day-picker";
 import { format, subDays } from "date-fns";
 import { useTranslation } from "react-i18next";
+import { useAdminOrganizationDetailsStore } from "@/features/admin-organization-details/store/admin-organization-details";
+import { useParams } from "react-router-dom";
 
 type BillingTypeFilter = "ALL" | "SUBSCRIPTION_FEE" | "TOPUP";
 
 const DashboardBilling = (): React.JSX.Element => {
 	const { t, i18n } = useTranslation("dashboard");
+
+	const { orgId } = useParams<{
+		orgId: string;
+	}>();
+	const storedOrganizationId = useAdminOrganizationDetailsStore(
+		(state) => state.organizationId
+	);
+
 	const { data: lifetimeValue } = useGetLifetimeValue();
 	const defaultDateRange = useMemo<DateRange>(
 		() => ({
@@ -43,9 +53,11 @@ const DashboardBilling = (): React.JSX.Element => {
 			start_date?: string;
 			end_date?: string;
 			type?: "TOPUP" | "SUBSCRIPTION_FEE";
+			org_id: string;
 		} = {
 			page: 1,
 			per_page: 500,
+			org_id: storedOrganizationId || orgId || "",
 		};
 
 		if (dateRange?.from) {
@@ -58,7 +70,7 @@ const DashboardBilling = (): React.JSX.Element => {
 		}
 
 		return params;
-	}, [dateRange, typeFilter]);
+	}, [dateRange, typeFilter, storedOrganizationId, orgId]);
 
 	const {
 		data: transactions,
