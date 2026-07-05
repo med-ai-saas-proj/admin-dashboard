@@ -3,6 +3,12 @@
         "organizationFallback": "Chọn một tổ chức",
         "projectFallback": "Chọn một dự án"
     },
+    "user": {
+        "label": "Người dùng",
+        "unknownUser": "Người dùng không xác định",
+        "unknownOrganization": "Tổ chức không xác định",
+        "chooseOrganization": "Chọn một tổ chức"
+    },
     "dashboard": {
         "label": "Bảng điều khiển",
         "billing": {
