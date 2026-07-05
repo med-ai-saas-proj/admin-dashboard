@@ -24,7 +24,7 @@ const ComingSoonPage = (): React.JSX.Element => {
 				</div>
 
 				<Button asChild size="lg" className="rounded-full px-8">
-					<Link to="/management/organizations">{t("action")}</Link>
+					<Link to="/admin-dashboard/organizations">{t("action")}</Link>
 				</Button>
 			</div>
 		</section>

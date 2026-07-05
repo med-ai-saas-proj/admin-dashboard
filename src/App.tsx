@@ -67,6 +67,20 @@ function App() {
 							<Route path="admin-dashboard">
 								<Route path="admin" element={<GeneralAdmin />} />
 								<Route path="users" element={<GeneralUsers />} />
+								<Route path="organizations" element={<AdminOrganizations />}>
+									<Route
+										index={true}
+										element={<Navigate to="overview" replace />}
+									/>
+									<Route
+										path="overview"
+										element={<AdminOrganizationsOverview />}
+									/>
+									<Route
+										path="permissions"
+										element={<AdminOrganizationPermissions />}
+									/>
+								</Route>
 							</Route>
 							{/* <Route path="dashboard" element={<ChartDashboard />}>
 								<Route
@@ -75,7 +89,7 @@ function App() {
 								/>
 								<Route path="billing" element={<DashboardBilling />} />
 							</Route> */}
-							<Route path="management">
+							{/* <Route path="management">
 								<Route
 									index={true}
 									element={<Navigate to="organizations" replace />}
@@ -94,7 +108,7 @@ function App() {
 										element={<AdminOrganizationPermissions />}
 									/>
 								</Route>
-							</Route>
+							</Route> */}
 							<Route
 								path="organizations/:orgId"
 								element={<AdminOrganizationDetails />}
