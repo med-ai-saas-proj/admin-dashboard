@@ -83,11 +83,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 				url: "/admin-dashboard/users",
 				icon: Users,
 			},
-		],
-		management: [
 			{
 				name: t("management.organizations.title"),
-				url: "/management/organizations",
+				url: "/admin-dashboard/organizations",
 				icon: Building,
 			},
 		],
@@ -161,7 +159,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 					projects={data.adminDashboard}
 					label={t("adminDashboard.label")}
 				/>
-				<NavProjects projects={data.management} label={t("management.label")} />
+				{/* <NavProjects projects={data.management} label={t("management.label")} /> */}
 				{organizationId && (
 					<NavProjects
 						projects={data.organization}

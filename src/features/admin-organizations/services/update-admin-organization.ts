@@ -11,7 +11,7 @@ export type UpdateAdminOrganizationCredentials = {
 export const updateAdminOrganization = async (
 	credentials: UpdateAdminOrganizationCredentials
 ) => {
-	const response = await apiClient.put<AdminOrganizationsResponse>(
+	const response = await apiClient.patch<AdminOrganizationsResponse>(
 		`${API_ROUTES.MANAGEMENT.ADMIN_ORGANIZATION}/${credentials.organization_id}`,
 		{ name: credentials.name }
 	);
