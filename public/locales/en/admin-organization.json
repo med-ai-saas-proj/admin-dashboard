@@ -86,7 +86,8 @@
         "warning": "This action cannot be undone. The organization and all its associated data will be permanently deleted.",
         "buttons": {
             "delete": "Delete",
-            "deleting": "Deleting..."
+            "deleting": "Deleting...",
+            "cancel": "Cancel"
         },
         "messages": {
             "success": "Organization deleted successfully",
