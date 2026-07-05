@@ -86,7 +86,8 @@
         "warning": "Hành động này không thể được hoàn tác. Tổ chức và tất cả dữ liệu liên quan sẽ bị xóa vĩnh viễn.",
         "buttons": {
             "delete": "Xóa",
-            "deleting": "Đang Xóa..."
+            "deleting": "Đang Xóa...",
+            "cancel": "Hủy"
         },
         "messages": {
             "success": "Tổ chức được xóa thành công",
