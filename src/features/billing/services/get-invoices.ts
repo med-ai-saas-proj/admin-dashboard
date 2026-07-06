@@ -8,6 +8,7 @@ export type InvoiceParams = {
 	paid?: boolean;
 	limit?: number;
 	offset?: number;
+	org_id: string;
 };
 
 export const getInvoices = async (params: InvoiceParams) => {

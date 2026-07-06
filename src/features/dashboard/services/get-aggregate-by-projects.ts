@@ -14,6 +14,7 @@ export const getAggregateByProjects = async (
 				period: params.period,
 				period_scale: params.periodScale,
 				project_uids: params.projectUids,
+				org_id: params.organizationId,
 			},
 		}
 	);

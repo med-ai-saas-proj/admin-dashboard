@@ -34,9 +34,18 @@ import { useMarkInvoiceAsPaid } from "../hooks/use-mark-invoice-as-paid";
 import { useMarkInvoiceAsRefunded } from "../hooks/use-mark-invoice-as-refunded";
 import { itemVariants } from "@/lib/animations";
 import { motion } from "framer-motion";
+import { useParams } from "react-router-dom";
+import { useAdminOrganizationDetailsStore } from "@/features/admin-organization-details/store/admin-organization-details";
 
 const BillingInvoice = (): React.JSX.Element => {
 	const { t } = useTranslation("billing");
+
+	const { orgId } = useParams<{
+		orgId: string;
+	}>();
+	const storedOrganizationId = useAdminOrganizationDetailsStore(
+		(state) => state.organizationId
+	);
 
 	const [paidFilter, setPaidFilter] = useState<"all" | "true" | "false">("all");
 	const [limit, setLimit] = useState(10);
@@ -78,6 +87,7 @@ const BillingInvoice = (): React.JSX.Element => {
 		paid,
 		from_date: fromDate,
 		to_date: toDate,
+		org_id: storedOrganizationId || orgId || "",
 	});
 
 	const rows = invoices?.data ?? [];
