@@ -54,7 +54,10 @@ function App() {
 							}
 						/>
 						{/* TODO: Replace with main home page later, temporarily redirecting to /chat for now */}
-						<Route path="/" element={<Navigate to="/management" replace />} />
+						<Route
+							path="/"
+							element={<Navigate to="/admin-dashboard/organizations" replace />}
+						/>
 
 						{/* App layout wraps all protected routes and provides persistent sidebar */}
 						<Route
