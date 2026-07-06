@@ -32,6 +32,8 @@ export const useCreateAdminOrganization = () => {
 				org_id: `tmp_${Math.random().toString(36).slice(2, 9)}`,
 				name: newOrg.name,
 				owner_id: newOrg.owner_id ?? null,
+				requested_at: "",
+				delete_at: "",
 			};
 
 			previous.forEach(([key]) => {

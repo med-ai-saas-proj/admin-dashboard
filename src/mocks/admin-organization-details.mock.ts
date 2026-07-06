@@ -28,11 +28,15 @@ const sampleOrganizations: Record<string, AdminOrganization> = {
 		org_id: "org_001",
 		name: "Acme Corp",
 		owner_id: "user_001",
+		requested_at: "2024-06-01T12:00:00Z",
+		delete_at: "2024-06-15T12:00:00Z",
 	},
 	org_002: {
 		org_id: "org_002",
 		name: "Beta LLC",
 		owner_id: "user_002",
+		requested_at: "2024-06-05T15:30:00Z",
+		delete_at: "2024-06-20T15:30:00Z",
 	},
 };
 

@@ -28,6 +28,8 @@ const sampleOrgs: AdminOrganization[] = Array.from({ length: 12 }, (_, i) => ({
 	owner_id: Mock.Random.bool()
 		? `owner_${String(i + 1).padStart(3, "0")}`
 		: null,
+	requested_at: Mock.Random.date().toString(),
+	delete_at: Mock.Random.date().toString(),
 }));
 
 const samplePermissions: AdminOrganizationPermissions = {
@@ -95,6 +97,8 @@ Mock.mock(orgsUrl, "post", (options: { body?: string }) => {
 		org_id: nextId,
 		name: body.name ?? `New Org ${nextId}`,
 		owner_id: body.owner_id ?? null,
+		requested_at: Mock.Random.date().toString(),
+		delete_at: Mock.Random.date().toString(),
 	};
 
 	sampleOrgs.unshift(newOrg);
