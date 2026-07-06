@@ -16,12 +16,13 @@ import {
 } from "@/components/shadcn/tooltip";
 import { Spinner } from "@/components/shadcn/spinner";
 import { CustomPagination } from "@/components/pagination/pagination";
-import { Eye, Pencil, Trash2 } from "lucide-react";
+import { Eye, Pencil, Trash2, Undo2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useGetAdminOrganizations } from "../hooks/use-get-admin-organizations";
 import { useCallback, useState } from "react";
 import type { AdminOrganization } from "../types/admin-organizations";
 import {
+	CancelDeleteOrganizationDialog,
 	CreateAdminOrganizationDialog,
 	UpdateAdminOrganizationDialog,
 	DeleteAdminOrganizationDialog,
@@ -29,6 +30,7 @@ import {
 } from "./dialogs";
 import { itemVariants } from "@/lib/animations";
 import { motion } from "framer-motion";
+import { formatIsoDateWithGmt } from "@/lib/utils";
 
 const AdminOrganizationsOverview = (): React.JSX.Element => {
 	const { t } = useTranslation("admin-organization");
@@ -45,6 +47,7 @@ const AdminOrganizationsOverview = (): React.JSX.Element => {
 	const [viewDetailsDialogOpen, setViewDetailsDialogOpen] = useState(false);
 	const [updateDialogOpen, setUpdateDialogOpen] = useState(false);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+	const [cancelDeleteDialogOpen, setCancelDeleteDialogOpen] = useState(false);
 
 	const offset = (currentPage - 1) * limit;
 	const { data, isLoading } = useGetAdminOrganizations({
@@ -74,6 +77,11 @@ const AdminOrganizationsOverview = (): React.JSX.Element => {
 	const handleDelete = useCallback((org: AdminOrganization) => {
 		setSelectedOrganization(org);
 		setDeleteDialogOpen(true);
+	}, []);
+
+	const handleRestore = useCallback((org: AdminOrganization) => {
+		setSelectedOrganization(org);
+		setCancelDeleteDialogOpen(true);
 	}, []);
 
 	return (
@@ -133,6 +141,8 @@ const AdminOrganizationsOverview = (): React.JSX.Element => {
 									{t("overview.table.headers.organizationName")}
 								</TableHead>
 								<TableHead>{t("overview.table.headers.ownerId")}</TableHead>
+								<TableHead>{t("overview.table.headers.requestedAt")}</TableHead>
+								<TableHead>{t("overview.table.headers.deletedAt")}</TableHead>
 								<TableHead className="text-right">
 									{t("overview.table.headers.actions")}
 								</TableHead>
@@ -147,6 +157,22 @@ const AdminOrganizationsOverview = (): React.JSX.Element => {
 									<TableCell>{org.name}</TableCell>
 									<TableCell>
 										{org.owner_id || t("common.notAvailable")}
+									</TableCell>
+									<TableCell>
+										{org.requested_at
+											? formatIsoDateWithGmt(org.requested_at, {
+													showTime: true,
+													showGmt: true,
+												})
+											: t("common.notAvailable")}
+									</TableCell>
+									<TableCell>
+										{org.delete_at
+											? formatIsoDateWithGmt(org.delete_at, {
+													showTime: true,
+													showGmt: true,
+												})
+											: t("common.notAvailable")}
 									</TableCell>
 									<TableCell className="text-right">
 										<TooltipProvider>
@@ -179,20 +205,37 @@ const AdminOrganizationsOverview = (): React.JSX.Element => {
 														{t("overview.actions.update")}
 													</TooltipContent>
 												</Tooltip>
-												<Tooltip>
-													<TooltipTrigger asChild>
-														<Button
-															variant="ghost"
-															size="icon"
-															onClick={() => handleDelete(org)}
-														>
-															<Trash2 className="h-4 w-4 text-destructive" />
-														</Button>
-													</TooltipTrigger>
-													<TooltipContent>
-														{t("overview.actions.delete")}
-													</TooltipContent>
-												</Tooltip>
+												{!org.requested_at ? (
+													<Tooltip>
+														<TooltipTrigger asChild>
+															<Button
+																variant="ghost"
+																size="icon"
+																onClick={() => handleDelete(org)}
+															>
+																<Trash2 className="h-4 w-4 text-destructive" />
+															</Button>
+														</TooltipTrigger>
+														<TooltipContent>
+															{t("overview.actions.delete")}
+														</TooltipContent>
+													</Tooltip>
+												) : (
+													<Tooltip>
+														<TooltipTrigger asChild>
+															<Button
+																variant="ghost"
+																size="icon"
+																onClick={() => handleRestore(org)}
+															>
+																<Undo2 className="h-4 w-4" />
+															</Button>
+														</TooltipTrigger>
+														<TooltipContent>
+															<p>{t("overview.actions.restore")}</p>
+														</TooltipContent>
+													</Tooltip>
+												)}
 											</div>
 										</TooltipProvider>
 									</TableCell>
@@ -236,6 +279,12 @@ const AdminOrganizationsOverview = (): React.JSX.Element => {
 			<DeleteAdminOrganizationDialog
 				open={deleteDialogOpen}
 				onOpenChange={setDeleteDialogOpen}
+				organization={selectedOrganization}
+			/>
+
+			<CancelDeleteOrganizationDialog
+				open={cancelDeleteDialogOpen}
+				onOpenChange={setCancelDeleteDialogOpen}
 				organization={selectedOrganization}
 			/>
 		</motion.div>

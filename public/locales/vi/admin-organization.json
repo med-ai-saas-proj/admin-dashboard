@@ -9,6 +9,8 @@
                 "organizationId": "ID Tổ Chức",
                 "organizationName": "Tên Tổ Chức",
                 "ownerId": "ID Chủ Sở Hữu",
+                "requestedAt": "Ngày yêu cầu xóa",
+                "deletedAt": "Ngày chính thức xóa",
                 "actions": "Hành Động"
             },
             "empty": {
@@ -23,7 +25,8 @@
         "actions": {
             "viewDetails": "Xem Chi Tiết",
             "update": "Cập Nhật",
-            "delete": "Xóa"
+            "delete": "Xóa",
+            "restore": "Hủy Xóa"
         }
     },
     "create": {
@@ -187,6 +190,21 @@
         "tooltips": {
             "view_profile": "Xem hồ sơ",
             "update_permissions": "Cập nhật quyền"
+        }
+    },
+    "cancelDelete": {
+        "dialog": {
+            "title": "Hủy Yêu Cầu Xóa",
+            "description": "Bạn có chắc chắn muốn hủy yêu cầu xóa cho tổ chức này không?"
+        },
+        "buttons": {
+            "cancel": "Hủy",
+            "confirm": "Có, Hủy Yêu Cầu Xóa",
+            "confirming": "Đang Hủy..."
+        },
+        "messages": {
+            "success": "Yêu cầu xóa đã được hủy thành công",
+            "error": "Không thể hủy yêu cầu xóa"
         }
     },
     "common": {

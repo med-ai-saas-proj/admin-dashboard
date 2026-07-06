@@ -9,6 +9,8 @@
                 "organizationId": "Organization ID",
                 "organizationName": "Organization Name",
                 "ownerId": "Owner ID",
+                "requestedAt": "Requested Deletion Date",
+                "deletedAt": "Official Deletion Date",
                 "actions": "Actions"
             },
             "empty": {
@@ -23,7 +25,8 @@
         "actions": {
             "viewDetails": "View Details",
             "update": "Update",
-            "delete": "Delete"
+            "delete": "Delete",
+            "restore": "Cancel Deletion"
         }
     },
     "create": {
@@ -187,6 +190,21 @@
         "tooltips": {
             "view_profile": "View profile",
             "update_permissions": "Update permissions"
+        }
+    },
+    "cancelDelete": {
+        "dialog": {
+            "title": "Cancel Deletion",
+            "description": "Are you sure you want to cancel the deletion request for this organization?"
+        },
+        "buttons": {
+            "cancel": "Cancel",
+            "confirm": "Yes, Cancel Deletion",
+            "confirming": "Cancelling..."
+        },
+        "messages": {
+            "success": "Deletion request cancelled successfully",
+            "error": "Failed to cancel deletion request"
         }
     },
     "common": {
