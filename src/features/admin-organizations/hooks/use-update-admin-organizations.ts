@@ -8,9 +8,11 @@ import {
 	type UpdateAdminOrganizationCredentials,
 } from "../services/update-admin-organization";
 import type { AdminOrganizationsListResponse } from "../types/admin-organizations";
+import { useAuthStore } from "@/features/auth/store/auth-store";
 
 export const useUpdateAdminOrganization = () => {
 	const queryClient = useQueryClient();
+	const setOrganization = useAuthStore((state) => state.setOrganization);
 
 	return useMutation({
 		mutationKey: ["update-admin-organization"],
@@ -50,6 +52,12 @@ export const useUpdateAdminOrganization = () => {
 
 			return { previous };
 		},
+		onSuccess: (_, variables) => {
+			setOrganization({
+				name: variables.name,
+				id: variables.organization_id,
+			});
+		},
 		onError: (_err, _vars, context) => {
 			if (!context?.previous) return;
 			context.previous.forEach(([key, data]) => {
@@ -59,6 +67,7 @@ export const useUpdateAdminOrganization = () => {
 		onSettled: () => {
 			queryClient.invalidateQueries({
 				queryKey: ["admin-organizations"],
+				exact: false,
 			});
 			queryClient.invalidateQueries({
 				queryKey: ["admin-organization-details"],

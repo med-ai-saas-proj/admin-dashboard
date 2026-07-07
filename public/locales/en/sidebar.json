@@ -3,6 +3,12 @@
         "organizationFallback": "Choose an organization",
         "projectFallback": "Choose a project"
     },
+    "user": {
+        "label": "User",
+        "unknownUser": "Unknown User",
+        "unknownOrganization": "Unknown Organization",
+        "chooseOrganization": "Choose an organization"
+    },
     "dashboard": {
         "label": "Dashboard",
         "billing": {

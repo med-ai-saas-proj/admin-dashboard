@@ -74,7 +74,7 @@ export const DeleteAdminOrganizationDialog = ({
 							onClick={() => onOpenChange(false)}
 							disabled={isPending}
 						>
-							{t("create.action.cancel") || "Cancel"}
+							{t("delete.buttons.cancel") || "Cancel"}
 						</Button>
 						<Button
 							type="button"
