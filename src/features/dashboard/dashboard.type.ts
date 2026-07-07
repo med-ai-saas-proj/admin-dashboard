@@ -1,4 +1,5 @@
 import type { ChartConfig } from "@/components/shadcn/chart";
+import type { BillingPaginatedResponse } from "@/lib/response";
 
 export type KPIKey =
 	| "totalRequest"
@@ -66,10 +67,9 @@ export type AggregateParams = {
 };
 
 export type Aggregate = {
-	success: boolean;
-	results: {
-		period_bucket: string;
-		transaction_count: number;
-		total_amount: string;
-	}[];
+	period_bucket: string;
+	transaction_count: number;
+	total_amount: string;
 };
+
+export type AggregateResponse = BillingPaginatedResponse<Aggregate[]>;

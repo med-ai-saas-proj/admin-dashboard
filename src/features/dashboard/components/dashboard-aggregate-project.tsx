@@ -65,11 +65,11 @@ const DashboardAggregateProjects = () => {
 
 	const normalizedAggregateData = useMemo(
 		() =>
-			(aggregateProjectsData?.results ?? []).map((item) => ({
+			(aggregateProjectsData?.data ?? []).map((item) => ({
 				...item,
 				total_amount: Number(item.total_amount),
 			})),
-		[aggregateProjectsData?.results]
+		[aggregateProjectsData?.data]
 	);
 
 	const totalExpenditureTrendChartConfig = {
@@ -119,20 +119,20 @@ const DashboardAggregateProjects = () => {
 	// KPI Card
 	const totalSpentKPIData = useMemo(
 		() =>
-			aggregateProjectsData?.results?.reduce(
+			aggregateProjectsData?.data?.reduce(
 				(acc, bucket) => acc + Number(bucket.total_amount),
 				0
 			) ?? 0,
-		[aggregateProjectsData?.results]
+		[aggregateProjectsData?.data]
 	);
 
 	const totalTransactionCountKPIData = useMemo(
 		() =>
-			aggregateProjectsData?.results?.reduce(
+			aggregateProjectsData?.data?.reduce(
 				(acc, bucket) => acc + bucket.transaction_count,
 				0
 			) ?? 0,
-		[aggregateProjectsData?.results]
+		[aggregateProjectsData?.data]
 	);
 
 	return (
