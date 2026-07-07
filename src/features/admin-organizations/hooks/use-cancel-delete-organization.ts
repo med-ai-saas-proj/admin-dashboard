@@ -3,23 +3,17 @@ import {
 	useQueryClient,
 	type QueryKey,
 } from "@tanstack/react-query";
-import {
-	createAdminOrganization,
-	type CreateAdminOrganizationsCredentials,
-} from "../services/create-admin-organization";
-import type {
-	AdminOrganization,
-	AdminOrganizationsListResponse,
-} from "../types/admin-organizations";
+import { cancelDeleteOrganization } from "../services/cancel-delete-organization";
+import type { AdminOrganizationsListResponse } from "../types/admin-organizations";
 
-export const useCreateAdminOrganization = () => {
+export const useCancelDeleteOrganization = () => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationKey: ["create-admin-organization"],
-		mutationFn: (credentials: CreateAdminOrganizationsCredentials) =>
-			createAdminOrganization(credentials),
-		onMutate: async (newOrg) => {
+		mutationKey: ["cancel-delete-organization"],
+		mutationFn: (organizationId: string) =>
+			cancelDeleteOrganization(organizationId),
+		onMutate: async (organizationId) => {
 			await queryClient.cancelQueries({
 				queryKey: ["admin-organizations"],
 			});
@@ -27,14 +21,6 @@ export const useCreateAdminOrganization = () => {
 			const previous = queryClient.getQueriesData({
 				queryKey: ["admin-organizations"],
 			}) as Array<[QueryKey, AdminOrganizationsListResponse | undefined]>;
-
-			const optimistic: AdminOrganization = {
-				org_id: `tmp_${Math.random().toString(36).slice(2, 9)}`,
-				name: newOrg.name,
-				owner_id: newOrg.owner_id ?? null,
-				requested_at: "",
-				delete_at: "",
-			};
 
 			previous.forEach(([key]) => {
 				queryClient.setQueryData<AdminOrganizationsListResponse | undefined>(
@@ -49,8 +35,11 @@ export const useCreateAdminOrganization = () => {
 						};
 						return {
 							...prev,
-							results: [optimistic, ...(prev.results ?? [])],
-							total: (prev.total ?? 0) + 1,
+							results: (prev.results ?? []).map((item) =>
+								item.org_id === organizationId
+									? { ...item, requested_at: "", deleted_at: "" }
+									: item
+							),
 						};
 					}
 				);
@@ -67,6 +56,9 @@ export const useCreateAdminOrganization = () => {
 		onSettled: () => {
 			queryClient.invalidateQueries({
 				queryKey: ["admin-organizations"],
+			});
+			queryClient.invalidateQueries({
+				queryKey: ["admin-organization-details"],
 			});
 		},
 	});

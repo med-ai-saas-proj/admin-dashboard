@@ -4,6 +4,8 @@ export type AdminOrganization = {
 	org_id: string;
 	name: string;
 	owner_id: string | null;
+	requested_at: string;
+	delete_at: string;
 };
 
 export type AdminOrganizationDelete = {
@@ -16,6 +18,11 @@ export type AdminOrganizationPermissions = {
 	permissions: string[];
 };
 
+export type AdminOrganizationCancelDeletion = {
+	id: string;
+	cancelled: boolean;
+};
+
 export type AdminOrganizationsListResponse = PaginatedResponse<
 	AdminOrganization[]
 >;
@@ -25,3 +32,5 @@ export type AdminOrganizationDeleteResponse =
 	ApiResponse<AdminOrganizationDelete>;
 export type AdminOrganizationPermissionsResponse =
 	ApiResponse<AdminOrganizationPermissions>;
+export type AdminOrganizationCancelDeletionResponse =
+	ApiResponse<AdminOrganizationCancelDeletion>;
