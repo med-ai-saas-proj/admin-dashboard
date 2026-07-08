@@ -177,7 +177,8 @@
             }
         },
         "buttons": {
-            "search": "Tìm Kiếm"
+            "search": "Tìm Kiếm",
+            "addMember": "Thêm Thành Viên"
         },
         "status": {
             "loading": "Đang Tải..."
@@ -191,6 +192,23 @@
         "tooltips": {
             "view_profile": "Xem hồ sơ",
             "update_permissions": "Cập nhật quyền"
+        },
+        "addUserDialog": {
+            "title": "Thêm Thành Viên",
+            "userId": "ID Người Dùng",
+            "userIdPlaceholder": "Nhập ID người dùng",
+            "selectPermissions": "Chọn Quyền",
+            "cancel": "Hủy",
+            "add": "Thêm Thành Viên",
+            "adding": "Đang Thêm...",
+            "messages": {
+                "success": "Thêm thành viên thành công",
+                "error": "Không thể thêm thành viên"
+            },
+            "validation": {
+                "userIdRequired": "ID người dùng là bắt buộc",
+                "permissionsRequired": "Ít nhất một quyền được yêu cầu"
+            }
         }
     },
     "cancelDelete": {

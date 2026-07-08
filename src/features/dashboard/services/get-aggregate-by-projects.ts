@@ -1,11 +1,11 @@
 import { API_ROUTES } from "@/config/api-routes";
 import apiClient from "@/query/api-client";
-import type { Aggregate, AggregateParams } from "../dashboard.type";
+import type { AggregateParams, AggregateResponse } from "../dashboard.type";
 
 export const getAggregateByProjects = async (
 	params: AggregateParams & { projectUids: string[] }
-): Promise<Aggregate> => {
-	const response = await apiClient.get<Aggregate>(
+): Promise<AggregateResponse> => {
+	const response = await apiClient.get<AggregateResponse>(
 		`${API_ROUTES.MANAGEMENT.BILLING}/aggregates/projects`,
 		{
 			params: {

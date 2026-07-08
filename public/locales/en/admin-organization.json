@@ -177,7 +177,8 @@
             }
         },
         "buttons": {
-            "search": "Search"
+            "search": "Search",
+            "addMember": "Add Member"
         },
         "status": {
             "loading": "Loading..."
@@ -191,6 +192,23 @@
         "tooltips": {
             "view_profile": "View profile",
             "update_permissions": "Update permissions"
+        },
+        "addUserDialog": {
+            "title": "Add Member",
+            "userId": "User ID",
+            "userIdPlaceholder": "Enter user ID",
+            "selectPermissions": "Select Permissions",
+            "cancel": "Cancel",
+            "add": "Add Member",
+            "adding": "Adding...",
+            "messages": {
+                "success": "Member added successfully",
+                "error": "Failed to add member"
+            },
+            "validation": {
+                "userIdRequired": "User ID is required",
+                "permissionsRequired": "At least one permission is required"
+            }
         }
     },
     "cancelDelete": {

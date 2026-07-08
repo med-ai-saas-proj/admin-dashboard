@@ -28,6 +28,7 @@ import { useGetAdminUserProfile } from "@/features/general/hooks/use-get-admin-u
 import { itemVariants } from "@/lib/animations";
 import { motion } from "framer-motion";
 import { useAuthStore } from "@/features/auth/store/auth-store";
+import AddOrganizationUserDialog from "./dialogs/add-organization-user-dialog";
 
 const UserPermissionsListInOrganization = ({
 	userId,
@@ -107,21 +108,24 @@ const AdminOrganizationDetailsUsers = (): React.JSX.Element => {
 				</h1>
 			)}
 			<motion.div variants={itemVariants} initial="hidden" animate="visible">
-				<div className="mb-4 flex gap-2 items-center">
-					<Input
-						placeholder={t("users.search.placeholder")}
-						value={inputQ}
-						onChange={(e) => setInputQ(e.target.value)}
-						className="max-w-sm"
-					/>
-					<Button onClick={handleSearch} variant="default" size="sm">
-						{t("users.buttons.search")}
-					</Button>
-					{isFetching && (
-						<div className="text-sm text-muted-foreground">
-							{t("users.status.loading")}
-						</div>
-					)}
+				<div className="mb-4 flex justify-between items-center">
+					<div className="flex gap-2 items-center">
+						<Input
+							placeholder={t("users.search.placeholder")}
+							value={inputQ}
+							onChange={(e) => setInputQ(e.target.value)}
+							className="max-w-sm"
+						/>
+						<Button onClick={handleSearch} variant="default" size="sm">
+							{t("users.buttons.search")}
+						</Button>
+						{isFetching && (
+							<div className="text-sm text-muted-foreground">
+								{t("users.status.loading")}
+							</div>
+						)}
+					</div>
+					<AddOrganizationUserDialog />
 				</div>
 
 				<div className="border rounded-lg overflow-hidden">
