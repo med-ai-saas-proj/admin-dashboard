@@ -4,6 +4,9 @@ import { getAuthHeaders, handleUnauthorized } from "@/lib/auth-headers";
 
 const apiClient = axios.create({
 	baseURL: BASE_API_URL,
+	paramsSerializer: {
+		indexes: null,
+	},
 	headers: {
 		"Content-Type": "application/json",
 	},
