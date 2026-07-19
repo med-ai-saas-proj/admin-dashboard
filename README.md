@@ -25,6 +25,7 @@ An OpenAI-esque dashboard application built with React.
 ```bash
 pnpm install
 ```
+- Set up the required `.env` variables, following `.env.example`
 
 ## Development
 
