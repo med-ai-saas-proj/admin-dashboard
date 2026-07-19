@@ -1,6 +1,6 @@
 # Gantry Admin Dashboard
 
-The frontend admin dashboard for Gantry, where developers can access manage users, organizations, and projects connected to their hosted service through Gantry's framework.
+The frontend admin dashboard for Gantry, where developers can manage users, organizations, and projects connected to their hosted service through Gantry's framework.
 
 ## Stack
 
