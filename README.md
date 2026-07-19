@@ -1,6 +1,6 @@
-# User Dashboard
+# Gantry Admin Dashboard
 
-An OpenAI-esque dashboard application built with React.
+The frontend admin dashboard for Gantry, where developers can access manage users, organizations, and projects connected to their hosted service through Gantry's framework.
 
 ## Stack
 
